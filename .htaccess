@@ -3,6 +3,7 @@
 # =========================================================================
 
 AddDefaultCharset UTF-8
+AddType application/javascript .mjs
 DirectoryIndex index.html index.php
 
 <IfModule mod_rewrite.c>

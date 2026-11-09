@@ -3,6 +3,8 @@
  * Interactive UX Architecture & Smart Segmented Lead Capture
  */
 
+import { sendContactEnquiry } from './contact-delivery.mjs?v=email2';
+
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Dynamic Footer Year
   const yearEl = document.getElementById('current-year');
@@ -639,28 +641,18 @@ document.addEventListener('DOMContentLoaded', () => {
         errorSummary.focus();
         return;
       }
-      const segment = clientSegmentInput.value.includes('B2B') ? 'b2b' : 'b2c';
       const payload = Object.fromEntries(new FormData(intakeForm).entries());
       formSubmitBtn.disabled = true;
       intakeForm.setAttribute('aria-busy', 'true');
       submitBtnText.textContent = 'Αποστολή σε εξέλιξη…';
       const controller = new AbortController();
-      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      const timeout = window.setTimeout(() => controller.abort(), 30000);
       try {
-        const response = await fetch('api/contact.php', {
-          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload), signal: controller.signal
-        });
-        if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Delivery failed');
-        const result = await response.json();
-        if (result.success !== true) throw new Error('Delivery failed');
-        intakeForm.reset();
-        setFormSegment(segment);
-        syncContactMethod();
-        document.getElementById('optional-details').open = false;
-        showFeedback('success', 'Το αίτημά σας στάλθηκε. Ευχαριστούμε για την επικοινωνία. Θα επικοινωνήσουμε μαζί σας για τα επόμενα βήματα.');
-      } catch (_error) {
-        showFeedback('error', 'Το αίτημα δεν στάλθηκε. Τα στοιχεία σας έχουν παραμείνει στη φόρμα. Δοκιμάστε ξανά ή καλέστε μας στο 210 202 4225.');
+        await sendContactEnquiry(payload, { sourceUrl: window.location.href, signal: controller.signal });
+        showFeedback('success', 'Το δοκιμαστικό αίτημα έγινε δεκτό για αποστολή. Ελέγξτε το δοκιμαστικό email για την παραλαβή του. Στην πρώτη δοκιμή χρειάζεται ενεργοποίηση από το μήνυμα του FormSubmit.');
+      } catch (error) {
+        console.warn('TAX14 email request failed:', error.name, error.message);
+        showFeedback('error', 'Δεν επιβεβαιώθηκε η αποστολή του δοκιμαστικού αιτήματος. Τα στοιχεία παραμένουν στη φόρμα. Ελέγξτε πρώτα το δοκιμαστικό email και τα ανεπιθύμητα πριν δοκιμάσετε ξανά.');
       } finally {
         window.clearTimeout(timeout);
         intakeForm.removeAttribute('aria-busy');

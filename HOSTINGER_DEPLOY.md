@@ -21,7 +21,7 @@ public_html/
 ├── js/
 │   └── main.js         # Δυναμική Φόρμα B2B/B2C, Υπολογιστής Φόρου, FAQ, Modals
 └── api/
-    └── contact.php     # PHP 8.x Script αποστολής email της φόρμας επικοινωνίας
+    └── contact.php     # HTTP 410 για παλιές εκδόσεις της φόρμας (χωρίς αποστολή email)
 ```
 
 ---
@@ -32,9 +32,9 @@ public_html/
 2. Μεταβείτε στην ενότητα **Websites** και πατήστε **Manage** δίπλα στο domain σας.
 3. Από το αριστερό μενού επιλέξτε **Files -> File Manager**.
 4. Ανοίξτε τον φάκελο **`public_html`** (διαγράψτε τυχόν προεγκατεστημένο `default.php`).
-5. Σύρετε (Drag & Drop) τα αρχεία και τους φακέλους (`index.html`, `.htaccess`, `sitemap.xml`, `robots.txt`, `assets`, `css`, `js`, `api`) μέσα στο `public_html`.
+5. Σύρετε (Drag & Drop) τα αρχεία και τους φακέλους (`index.html`, `financial-statements.html`, `.htaccess`, `sitemap.xml`, `robots.txt`, `assets`, `css`, `js`, `api`) μέσα στο `public_html`. Ο φάκελος `assets/financial-statements/` περιέχει τα PDF του ετήσιου αρχείου. Για προσθήκη νέου έτους δείτε το `FINANCIAL_STATEMENTS.md`.
 6. **Ρύθμιση Email Φόρμας:**
-   - Ο παραλήπτης στο `public_html/api/contact.php` είναι ήδη ορισμένος σε `$recipientEmail = 'petros.thanasos@gmail.com';`.
-   - Μετά το ανέβασμα, ελέγξτε την παραλαβή ενός αιτήματος στο συγκεκριμένο γραμματοκιβώτιο.
+   - Η φόρμα χρησιμοποιεί τη δωρεάν υπηρεσία FormSubmit με δοκιμαστικό παραλήπτη `katsinas1986@gmail.com`, ορισμένο στο `js/contact-delivery.mjs`.
+   - Χρειάζεται ενεργοποίηση από το email του FormSubmit και έλεγχος παραλαβής. Η αποστολή για πελάτες παραμένει σε αναμονή έγκρισης. Αναλυτικά βήματα στο `EMAIL_SETUP.md`.
 7. **Ενεργοποίηση SSL (HTTPS):**
    - Στο hPanel -> **Security -> SSL**, βεβαιωθείτε ότι το δωρεάν Lifetime SSL είναι **Active**. Το αρχείο `.htaccess` θα ανακατευθύνει αυτόματα όλους τους επισκέπτες σε ασφαλές `https://`.

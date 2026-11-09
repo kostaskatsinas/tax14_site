@@ -58,3 +58,7 @@ Keep Inter and the existing navy, teal, mist, paper, slate and bronze tokens. In
     [Existing service benefits]
 
 The figure is explicitly requested and belongs to the advisor's experience. No invented surname, employment history, awards or new credential claims.
+
+## Financial statements archive
+
+Use the existing navy, teal, white, slate and bronze palette and Inter. A separate page, linked under the company credentials in the home footer, presents one chronological list from newest to oldest. Large year labels anchor each row; document descriptions and file sizes support two explicit actions: preview in a new tab and download. Use separators instead of six separate cards. On mobile, actions wrap beneath each document description. Preserve original PDFs byte for byte. A local Python script rebuilds static rows from year-based filenames, so browsing requires no JavaScript and adding a year requires no layout changes.

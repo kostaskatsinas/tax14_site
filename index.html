@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=ux12" />
+  <link rel="stylesheet" href="css/styles.css?v=ux13" />
 
   <!-- Structured Data JSON-LD: AccountingService + LocalBusiness (Athens) + FAQPage -->
   <script type="application/ld+json">
@@ -165,11 +165,6 @@
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
           </svg>
           <span class="topbar-membership">Μέλος Ο.Ε.Ε. • </span>Άδεια Α' Τάξης
-        </span>
-        <span class="topbar-divider hide-md" aria-hidden="true">|</span>
-        <span class="topbar-pill hide-md">
-          <span class="status-dot" aria-hidden="true"></span>
-          Πιστοποίηση myDATA &amp; ΕΡΓΑΝΗ ΙΙ
         </span>
         <span class="topbar-divider hide-lg" aria-hidden="true">|</span>
         <span class="topbar-pill hide-lg">
@@ -308,7 +303,6 @@
             <a href="#contact" class="btn btn-primary btn-lg">Ζητήστε επικοινωνία</a>
             <a href="#services" class="hero-secondary-link">Δείτε τις υπηρεσίες μας <span aria-hidden="true">↗</span></a>
           </div>
-          <p class="hero-contact-note">Η πρώτη συζήτηση είναι δωρεάν, χωρίς δέσμευση.</p>
         </div>
         <div class="service-folder">
           <div class="folder-heading"><span class="folder-brand" aria-hidden="true">TAX14</span><span>Ο δικός σας λογιστικός σύμβουλος</span></div>
@@ -1133,6 +1127,8 @@
 
             <!-- Actual Form -->
             <form id="lead-intake-form" action="api/contact.php" method="POST" novalidate>
+              <p class="form-feedback" role="note"><strong>Δοκιμαστική λειτουργία φόρμας</strong><br>Χρησιμοποιήστε μόνο δοκιμαστικά στοιχεία. Η αποστολή για πελάτες θα ενεργοποιηθεί μετά τον έλεγχο παραλαβής.</p>
+              <noscript><p class="form-hint">Για τη φόρμα χρειάζεται JavaScript. Μπορείτε να επικοινωνήσετε τηλεφωνικά στο <a href="tel:+302102024225">210 202 4225</a>.</p></noscript>
               <p class="form-hint">Χρειαζόμαστε μόνο το όνομά σας, την υπηρεσία και έναν τρόπο επικοινωνίας. Τα πεδία με * είναι απαραίτητα.</p>
               <div id="form-errors" class="form-feedback error" tabindex="-1" role="alert" hidden></div>
               <input type="hidden" name="client_segment" id="client_segment" value="Επιχείρηση (B2B)" />
@@ -1334,7 +1330,8 @@
           </p>
           <div class="footer-credentials">
             <span class="cred-pill">Μέλος Ο.Ε.Ε. • Άδεια Α' Τάξης</span>
-            <span class="cred-pill">Αρ. Γ.Ε.ΜΗ.: 161400001000</span>
+            <span class="cred-pill">Αρ. Γ.Ε.ΜΗ.: 143286501000</span>
+            <a class="cred-pill cred-pill-link" href="financial-statements.html">Οικονομικές καταστάσεις</a>
           </div>
         </div>
 
@@ -1423,7 +1420,7 @@
         <p><strong>1. Υπεύθυνος Επεξεργασίας:</strong> Το Λογιστικό – Φοροτεχνικό Γραφείο <strong>TAX14</strong> (Αχαιών 20, 11852 Άνω Πετράλωνα, Αθήνα, Email: petros.thanasos@gmail.com, Τηλ.: 210 202 4225) δεσμεύεται για την πλήρη προστασία των προσωπικών σας δεδομένων σύμφωνα με τον Γενικό Κανονισμό Προστασίας Δεδομένων (ΕΕ 2016/679 - GDPR) και τον Ν. 4624/2019.</p>
         <p><strong>2. Ποια Δεδομένα Συλλέγουμε:</strong> Μέσω της φόρμας επικοινωνίας συλλέγουμε αποκλειστικά τα στοιχεία που μας παρέχετε οικειοθελώς (Ονοματεπώνυμο/Επωνυμία, Τηλέφωνο, Email, Νομική Μορφή ή Κατηγορία Φορολογικού Αιτήματος και το μήνυμά σας).</p>
         <p><strong>3. Σκοπός Επεξεργασίας:</strong> Τα δεδομένα χρησιμοποιούνται αποκλειστικά για την εξέταση του αιτήματός σας, την κοστολόγηση των υπηρεσιών μας και την επικοινωνία φοροτεχνικού συμβούλου μαζί σας. Δεν διαβιβάζονται ούτε πωλούνται σε τρίτους για διαφημιστικούς σκοπούς.</p>
-        <p><strong>4. Απόρρητο &amp; Ασφάλεια:</strong> Ως πιστοποιημένο λογιστικό – φοροτεχνικό γραφείο μέλος του Ο.Ε.Ε., τηρούμε αυστηρό επαγγελματικό απόρρητο, κρυπτογράφηση SSL και περιορισμένη πρόσβαση στα αρχεία.</p>
+        <p><strong>4. Αποστολή της φόρμας:</strong> Η φόρμα βρίσκεται σε δοκιμαστική λειτουργία. Τα στοιχεία διαβιβάζονται μέσω HTTPS στην υπηρεσία <a href="https://formsubmit.co/" target="_blank" rel="noopener">FormSubmit</a> για προώθηση στο δοκιμαστικό γραμματοκιβώτιο. Χρησιμοποιήστε μόνο δοκιμαστικά στοιχεία. Η υπηρεσία αναφέρει διατήρηση των υποβολών για 30 ημέρες. Δείτε την <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">πολιτική απορρήτου του FormSubmit</a>.</p>
         <p><strong>5. Τα Δικαιώματά σας:</strong> Έχετε δικαίωμα πρόσβασης, διόρθωσης, διαγραφής («δικαίωμα στη λήθη»), περιορισμού της επεξεργασίας και ανάκλησης της συγκατάθεσής σας ανά πάσα στιγμή, αποστέλλοντας email στο <a href="mailto:petros.thanasos@gmail.com">petros.thanasos@gmail.com</a>.</p>
       </div>
       <div class="legal-modal-footer">
@@ -1469,6 +1466,6 @@
   </div>
 
   <!-- Main Interactive JavaScript -->
-  <script src="js/main.js?v=ux10"></script>
+  <script type="module" src="js/main.js?v=email2"></script>
 </body>
 </html>
