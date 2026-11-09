@@ -10,9 +10,36 @@ document.addEventListener('DOMContentLoaded', () => {
     yearEl.textContent = new Date().getFullYear().toString();
   }
 
+  const navigationLinks = [...document.querySelectorAll('.main-nav a, .mobile-drawer a[href^="#"], .header-actions a[href="#contact"]')];
+  const pageSections = [...document.querySelectorAll('main > section[id]')];
+  let navigationFrame = null;
+  const updateActiveNavigation = () => {
+    navigationFrame = null;
+    const marker = (document.getElementById('site-header')?.getBoundingClientRect().bottom || 78) + 48;
+    let current = '';
+    pageSections.forEach(section => {
+      if (section.getBoundingClientRect().top <= marker) current = section.id;
+    });
+    if (current === 'services') {
+      const filter = document.querySelector('[data-service-filter].active')?.getAttribute('data-service-filter');
+      current = filter === 'b2c' || (filter === 'all' && location.hash === '#services-b2c') ? 'services-b2c' : 'services-b2b';
+    }
+    navigationLinks.forEach(link => {
+      if (link.hash === `#${current}`) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  };
+  const scheduleNavigationUpdate = () => {
+    if (navigationFrame === null) navigationFrame = requestAnimationFrame(updateActiveNavigation);
+  };
+  window.addEventListener('resize', scheduleNavigationUpdate);
+  window.addEventListener('load', scheduleNavigationUpdate);
+  window.addEventListener('hashchange', scheduleNavigationUpdate);
+
   // 2. Sticky Header Scroll State
   const siteHeader = document.getElementById('site-header');
   const handleScroll = () => {
+    scheduleNavigationUpdate();
     if (!siteHeader) return;
     if (window.scrollY > 24) {
       siteHeader.classList.add('scrolled');
@@ -31,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!mobileToggle || !mobileDrawer) return;
     mobileToggle.setAttribute('aria-expanded', 'false');
     mobileDrawer.hidden = true;
+    mobileToggle.setAttribute('aria-label', 'Άνοιγμα μενού πλοήγησης');
   };
 
   if (mobileToggle && mobileDrawer) {
@@ -38,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const isExpanded = mobileToggle.getAttribute('aria-expanded') === 'true';
       mobileToggle.setAttribute('aria-expanded', (!isExpanded).toString());
       mobileDrawer.hidden = isExpanded;
+      mobileToggle.setAttribute('aria-label', isExpanded ? 'Άνοιγμα μενού πλοήγησης' : 'Κλείσιμο μενού πλοήγησης');
     });
 
     mobileDrawer.querySelectorAll('a').forEach((link) => {
@@ -45,7 +74,42 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // 4. Hero Executive Command Center Tabs (B2B vs B2C Preview)
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && mobileDrawer && !mobileDrawer.hidden) {
+      closeMobileDrawer();
+      mobileToggle.focus();
+    }
+  });
+  window.matchMedia('(min-width: 1121px)').addEventListener('change', closeMobileDrawer);
+
+  // Keep the full selector available on desktop and reveal it on demand on mobile.
+  const folderToggle = document.getElementById('folder-toggle');
+  const folderContent = document.getElementById('folder-content');
+  const folderDesktopTitle = document.getElementById('folder-desktop-title');
+  const compactHero = window.matchMedia('(max-width: 760px)');
+  let mobileFolderExpanded = false;
+  const updateFolderDisclosure = () => {
+    if (!folderToggle || !folderContent || !folderDesktopTitle) return;
+    const expanded = !compactHero.matches || mobileFolderExpanded;
+    const toggleHadFocus = document.activeElement === folderToggle;
+    folderToggle.hidden = !compactHero.matches;
+    folderDesktopTitle.hidden = compactHero.matches;
+    // Move focus before hiding content when crossing a responsive breakpoint.
+    if (!expanded && folderContent.contains(document.activeElement)) folderToggle.focus();
+    folderContent.hidden = !expanded;
+    if (!compactHero.matches && toggleHadFocus) {
+      document.querySelector('[data-dashboard-tab][aria-selected="true"]')?.focus();
+    }
+    folderToggle.setAttribute('aria-expanded', String(expanded));
+  };
+  folderToggle?.addEventListener('click', () => {
+    mobileFolderExpanded = !mobileFolderExpanded;
+    updateFolderDisclosure();
+  });
+  compactHero.addEventListener('change', updateFolderDisclosure);
+  updateFolderDisclosure();
+
+  // 4. Service selector tabs (businesses and individuals)
   const dashboardTabs = document.querySelectorAll('[data-dashboard-tab]');
   const panelB2B = document.getElementById('dashboard-panel-b2b');
   const panelB2C = document.getElementById('dashboard-panel-b2c');
@@ -77,10 +141,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const servicesGrid = document.querySelector('.services-split-grid');
 
   const setServiceFilter = (filterValue) => {
+    scheduleNavigationUpdate();
     filterPills.forEach((pill) => {
       const isMatch = pill.getAttribute('data-service-filter') === filterValue;
       pill.classList.toggle('active', isMatch);
-      pill.setAttribute('aria-selected', isMatch.toString());
+      pill.setAttribute('aria-pressed', isMatch.toString());
     });
 
     if (servicesGrid) {
@@ -104,17 +169,25 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Ensure clicking a B2B/B2C nav link unhides that card if filtered out
-  document.querySelectorAll('[data-nav-segment]').forEach((navEl) => {
-    navEl.addEventListener('click', () => {
-      setServiceFilter('all');
-    });
+  // Resolve direct links and browser history even when a service is filtered out.
+  const revealLinkedService = () => {
+    const segment = location.hash === '#services-b2b' ? 'b2b'
+      : location.hash === '#services-b2c' ? 'b2c' : null;
+    if (segment) {
+      setServiceFilter(segment);
+      document.getElementById(`services-${segment}`)?.scrollIntoView({ behavior: 'instant' });
+    }
+  };
+  document.querySelectorAll('a[href="#services-b2b"], a[href="#services-b2c"]').forEach((link) => {
+    link.addEventListener('click', () => setServiceFilter(link.hash.endsWith('b2b') ? 'b2b' : 'b2c'));
   });
+  window.addEventListener('hashchange', revealLinkedService);
+  revealLinkedService();
 
   // 6. Interactive Legal Entity Comparison Guide (Ατομική, ΟΕ/ΕΕ, ΙΚΕ, ΑΕ)
   const entityData = {
     atomiki: {
-      badge: 'ΙΔΑΝΙΚΗ ΓΙΑ ΕΛΕΥΘΕΡΟΥΣ ΕΠΑΓΓΕΛΜΑΤΙΕΣ & ΝΕΟΕΙΣΕΡΧΟΜΕΝΟΥΣ',
+      badge: 'Για ελεύθερους επαγγελματίες και νέες επιχειρήσεις',
       title: 'Ατομική Επιχείρηση',
       taxRate: '9% έως 44% (Κλίμακα)',
       summary:
@@ -128,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
       legalFormPrefill: 'Ατομική Επιχείρηση / Ελεύθερος Επαγγελματίας'
     },
     'oe-ee': {
-      badge: 'ΙΔΑΝΙΚΗ ΓΙΑ ΟΙΚΟΓΕΝΕΙΑΚΕΣ & ΣΥΝΕΤΑΙΡΙΣΤΙΚΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ',
+      badge: 'Για οικογενειακές και συνεταιριστικές επιχειρήσεις',
       title: 'Ομόρρυθμη (Ο.Ε.) ή Ετερόρρυθμη (Ε.Ε.) Εταιρεία',
       taxRate: '22% (Σταθερός Συντελεστής)',
       summary:
@@ -142,7 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
       legalFormPrefill: 'Ο.Ε. / Ε.Ε. (Προσωπική Εταιρεία)'
     },
     ike: {
-      badge: 'Η Νο.1 ΕΠΙΛΟΓΗ ΓΙΑ ΣΥΓΧΡΟΝΕΣ & ΑΝΑΠΤΥΣΣΟΜΕΝΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ',
+      badge: 'Για αναπτυσσόμενες επιχειρήσεις',
       title: 'Ιδιωτική Κεφαλαιουχική Εταιρεία (Ι.Κ.Ε.)',
       taxRate: '22% Εταιρικός (+5% Μέρισμα)',
       summary:
@@ -156,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
       legalFormPrefill: 'Ι.Κ.Ε. (Ιδιωτική Κεφαλαιουχική Εταιρεία)'
     },
     ae: {
-      badge: 'ΓΙΑ ΜΕΓΑΛΕΣ ΕΠΙΧΕΙΡΗΣΕΙΣ, ΕΠΕΝΔΥΤΙΚΑ ΣΧΗΜΑΤΑ & ΔΙΑΓΩΝΙΣΜΟΥΣ',
+      badge: 'Για μεγάλες επιχειρήσεις και επενδυτικά σχήματα',
       title: 'Ανώνυμη Εταιρεία (Α.Ε.)',
       taxRate: '22% Εταιρικός (+5% Μέρισμα)',
       summary:
@@ -188,6 +261,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const key = tab.getAttribute('data-entity') || 'atomiki';
       const info = entityData[key];
       if (!info) return;
+      document.getElementById('entity-detail-card')?.setAttribute('aria-labelledby', tab.id);
 
       entityTabs.forEach((t) => {
         const isSelected = t === tab;
@@ -212,6 +286,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 7. Live Tax Simulator (Ατομική Επιχείρηση vs ΙΚΕ)
   const profitSlider = document.getElementById('profit-slider');
+  const profitAmount = document.getElementById('profit-amount');
+  const profitInputError = document.getElementById('profit-input-error');
   const profitOutput = document.getElementById('profit-output');
   const simTaxAtomiki = document.getElementById('sim-tax-atomiki');
   const simRateAtomiki = document.getElementById('sim-rate-atomiki');
@@ -283,8 +359,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  if (profitSlider) {
-    profitSlider.addEventListener('input', updateSimulator);
+  if (profitSlider && profitAmount) {
+    const clearProfitError = () => {
+      profitAmount.removeAttribute('aria-invalid');
+      profitInputError.hidden = true;
+    };
+    profitSlider.addEventListener('input', () => {
+      profitAmount.value = profitSlider.value;
+      clearProfitError();
+      updateSimulator();
+    });
+    profitAmount.addEventListener('input', () => {
+      if (profitAmount.value === '' || !profitAmount.validity.valid) return;
+      profitSlider.value = profitAmount.value;
+      clearProfitError();
+      updateSimulator();
+    });
+    const validateProfitAmount = () => {
+      if (profitAmount.value !== '' && profitAmount.validity.valid) return;
+      profitAmount.setAttribute('aria-invalid', 'true');
+      profitInputError.textContent = 'Συμπληρώστε ακέραιο ποσό από 15.000 € έως 150.000 €. Η σύγκριση δείχνει το τελευταίο έγκυρο ποσό.';
+      profitInputError.hidden = false;
+    };
+    profitAmount.addEventListener('blur', validateProfitAmount);
+    profitAmount.addEventListener('keydown', event => {
+      if (event.key === 'Enter') { event.preventDefault(); validateProfitAmount(); }
+    });
     updateSimulator();
   }
 
@@ -351,15 +451,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (submitBtnText) {
-      submitBtnText.textContent = isB2B
-        ? 'Αποστολή Αιτήματος & Λήψη Προσφοράς'
-        : 'Αποστολή Αιτήματος Επικοινωνίας';
+      submitBtnText.textContent = 'Στείλτε αίτημα επικοινωνίας';
     }
+
+    document.querySelectorAll('[data-optional-segment]').forEach(group => {
+      group.hidden = group.getAttribute('data-optional-segment') !== segment;
+      group.querySelectorAll('input, select, textarea').forEach(field => { field.disabled = group.hidden; });
+    });
+
+    // Hidden segment controls must not validate or enter the request payload.
+    [groupB2B, groupB2C].forEach((group) => {
+      group?.querySelectorAll('input, select, textarea').forEach((field) => { field.disabled = group.hidden; });
+    });
 
     // Toggle required attributes dynamically
     if (b2bCompanyInput) b2bCompanyInput.required = isB2B;
-    if (b2bLegalSelect) b2bLegalSelect.required = isB2B;
-    if (b2bActivityInput) b2bActivityInput.required = isB2B;
+    if (b2bLegalSelect) b2bLegalSelect.required = false;
+    if (b2bActivityInput) b2bActivityInput.required = false;
     if (b2bServiceSelect) b2bServiceSelect.required = isB2B;
 
     if (b2cNameInput) b2cNameInput.required = !isB2B;
@@ -387,6 +495,7 @@ document.addEventListener('DOMContentLoaded', () => {
           });
         }
         if (legalForm && b2bLegalSelect) {
+          document.getElementById('optional-details').open = true;
           Array.from(b2bLegalSelect.options).forEach((opt) => {
             if (opt.value === legalForm) opt.selected = true;
           });
@@ -400,148 +509,163 @@ document.addEventListener('DOMContentLoaded', () => {
       const contactSection = document.getElementById('contact');
       if (contactSection && triggerEl.tagName === 'BUTTON') {
         e.preventDefault();
-        contactSection.scrollIntoView({ behavior: 'smooth' });
+        contactSection.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+        (segment === 'b2b' ? b2bCompanyInput : b2cNameInput)?.focus({ preventScroll: true });
       }
     });
   });
 
-  // 10. Form Validation & Submission (Hostinger PHP Backend + Local Preview Fallback)
+  const setupChoiceKeyboard = (selector, selectedAttribute) => {
+    const buttons = [...document.querySelectorAll(selector)];
+    const sync = () => buttons.forEach((button) => {
+      button.tabIndex = button.getAttribute(selectedAttribute) === 'true' ? 0 : -1;
+    });
+    buttons.forEach((button, index) => {
+      button.addEventListener('click', sync);
+      button.addEventListener('keydown', (event) => {
+        const nextIndex = { ArrowRight: (index + 1) % buttons.length,
+          ArrowLeft: (index - 1 + buttons.length) % buttons.length,
+          Home: 0, End: buttons.length - 1 }[event.key];
+        if (nextIndex === undefined) return;
+        event.preventDefault();
+        buttons[nextIndex].click();
+        buttons[nextIndex].focus();
+      });
+    });
+    sync();
+  };
+  setupChoiceKeyboard('[data-dashboard-tab]', 'aria-selected');
+  setupChoiceKeyboard('[data-entity]', 'aria-selected');
+  setupChoiceKeyboard('[data-form-segment]', 'aria-checked');
+  setFormSegment('b2b');
+
+  // 10. Form validation and delivery feedback
   const intakeForm = document.getElementById('lead-intake-form');
   const formFeedback = document.getElementById('form-feedback');
   const formSubmitBtn = document.getElementById('form-submit-btn');
 
-  const showFeedback = (type, htmlMessage) => {
+  const errorSummary = document.getElementById('form-errors');
+  const showFeedback = (type, message) => {
     if (!formFeedback) return;
     formFeedback.className = `form-feedback ${type}`;
-    formFeedback.innerHTML = htmlMessage;
+    formFeedback.textContent = message;
     formFeedback.hidden = false;
+    formFeedback.focus();
   };
+  const preferredMode = document.getElementById('preferred_mode');
+  const syncContactMethod = () => {
+    const emailSelected = preferredMode.value === 'Απάντηση μέσω Email';
+    ['phone', 'email'].forEach(channel => {
+      const active = (channel === 'email') === emailSelected;
+      const group = document.getElementById(`${channel}-contact-group`);
+      const field = document.getElementById(`contact_${channel}`);
+      group.hidden = !active;
+      field.disabled = !active;
+      field.required = active;
+    });
+  };
+  syncContactMethod();
 
+  const validationMessage = (field) => {
+    if (field.disabled) return '';
+    if (!field.required && !field.value.trim()) return '';
+    if (field.type === 'checkbox' && !field.checked) return 'Χρειάζεται η συγκατάθεσή σας για να επικοινωνήσουμε μαζί σας.';
+    if (field.required && !field.value.trim()) return 'Συμπληρώστε αυτό το πεδίο.';
+    if (field.id === 'contact_phone' && !/^\+?[\d\s().-]+$/.test(field.value.trim())) return 'Χρησιμοποιήστε μόνο ψηφία και προαιρετικά τον κωδικό χώρας.';
+    if (field.id === 'contact_phone' && (field.value.replace(/\D/g, '').length < 10 || field.value.replace(/\D/g, '').length > 15)) return 'Συμπληρώστε τηλέφωνο με 10 έως 15 ψηφία.';
+    if (field.type === 'email' && field.validity.typeMismatch) return 'Συμπληρώστε έγκυρο email, π.χ. name@example.gr.';
+    return '';
+  };
+  const clearFieldError = (field) => {
+    document.getElementById(`${field.id}-error`)?.remove();
+    field.removeAttribute('aria-invalid');
+    const describedBy = (field.getAttribute('aria-describedby') || '').split(' ').filter(id => id && id !== `${field.id}-error`);
+    if (describedBy.length) field.setAttribute('aria-describedby', describedBy.join(' '));
+    else field.removeAttribute('aria-describedby');
+  };
   if (intakeForm) {
-    intakeForm.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // Honeypot check
-      const hpInput = document.getElementById('website_url');
-      if (hpInput && hpInput.value.trim() !== '') {
+    const fields = [...intakeForm.querySelectorAll('input:not([type="hidden"]), select, textarea')]
+      .filter(field => field.id !== 'website_url');
+    const clearValidation = () => {
+      fields.forEach(clearFieldError);
+      errorSummary.hidden = true;
+      formFeedback.hidden = true;
+    };
+    preferredMode.addEventListener('change', () => { syncContactMethod(); clearValidation(); });
+    document.querySelectorAll('[data-form-segment], [data-prefill-segment]').forEach(button => {
+      button.addEventListener('click', () => {
+        clearValidation();
+        document.querySelectorAll('[data-form-segment]').forEach(button => {
+          button.tabIndex = button.getAttribute('aria-checked') === 'true' ? 0 : -1;
+        });
+      });
+    });
+    fields.forEach(field => {
+      field.addEventListener('input', () => {
+        if (field.hasAttribute('aria-invalid') && !validationMessage(field)) {
+          clearFieldError(field);
+          errorSummary.querySelector(`a[href="#${field.id}"]`)?.closest('li').remove();
+          if (!errorSummary.querySelector('li')) errorSummary.hidden = true;
+        }
+      });
+    });
+    intakeForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (formSubmitBtn.disabled || document.getElementById('website_url')?.value.trim()) return;
+      clearValidation();
+      const invalidFields = fields.map(field => ({ field, message: validationMessage(field) })).filter(item => item.message);
+      if (invalidFields.length) {
+        const heading = document.createElement('strong');
+        heading.textContent = 'Ελέγξτε τα παρακάτω πεδία:';
+        const list = document.createElement('ul');
+        errorSummary.replaceChildren(heading, list);
+        invalidFields.forEach(({ field, message }) => {
+          const error = document.createElement('p');
+          error.id = `${field.id}-error`;
+          error.className = 'field-error';
+          error.textContent = message;
+          field.setAttribute('aria-invalid', 'true');
+          field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'), error.id].filter(Boolean).join(' '));
+          (field.closest('.form-group') || field.closest('.form-row') || field.parentElement).append(error);
+          const item = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = `#${field.id}`;
+          link.textContent = field.id === 'gdpr_consent' ? 'Συγκατάθεση επικοινωνίας' : (field.labels?.[0]?.textContent.replace('*', '').trim() || message);
+          link.addEventListener('click', (event) => { event.preventDefault(); field.focus(); });
+          item.append(link);
+          list.append(item);
+        });
+        errorSummary.hidden = false;
+        errorSummary.focus();
         return;
       }
-
-      const isB2B = clientSegmentInput && clientSegmentInput.value.includes('B2B');
-      const phoneVal = (document.getElementById('contact_phone')?.value || '').trim();
-      const emailVal = (document.getElementById('contact_email')?.value || '').trim();
-      const gdprChecked = document.getElementById('gdpr_consent')?.checked;
-
-      // Validate segment-specific fields
-      if (isB2B) {
-        if (!b2bCompanyInput?.value.trim()) {
-          showFeedback('error', 'Παρακαλώ συμπληρώστε την <strong>Επωνυμία Επιχείρησης ή το Ονοματεπώνυμό σας</strong>.');
-          b2bCompanyInput?.focus();
-          return;
-        }
-        if (!b2bLegalSelect?.value) {
-          showFeedback('error', 'Παρακαλώ επιλέξτε τη <strong>Νομική Μορφή</strong> της επιχείρησής σας.');
-          b2bLegalSelect?.focus();
-          return;
-        }
-        if (!b2bActivityInput?.value.trim()) {
-          showFeedback('error', 'Παρακαλώ συμπληρώστε το <strong>Αντικείμενο Δραστηριότητας / Κλάδο</strong>.');
-          b2bActivityInput?.focus();
-          return;
-        }
-      } else {
-        if (!b2cNameInput?.value.trim()) {
-          showFeedback('error', 'Παρακαλώ συμπληρώστε το <strong>Ονοματεπώνυμό σας</strong>.');
-          b2cNameInput?.focus();
-          return;
-        }
-        if (!b2cTopicSelect?.value) {
-          showFeedback('error', 'Παρακαλώ επιλέξτε το <strong>Θέμα Ενδιαφέροντος</strong> (π.χ. Δήλωση Ε1/Ε2, Ε9, Μισθωτήρια).');
-          b2cTopicSelect?.focus();
-          return;
-        }
-      }
-
-      // Phone & Email validation
-      const phoneClean = phoneVal.replace(/[\s\-().+]/g, '');
-      if (phoneClean.length < 10) {
-        showFeedback('error', 'Παρακαλώ εισάγετε ένα έγκυρο <strong>Τηλέφωνο Επικοινωνίας</strong> (τουλάχιστον 10 ψηφία).');
-        document.getElementById('contact_phone')?.focus();
-        return;
-      }
-
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(emailVal)) {
-        showFeedback('error', 'Παρακαλώ εισάγετε μια έγκυρη <strong>Διεύθυνση Email</strong>.');
-        document.getElementById('contact_email')?.focus();
-        return;
-      }
-
-      if (!gdprChecked) {
-        showFeedback('error', 'Απαιτείται η αποδοχή της <strong>Πολιτικής Απορρήτου (GDPR)</strong> για την αποστολή του αιτήματός σας.');
-        return;
-      }
-
-      // Prepare payload
-      const formData = new FormData(intakeForm);
-      const payload = Object.fromEntries(formData.entries());
-
-      if (formSubmitBtn) {
-        formSubmitBtn.disabled = true;
-      }
-      if (submitBtnText) {
-        submitBtnText.textContent = 'Αποστολή σε εξέλιξη...';
-      }
-
+      const segment = clientSegmentInput.value.includes('B2B') ? 'b2b' : 'b2c';
+      const payload = Object.fromEntries(new FormData(intakeForm).entries());
+      formSubmitBtn.disabled = true;
+      intakeForm.setAttribute('aria-busy', 'true');
+      submitBtnText.textContent = 'Αποστολή σε εξέλιξη…';
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
       try {
         const response = await fetch('api/contact.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json'
-          },
-          body: JSON.stringify(payload)
+          method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify(payload), signal: controller.signal
         });
-
-        const contentType = response.headers.get('content-type') || '';
-        if (response.ok && contentType.includes('application/json')) {
-          const result = await response.json();
-          if (result.success) {
-            showFeedback(
-              'success',
-              `✓ <strong>Το αίτημά σας καταχωρήθηκε επιτυχώς!</strong><br/>Ευχαριστούμε για την επικοινωνία. Ένας εξειδικευμένος φοροτεχνικός σύμβουλος του γραφείου <strong>TAX14</strong> θα επικοινωνήσει μαζί σας εντός της ίδιας εργάσιμης ημέρας.`
-            );
-            intakeForm.reset();
-            setFormSegment(isB2B ? 'b2b' : 'b2c');
-          } else {
-            showFeedback('error', result.message || 'Παρουσιάστηκε σφάλμα κατά την αποστολή. Παρακαλώ καλέστε μας στο 210 300 1400.');
-          }
-        } else {
-          // Local static preview fallback (when PHP server is not active locally)
-          const summaryName = isB2B ? payload.b2b_company_name : payload.b2c_full_name;
-          const summaryTopic = isB2B ? `${payload.b2b_legal_form} • ${payload.b2b_service_topic}` : payload.b2c_topic;
-          showFeedback(
-            'success',
-            `✓ <strong>Επιτυχής Καταχώρηση Αιτήματος (${payload.client_segment})!</strong><br/>Λάβαμε τα στοιχεία για <strong>${summaryName}</strong> (${summaryTopic}). Ένας φοροτεχνικός σύμβουλος του <strong>TAX14</strong> θα επικοινωνήσει σύντομα μαζί σας στο <strong>${payload.contact_phone}</strong>.`
-          );
-          intakeForm.reset();
-          setFormSegment(isB2B ? 'b2b' : 'b2c');
-        }
-      } catch (_err) {
-        // Fallback for local static preview
-        const summaryName = isB2B ? payload.b2b_company_name : payload.b2c_full_name;
-        const summaryTopic = isB2B ? `${payload.b2b_legal_form} • ${payload.b2b_service_topic}` : payload.b2c_topic;
-        showFeedback(
-          'success',
-          `✓ <strong>Επιτυχής Καταχώρηση Αιτήματος (${payload.client_segment})!</strong><br/>Λάβαμε τα στοιχεία για <strong>${summaryName}</strong> (${summaryTopic}). Ένας φοροτεχνικός σύμβουλος του <strong>TAX14</strong> θα επικοινωνήσει σύντομα μαζί σας στο <strong>${payload.contact_phone}</strong>.`
-        );
+        if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Delivery failed');
+        const result = await response.json();
+        if (result.success !== true) throw new Error('Delivery failed');
         intakeForm.reset();
-        setFormSegment(isB2B ? 'b2b' : 'b2c');
+        setFormSegment(segment);
+        syncContactMethod();
+        document.getElementById('optional-details').open = false;
+        showFeedback('success', 'Το αίτημά σας στάλθηκε. Ευχαριστούμε για την επικοινωνία. Θα επικοινωνήσουμε μαζί σας για τα επόμενα βήματα.');
+      } catch (_error) {
+        showFeedback('error', 'Το αίτημα δεν στάλθηκε. Τα στοιχεία σας έχουν παραμείνει στη φόρμα. Δοκιμάστε ξανά ή καλέστε μας στο 210 202 4225.');
       } finally {
-        if (formSubmitBtn) {
-          formSubmitBtn.disabled = false;
-        }
-        setFormSegment(isB2B ? 'b2b' : 'b2c');
+        window.clearTimeout(timeout);
+        intakeForm.removeAttribute('aria-busy');
+        formSubmitBtn.disabled = false;
+        submitBtnText.textContent = 'Στείλτε αίτημα επικοινωνίας';
       }
     });
   }
@@ -584,11 +708,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const closeModalButtons = document.querySelectorAll('[data-close-modal]');
   const modalBackdrops = document.querySelectorAll('.legal-modal-backdrop');
 
+  let modalTrigger = null;
+  let activeModal = null;
+  let inertSiblings = [];
   const closeAllModals = () => {
     modalBackdrops.forEach((backdrop) => {
       backdrop.hidden = true;
     });
     document.body.style.overflow = '';
+    inertSiblings.forEach(element => { element.inert = false; });
+    inertSiblings = [];
+    activeModal = null;
+    modalTrigger?.focus();
+    modalTrigger = null;
   };
 
   openModalButtons.forEach((btn) => {
@@ -597,7 +729,12 @@ document.addEventListener('DOMContentLoaded', () => {
       const modal = modalId ? document.getElementById(modalId) : null;
       if (modal) {
         closeAllModals();
+        modalTrigger = btn;
+        activeModal = modal;
         modal.hidden = false;
+        inertSiblings = [...document.body.children].filter(element => element !== modal && !element.inert && element.tagName !== 'SCRIPT');
+        inertSiblings.forEach(element => { element.inert = true; });
+        modal.querySelector('[data-close-modal]')?.focus();
         document.body.style.overflow = 'hidden';
       }
     });
@@ -616,6 +753,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   document.addEventListener('keydown', (e) => {
+    if (e.key === 'Tab' && activeModal) {
+      const focusable = [...activeModal.querySelectorAll('a[href], button, input, select, textarea, [tabindex="0"]')].filter(element => !element.disabled && element.getClientRects().length);
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus(); }
+    }
     if (e.key === 'Escape') {
       closeAllModals();
     }

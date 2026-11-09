@@ -34,7 +34,7 @@ public_html/
 4. Ανοίξτε τον φάκελο **`public_html`** (διαγράψτε τυχόν προεγκατεστημένο `default.php`).
 5. Σύρετε (Drag & Drop) τα αρχεία και τους φακέλους (`index.html`, `.htaccess`, `sitemap.xml`, `robots.txt`, `assets`, `css`, `js`, `api`) μέσα στο `public_html`.
 6. **Ρύθμιση Email Φόρμας:**
-   - Στο Hostinger hPanel, μεταβείτε στο **Emails** και δημιουργήστε τον εταιρικό σας λογαριασμό (π.χ. `info@το-domain-σας.gr`).
-   - Ανοίξτε το αρχείο `public_html/api/contact.php` και στη γραμμή `$recipientEmail = 'info@tax14.gr';` βάλτε το ακριβές email σας.
+   - Ο παραλήπτης στο `public_html/api/contact.php` είναι ήδη ορισμένος σε `$recipientEmail = 'petros.thanasos@gmail.com';`.
+   - Μετά το ανέβασμα, ελέγξτε την παραλαβή ενός αιτήματος στο συγκεκριμένο γραμματοκιβώτιο.
 7. **Ενεργοποίηση SSL (HTTPS):**
    - Στο hPanel -> **Security -> SSL**, βεβαιωθείτε ότι το δωρεάν Lifetime SSL είναι **Active**. Το αρχείο `.htaccess` θα ανακατευθύνει αυτόματα όλους τους επισκέπτες σε ασφαλές `https://`.

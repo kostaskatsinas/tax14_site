@@ -39,22 +39,23 @@ function clean_field(mixed $value): string {
     return htmlspecialchars(strip_tags(trim($value)), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 }
 
-$segment        = clean_field($data['client_segment'] ?? 'Επιχείρηση (B2B)');
-$phone          = clean_field($data['contact_phone'] ?? '');
-$email          = filter_var(trim((string)($data['contact_email'] ?? '')), FILTER_SANITIZE_EMAIL);
-$preferredMode  = clean_field($data['preferred_mode'] ?? 'Τηλεφωνική Επικοινωνία');
-$message        = clean_field($data['contact_message'] ?? '');
-
-if (empty($phone) || empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+require_once __DIR__ . '/contact-validation.php';
+$validationError = validate_contact_request($data);
+if ($validationError !== '') {
     http_response_code(400);
-    echo json_encode([
-        'success' => false,
-        'message' => 'Παρακαλώ συμπληρώστε έγκυρο τηλέφωνο και διεύθυνση email.'
-    ], JSON_UNESCAPED_UNICODE);
+    echo json_encode(['success' => false, 'message' => $validationError], JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-$isB2B = mb_strpos($segment, 'B2B') !== false;
+$segment        = clean_field($data['client_segment']);
+$preferredMode  = clean_field($data['preferred_mode']);
+$emailMode      = $preferredMode === 'Απάντηση μέσω Email';
+$phone          = $emailMode ? '' : clean_field($data['contact_phone'] ?? '');
+$email          = $emailMode ? trim($data['contact_email']) : '';
+$message        = clean_field($data['contact_message'] ?? '');
+$phoneDisplay   = $phone !== '' ? "<a href='tel:{$phone}'>{$phone}</a>" : '—';
+$emailDisplay   = $email !== '' ? clean_field($email) : '—';
+$isB2B          = $segment === 'Επιχείρηση (B2B)';
 
 if ($isB2B) {
     $clientName  = clean_field($data['b2b_company_name'] ?? '');
@@ -82,9 +83,9 @@ if ($isB2B) {
 
 // =========================================================================
 // ΡΥΘΜΙΣΗ EMAIL ΓΡΑΦΕΙΟΥ ΣΤΟ HOSTINGER
-// Αντικαταστήστε με το εταιρικό σας email στο Hostinger (π.χ. info@tax14.gr)
+// Παραλήπτης των αιτημάτων επικοινωνίας του γραφείου.
 // =========================================================================
-$recipientEmail = 'info@tax14.gr';
+$recipientEmail = 'petros.thanasos@gmail.com';
 $subject = "=?UTF-8?B?" . base64_encode("Νέο Αίτημα [{$segment}]: {$clientName} - TAX14") . "?=";
 
 $emailBody = "
@@ -100,8 +101,8 @@ $emailBody = "
     <div style='padding:24px;'>
       <table style='width:100%;border-collapse:collapse;font-size:14px;'>
         {$detailsHtml}
-        <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Τηλέφωνο:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'><a href='tel:{$phone}'>{$phone}</a></td></tr>
-        <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Email:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'><a href='mailto:{$email}'>{$email}</a></td></tr>
+        <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Τηλέφωνο:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'>{$phoneDisplay}</td></tr>
+        <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Email:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'>{$emailDisplay}</td></tr>
         <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Τρόπος Επικοινωνίας:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'>{$preferredMode}</td></tr>
         <tr><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;font-weight:bold;'>Μήνυμα:</td><td style='padding:8px 12px;border-bottom:1px solid #e2e8f0;'>" . ($message ?: '—') . "</td></tr>
       </table>
@@ -115,14 +116,17 @@ $headers = [
     'MIME-Version: 1.0',
     'Content-type: text/html; charset=UTF-8',
     'From: TAX14 Website <no-reply@tax14.gr>',
-    "Reply-To: {$email}",
     'X-Mailer: PHP/' . phpversion()
 ];
 
+if ($emailMode) {
+    $headers[] = "Reply-To: {$email}";
+}
+
 $sent = @mail($recipientEmail, $subject, $emailBody, implode("\r\n", $headers));
 
+http_response_code($sent ? 200 : 502);
 echo json_encode([
-    'success' => true,
-    'mail_dispatched' => $sent,
-    'message' => 'Το αίτημά σας καταχωρήθηκε επιτυχώς.'
+    'success' => $sent,
+    'message' => $sent ? 'Το αίτημά σας στάλθηκε.' : 'Το αίτημα δεν στάλθηκε. Δοκιμάστε ξανά ή καλέστε μας στο 210 202 4225.'
 ], JSON_UNESCAPED_UNICODE);
