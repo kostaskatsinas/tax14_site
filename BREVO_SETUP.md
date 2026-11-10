@@ -1,8 +1,9 @@
 # Brevo and CAPTCHA setup
 
-The new contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
+The contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
 Actual credentials are never included in HTML, JavaScript, Git, logs or API responses.
-The recipient stays fixed at `katsinas1986@gmail.com` in server code. No automatic
+The permanent recipient is `katsinas1986@gmail.com`, fixed in server code. The same
+address is used in all public email links and structured data. No automatic
 customer replies, contact-list imports or marketing campaigns are created.
 
 ## Account setup
@@ -84,68 +85,34 @@ Without complete private settings, `/api/contact-config.php` returns
 `{"ready":false,"captchaSiteKey":""}` and sending stays disabled. This is a setup
 state, not a functioning CAPTCHA or verified Brevo delivery.
 
-## Finish activation
+## Live configuration — 2026-11-10
 
-1. Confirm the sender/account and CAPTCHA widget are ready.
-2. Check the CAPTCHA is visible and keyboard accessible on the local/live form.
-   A human must complete any interactive challenge; do not bypass it for testing.
-3. Submit one clearly labelled fictional test and verify it in Brevo's
-   transactional log and at `katsinas1986@gmail.com`.
-4. Obtain the owner's confirmation and final customer recipient before changing
-   test mode, the recipient, test subjects or the privacy text.
-5. Deploy only after the private hosting configuration is ready, then repeat the
-   CAPTCHA and inbox check on the live hostname.
+The owner approved normal customer use with `katsinas1986@gmail.com` as the sole
+recipient. There is no test-mode flag, test subject prefix, test body label or
+test-only notice. Email subjects use `TAX14 — Νέο αίτημα: <name>`.
 
-The previous FormSubmit delivery test is recorded in `EMAIL_SETUP.md`; that result
-does not verify the replacement Brevo integration.
+- Website: `https://tax14.gr/` (Hostinger account `u635942677`).
+- Private configuration: domain directory above `public_html`, owner-only mode
+  600. Its public URL returns HTTP 404. Credentials stay outside the repository.
+- Production CAPTCHA hostnames: `tax14.gr`, `www.tax14.gr`.
+- Brevo sender: existing verified `katsinas1986@gmail.com` sender.
+- Brevo transport: IPv4; authorized hosting egress IP `82.198.229.189`.
+  IP restrictions remain enabled. Recheck egress if hosting infrastructure changes.
+- Restricted API key: `TAX14 contact form`, Transactional email permission only.
+  Its original setup reports a one-year expiry and expiry after 90 inactive days.
+- The local and live CAPTCHA-protected form deliveries were verified, with inbox
+  receipt confirmed by the owner before enabling customer use.
+- GitHub deploys pushes to `main` using `.github/workflows/deploy.yml`. Private
+  configuration is managed separately; setup documents and tests are excluded.
+- No CC, marketing contact imports or automatic replies to visitors are enabled.
+  Reply-To uses the visitor's email only when they select email contact.
 
-## Account progress — 2026-11-10
+## Deployment verification
 
-- Signed in to the owner's Brevo account. Its Gmail sender is already verified;
-  no business sending domain has been authenticated yet.
-- Phone verification is complete. Created a restricted key named
-  `TAX14 contact form`, with only the Transactional email resource selected.
-  The actual key is stored in the private local configuration outside the website
-  and Git; it is not included in this document.
-- API IP restrictions remain enabled. The owner authorized the local IPv6 address;
-  a read-only transactional-statistics request through that address returned HTTP
-  200. The local configuration uses IPv6 consistently to match this authorization.
-  The hosting environment will need its own actual egress IP authorized.
-- The key setup reports a one-year default expiry and automatic expiry after
-  90 days of inactivity; account owners should account for this when maintaining
-  a low-volume contact form.
-- Created a Managed Turnstile widget named `TAX14 contact form`, restricted to
-  `localhost` and `127.0.0.1`. Its credentials are saved privately outside the
-  website and Git. The owner confirmed `tax14.gr` as the production domain;
-  `tax14.gr` and `www.tax14.gr` are now saved in the widget's allowed hostnames.
-- A direct provider diagnostic was accepted by Brevo (HTTP 201), followed by a
-  real local browser form submission with server-validated Turnstile verification.
-  Brevo reports the form email as `delivered` at 12:41:02 Europe/Athens, with
-  subject `[ΔΟΚΙΜΗ] TAX14 — Νέο αίτημα: TAX14 TEST — Brevo και CAPTCHA`.
-  The owner confirmed receipt of this exact form test email.
-- Connected the official Hostinger MCP integration after the owner's approval
-  and verified access to the exact `tax14.gr` website.
-- Saved `tax14-contact-config.php` in the domain directory above `public_html`
-  with owner-only permissions (600). Its public URL returns HTTP 404.
-  Production configuration accepts only `tax14.gr` and `www.tax14.gr`, uses
-  IPv4 for Brevo and keeps the same fixed test recipient.
-- A one-time protected diagnostic measured the hosting server's outgoing IPv4
-  as `82.198.229.189`, with PHP 8.3 and cURL available. It read no credentials
-  and sent no email. The owner approved running it and it was removed afterward;
-  its live URL now returns HTTP 404.
-- With the owner's explicit approval, authorized `82.198.229.189` in Brevo and
-  verified its presence in the authorized-IP table. Other IP restrictions remain
-  enabled. Recheck the actual outgoing IP if hosting infrastructure changes.
-- Committed the integration as `24c6275` and pushed it to `main` after the owner
-  approved GitHub's additional Workflow permission. Hostinger deployment
-  [42805863578](https://github.com/kostaskatsinas/tax14_site/actions/runs/42805863578)
-  completed successfully.
-- Verified the live configuration endpoint reports ready and the contact endpoint
-  rejects GET with HTTP 405. Submitted one real browser test through
-  `https://tax14.gr/index.html#contact`, including server-validated Turnstile.
-  The live form accepted the request, and the owner confirmed receipt of
-  `[ΔΟΚΙΜΗ] TAX14 — Νέο αίτημα: TAX14 LIVE TEST — Brevo και CAPTCHA` at the fixed
-  test recipient. This verifies live email receipt, not just API acceptance.
-- Customer delivery remains disabled until the owner supplies the final recipient
-  and explicitly approves enabling customer use. Do not remove the test notice or
-  change recipients on the strength of the successful test alone.
+Confirm the configuration endpoint reports ready, the CAPTCHA loads on the live
+hostname, and the form displays a normal acknowledgement after submission. Use a
+clearly identified fictional enquiry for any maintenance delivery check and
+verify receipt at the permanent mailbox. Do not bypass CAPTCHA verification.
+
+Automated test fixtures remain isolated from production settings and never send
+real email. Published always-pass CAPTCHA keys remain blocked by the handler.

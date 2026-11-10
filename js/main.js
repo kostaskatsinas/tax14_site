@@ -3,8 +3,8 @@
  * Interactive UX Architecture & Smart Segmented Lead Capture
  */
 
-import { sendContactEnquiry } from './contact-delivery.mjs?v=brevo1';
-import { createContactCaptcha } from './contact-captcha.mjs?v=brevo1';
+import { sendContactEnquiry } from './contact-delivery.mjs?v=contact2';
+import { createContactCaptcha } from './contact-captcha.mjs?v=contact2';
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Dynamic Footer Year
@@ -661,10 +661,10 @@ document.addEventListener('DOMContentLoaded', () => {
       const timeout = window.setTimeout(() => controller.abort(), 30000);
       try {
         await sendContactEnquiry(payload, { sourceUrl: window.location.href, signal: controller.signal });
-        showFeedback('success', 'Το δοκιμαστικό αίτημα έγινε δεκτό για αποστολή. Ελέγξτε το δοκιμαστικό email για την παραλαβή του.');
+        showFeedback('success', 'Το αίτημά σας υποβλήθηκε. Θα επικοινωνήσουμε μαζί σας με τον τρόπο που επιλέξατε.');
       } catch (error) {
         console.warn('TAX14 email request failed:', error.name, error.message);
-        showFeedback('error', error.userMessage || 'Δεν επιβεβαιώθηκε η αποστολή του δοκιμαστικού αιτήματος. Τα στοιχεία παραμένουν στη φόρμα. Ελέγξτε πρώτα το δοκιμαστικό email και τα ανεπιθύμητα πριν δοκιμάσετε ξανά.');
+        showFeedback('error', error.userMessage || 'Δεν επιβεβαιώθηκε η αποστολή. Τα στοιχεία σας παραμένουν στη φόρμα. Δοκιμάστε ξανά σε λίγο ή καλέστε στο 210 202 4225.');
       } finally {
         window.clearTimeout(timeout);
         intakeForm.removeAttribute('aria-busy');

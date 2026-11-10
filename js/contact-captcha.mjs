@@ -18,7 +18,7 @@ export function createContactCaptcha({ container, status, retryButton }) {
       if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Configuration unavailable');
       const config = await response.json();
       if (config.ready !== true || typeof config.captchaSiteKey !== 'string' || !config.captchaSiteKey) {
-        notify('Η δοκιμαστική φόρμα ρυθμίζεται. Η αποστολή δεν είναι ακόμη διαθέσιμη.');
+        notify('Η φόρμα δεν είναι διαθέσιμη αυτή τη στιγμή. Καλέστε μας στο 210 202 4225.');
         retryButton.hidden = false;
         return;
       }

@@ -1,8 +1,6 @@
-// Customer delivery stays disabled until the owner confirms the test and
-// supplies the final recipient. Form input never controls the destination.
+// The recipient is fixed on the server. Form input never controls the destination.
 export const CONTACT_DELIVERY = Object.freeze({
   endpoint: 'api/contact.php',
-  mode: 'test',
 });
 
 export function buildContactPayload(fields, sourceUrl) {
@@ -50,7 +48,6 @@ export function buildContactPayload(fields, sourceUrl) {
 }
 
 export async function sendContactEnquiry(fields, { sourceUrl, signal, fetchImpl = fetch }) {
-  if (CONTACT_DELIVERY.mode !== 'test') throw new Error('Customer delivery is not enabled');
   const response = await fetchImpl(CONTACT_DELIVERY.endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },

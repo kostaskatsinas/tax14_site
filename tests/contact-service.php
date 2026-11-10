@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../api/contact-service.php';
 
 $settings = [
-    'mode' => 'test', 'recipient' => 'katsinas1986@gmail.com',
+    'recipient' => 'katsinas1986@gmail.com',
     'brevo_api_key' => 'fake-key-for-tests-only', 'sender_email' => 'forms@example.com',
     'turnstile_site_key' => 'fake-site-key', 'turnstile_secret_key' => 'fake-secret-key',
     'allowed_hostnames' => ['localhost'],
@@ -38,6 +38,9 @@ $result = $run(array_merge($business, ['recipient' => 'other@example.com', '_cc'
 $check($result['status'] === 202 && $result['body']['success'] === true, 'valid business enquiry accepted');
 $check(count($calls) === 2 && str_contains($calls[0]['url'], 'siteverify') && str_contains($calls[1]['url'], 'api.brevo.com'), 'CAPTCHA verified before Brevo');
 $check($calls[1]['body']['to'] === [['email' => 'katsinas1986@gmail.com']] && !isset($calls[1]['body']['cc']), 'input cannot redirect mail');
+$check($calls[1]['body']['subject'] === 'TAX14 — Νέο αίτημα: Test company', 'customer subject has no test prefix');
+$check(str_starts_with($calls[1]['body']['textContent'], 'Νέο αίτημα επικοινωνίας TAX14'), 'customer email is not labelled as a test');
+$check($calls[1]['body']['tags'] === ['tax14', 'contact'] && !str_contains($result['body']['message'], 'δοκιμαστικό'), 'normal delivery tags and acknowledgement');
 $check(!isset($calls[1]['body']['replyTo']), 'phone enquiries do not invent Reply-To');
 $check(!str_contains(json_encode($result), 'fake-key'), 'credentials not exposed');
 $run($individual, $settings, [$verified, $accepted]);
@@ -72,7 +75,7 @@ foreach ([['status' => 401, 'data' => ['message' => 'private error']], ['status'
 }
 foreach ([
     ['brevo_api_key' => ''], ['sender_email' => 'invalid'], ['allowed_hostnames' => []],
-    ['recipient' => 'other@example.com'], ['mode' => 'production'],
+    ['recipient' => 'other@example.com'],
     ['brevo_ip_version' => 'invalid'],
     ['turnstile_site_key' => '1x00000000000000000000AA'],
     ['turnstile_secret_key' => '1x0000000000000000000000000000000AA'],

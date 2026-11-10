@@ -11,7 +11,6 @@ function tax14_contact_settings(): array {
         return trim(is_string($environment) && $environment !== '' ? $environment : (string) ($private[$key] ?? ''));
     };
     return [
-        'mode' => 'test',
         'recipient' => 'katsinas1986@gmail.com',
         'brevo_api_key' => $setting('TAX14_BREVO_API_KEY', 'brevo_api_key'),
         'sender_email' => $setting('TAX14_BREVO_SENDER_EMAIL', 'sender_email'),
@@ -29,8 +28,7 @@ function tax14_contact_ready(array $settings): bool {
     // Cloudflare's published testing keys must never authorize real emails.
     if (preg_match('/^[123]x0{15,}/', $settings['turnstile_site_key'])) return false;
     if (preg_match('/^[123]x0{15,}/', $settings['turnstile_secret_key'])) return false;
-    return ($settings['mode'] ?? '') === 'test'
-        && ($settings['recipient'] ?? '') === 'katsinas1986@gmail.com'
+    return ($settings['recipient'] ?? '') === 'katsinas1986@gmail.com'
         && filter_var($settings['sender_email'], FILTER_VALIDATE_EMAIL) !== false
         && in_array($settings['brevo_ip_version'] ?? 'ipv4', ['ipv4', 'ipv6'], true)
         && !empty($settings['allowed_hostnames']);

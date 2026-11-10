@@ -36,7 +36,7 @@ function tax14_contact_message(array $data, array $settings): array {
     $emailMode = $value('preferred_mode') === 'Απάντηση μέσω Email';
     $name = $value($business ? 'b2b_company_name' : 'b2c_full_name');
     $lines = [
-        'ΔΟΚΙΜΑΣΤΙΚΟ ΑΙΤΗΜΑ TAX14 — δεν είναι αίτημα πελάτη',
+        'Νέο αίτημα επικοινωνίας TAX14',
         'Κατηγορία: ' . $value('client_segment'),
         'Όνομα / Επωνυμία: ' . $name,
         'Υπηρεσία: ' . $value($business ? 'b2b_service_topic' : 'b2c_topic'),
@@ -54,9 +54,9 @@ function tax14_contact_message(array $data, array $settings): array {
     $message = [
         'sender' => ['name' => 'TAX14 Website', 'email' => $settings['sender_email']],
         'to' => [['email' => 'katsinas1986@gmail.com']],
-        'subject' => '[ΔΟΚΙΜΗ] TAX14 — Νέο αίτημα: ' . str_replace(["\r", "\n"], ' ', $name),
+        'subject' => 'TAX14 — Νέο αίτημα: ' . str_replace(["\r", "\n"], ' ', $name),
         'textContent' => implode("\n\n", $lines),
-        'tags' => ['tax14', 'test-contact'],
+        'tags' => ['tax14', 'contact'],
     ];
     if ($emailMode) $message['replyTo'] = ['email' => $value('contact_email')];
     return $message;
@@ -88,12 +88,12 @@ function tax14_handle_contact(array $data, array $settings, callable $http): arr
         }
         $delivery = $http('https://api.brevo.com/v3/smtp/email', tax14_contact_message($data, $settings), ['api-key: ' . $settings['brevo_api_key']]);
         if (($delivery['status'] ?? 0) !== 201 || !is_string($delivery['data']['messageId'] ?? null) || $delivery['data']['messageId'] === '') {
-            return $fail(502, 'Δεν επιβεβαιώθηκε η αποστολή. Ελέγξτε το δοκιμαστικό email πριν δοκιμάσετε ξανά.');
+            return $fail(502, 'Δεν επιβεβαιώθηκε η αποστολή. Τα στοιχεία σας παραμένουν στη φόρμα. Δοκιμάστε ξανά σε λίγο ή καλέστε στο 210 202 4225.');
         }
     } catch (Throwable $exception) {
         // Do not log request data, provider payloads or credentials.
         error_log('TAX14 contact: provider request could not be completed.');
-        return $fail(502, 'Δεν επιβεβαιώθηκε η αποστολή. Τα στοιχεία σας παραμένουν στη φόρμα. Ελέγξτε το δοκιμαστικό email πριν δοκιμάσετε ξανά.');
+        return $fail(502, 'Δεν επιβεβαιώθηκε η αποστολή. Τα στοιχεία σας παραμένουν στη φόρμα. Δοκιμάστε ξανά σε λίγο ή καλέστε στο 210 202 4225.');
     }
-    return ['status' => 202, 'body' => ['success' => true, 'message' => 'Το δοκιμαστικό αίτημα έγινε δεκτό για αποστολή. Ελέγξτε το δοκιμαστικό email για την παραλαβή του.']];
+    return ['status' => 202, 'body' => ['success' => true, 'message' => 'Το αίτημά σας υποβλήθηκε. Θα επικοινωνήσουμε μαζί σας με τον τρόπο που επιλέξατε.']];
 }
