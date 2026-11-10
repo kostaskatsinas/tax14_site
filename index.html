@@ -39,12 +39,12 @@
 <link rel="stylesheet" href="assets/kit/ui/cards.css?v=1">
 <link rel="stylesheet" href="assets/kit/motion/motion.css?v=1">
 <link rel="stylesheet" href="assets/kit/layout/layout.css?v=1">
-<link rel="stylesheet" href="css/site.css?v=header3">
+<link rel="stylesheet" href="css/site.css?v=refine1">
 <script src="js/head.js?v=1"></script>
 <link rel="modulepreload" href="assets/kit/moments/moments.js">
 <link rel="modulepreload" href="assets/kit/moments/lib.js">
 <link rel="modulepreload" href="assets/kit/moments/word-highlight/moment.js">
-<link rel="preload" as="image" href="assets/img/acropolis-1920.webp" imagesrcset="assets/img/acropolis-960.webp 960w, assets/img/acropolis-1280.webp 1280w, assets/img/acropolis-1920.webp 1920w, assets/img/acropolis-2560.webp 2560w, assets/img/acropolis-3840.webp 3840w" imagesizes="100vw">
+<link rel="preload" as="image" href="assets/img/acropolis-1920.webp" imagesrcset="assets/img/acropolis-960.webp 960w, assets/img/acropolis-1280.webp 1280w, assets/img/acropolis-1920.webp 1920w, assets/img/acropolis-2560.webp 2560w, assets/img/acropolis-3840.webp 3840w" imagesizes="(min-width: 1024px) 52vw, 100vw">
 
 <script type="application/ld+json">
 {
@@ -112,11 +112,9 @@
 </script>
 </head>
 <body>
-<!-- type: service (an accounting and tax office; people hire it)
-     deal: hero photo (data-calm left), nav with the logo on the left (owner asked; nav-split dealt first), close-type, footer-dark, rhythm dark-band (the calculator),
-     buttons arrow (tonal dealt first; its secondary read 1.2:1 on the hero box), mark: the client's own logo, type Manrope (dealt Onest has no Greek; Manrope is the first
-     dealt-list face with a Greek subset), palette: the client's own navy, teal and white (start.mjs brand)
-     moments: word-highlight in the statement section #first-call
+<!-- Accounting office: split photographic opening, content-height sections,
+     navy calculator and footer, teal actions, Greek Manrope typography.
+     The free-call statement uses the kit's word-highlight moment.
      photograph: Acropolis of Athens from Philopappos Hill, A.Savin, Wikipedia,
      via Wikimedia Commons, CC BY-SA 3.0; selected as the neighbourhood landmark -->
 
@@ -151,44 +149,52 @@
 </header>
 
 <main id="top">
-  <section class="hero hero--photo" data-enter data-calm="left" aria-labelledby="hero-h">
-    <img class="hero__bg" src="assets/img/acropolis-1920.webp" srcset="assets/img/acropolis-960.webp 960w, assets/img/acropolis-1280.webp 1280w, assets/img/acropolis-1920.webp 1920w, assets/img/acropolis-2560.webp 2560w, assets/img/acropolis-3840.webp 3840w" sizes="100vw" width="1920" height="1200" alt="Η Ακρόπολη της Αθήνας με τον Παρθενώνα, όπως φαίνεται από τον λόφο του Φιλοπάππου" style="--ly-pos: 50% 40%; --ly-pos-phone: 58% 40%" fetchpriority="high" decoding="async" data-source="library" data-subject="the neighbourhood landmark: Acropolis of Athens viewed from Philopappos Hill">
-    <div class="wrap"><div class="hero-text">
-      <div class="hero__text">
-        <p class="hero-notice">Μέλος Οικονομικού Επιμελητηρίου · Άδεια Α' τάξης</p>
-        <h1 id="hero-h">Λογιστικό γραφείο στα Άνω Πετράλωνα</h1>
-        <p class="hero__lead">Βιβλία, myDATA, μισθοδοσία και δηλώσεις για επιχειρήσεις και ιδιώτες, με 20 χρόνια εμπειρίας. Η πρώτη συζήτηση είναι δωρεάν.</p>
-        <div class="btn-row">
+  <section class="hero hero--tax14" data-enter aria-labelledby="hero-h">
+    <div class="wrap hero__layout">
+      <div class="hero-text">
+        <div class="hero__text">
+          <p class="hero-notice">Λογιστής · Φοροτεχνικός Α' τάξης</p>
+          <h1 id="hero-h">Λογιστικό γραφείο στα Άνω Πετράλωνα</h1>
+          <p class="hero__lead">Βιβλία, myDATA, μισθοδοσία και φορολογικές δηλώσεις για επιχειρήσεις και ιδιώτες.</p>
+          <div class="btn-row">
           <a class="btn btn--primary" href="#contact">Επικοινωνία<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
           <a class="btn btn--secondary" href="tel:+302102024225">Καλέστε 210 202 4225</a>
         </div>
+          <p class="hero__note">Η πρώτη συζήτηση είναι δωρεάν.</p>
+        </div>
       </div>
-    </div></div>
+      <div class="hero__visual"><img class="hero__bg" src="assets/img/acropolis-1920.webp" srcset="assets/img/acropolis-960.webp 960w, assets/img/acropolis-1280.webp 1280w, assets/img/acropolis-1920.webp 1920w, assets/img/acropolis-2560.webp 2560w, assets/img/acropolis-3840.webp 3840w" sizes="(min-width: 1024px) 52vw, 100vw" width="1920" height="1200" alt="Η Ακρόπολη της Αθήνας με τον Παρθενώνα, όπως φαίνεται από τον λόφο του Φιλοπάππου" fetchpriority="high" decoding="async" data-source="library" data-subject="the neighbourhood landmark: Acropolis of Athens viewed from Philopappos Hill"></div>
+      <dl class="hero__proof">
+        <div><dt>20 χρόνια</dt><dd>λογιστικής εμπειρίας</dd></div>
+        <div><dt>Α' τάξης</dt><dd>μέλος Οικονομικού Επιμελητηρίου</dd></div>
+        <div><dt>Στο γραφείο & online</dt><dd>στην Αθήνα και σε όλη την Ελλάδα</dd></div>
+      </dl>
+    </div>
   </section>
 
   <section class="section" id="services" aria-labelledby="services-h">
     <div class="wrap">
       <div class="section-head">
         <h2 id="services-h">Υπηρεσίες για επιχειρήσεις και ιδιώτες</h2>
-        <p>Διαλέξτε μια υπηρεσία και η φόρμα επικοινωνίας τη συμπληρώνει για εσάς.</p>
+        <p>Από τις καθημερινές υποχρεώσεις μέχρι την επόμενη απόφαση για την επιχείρησή σας.</p>
       </div>
       <div class="grid grid--top services">
-        <div class="span-6 stack-4" id="services-b2b">
+        <div class="span-6 service-group" id="services-b2b">
           <div class="group-head"><h3>Για επιχειρήσεις</h3><p class="t-small muted">Ατομικές, ΟΕ, ΕΕ, ΙΚΕ, ΑΕ</p></div>
-          <ul class="rows rows--ic">
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 21V7m4 5l2 2l4-4"/><path d="M22 6V4a1 1 0 0 0-1-1h-5a4 4 0 0 0-4 4a4 4 0 0 0-4-4H3a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h6a3 3 0 0 1 3 3a3 3 0 0 1 3-3h6a1 1 0 0 0 1-1v-1.3"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Τήρηση & Επίβλεψη Λογιστηρίου (myDATA)">Τήρηση λογιστηρίου</a><p>Απλογραφικά και διπλογραφικά βιβλία, ΦΠΑ και έλεγχος του myDATA κάθε μήνα.</p><span class="rows__value">Β' και Γ' κατηγορίας</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 12h4m-4-4h4m0 13v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Σύσταση / Μετατροπή / Λύση Εταιρείας">Σύσταση και μεταβολές εταιρειών</a><p>Ίδρυση μέσω Υπηρεσίας Μίας Στάσης, καταστατικό, ΚΑΔ, μετατροπή ή λύση.</p><span class="rows__value">Γ.Ε.ΜΗ.</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 17h6v-6"/><path d="m22 17l-8.5-8.5l-5 5L2 7"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Στρατηγικός Φορολογικός Σχεδιασμός">Φορολογικός σχεδιασμός</a><p>Το φορολογικό αποτέλεσμα υπολογίζεται πριν κλείσει η χρήση, με κάθε νόμιμη έκπτωση.</p><span class="rows__value">Πριν τον Δεκέμβριο</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Διαχείριση Μισθοδοσίας & ΕΡΓΑΝΗ ΙΙ">Μισθοδοσία και εργατικά</a><p>Μισθοδοσία, προσλήψεις, άδειες, ΑΠΔ και η Ψηφιακή Κάρτα Εργασίας.</p><span class="rows__value">ΕΡΓΑΝΗ ΙΙ</span></li>
+          <ul class="service-list">
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Τήρηση & Επίβλεψη Λογιστηρίου (myDATA)"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 21V7m4 5l2 2l4-4"/><path d="M22 6V4a1 1 0 0 0-1-1h-5a4 4 0 0 0-4 4a4 4 0 0 0-4-4H3a1 1 0 0 0-1 1v13a1 1 0 0 0 1 1h6a3 3 0 0 1 3 3a3 3 0 0 1 3-3h6a1 1 0 0 0 1-1v-1.3"/></g></svg></span><span class="service-copy"><strong class="rows__name">Τήρηση λογιστηρίου</strong><span class="service-description">Απλογραφικά και διπλογραφικά βιβλία, ΦΠΑ και έλεγχος του myDATA κάθε μήνα.</span><span class="service-tag">Β' και Γ' κατηγορίας</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Σύσταση / Μετατροπή / Λύση Εταιρείας"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M10 12h4m-4-4h4m0 13v-3a2 2 0 0 0-4 0v3"/><path d="M6 10H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-2"/><path d="M6 21V5a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v16"/></g></svg></span><span class="service-copy"><strong class="rows__name">Σύσταση και μεταβολές εταιρειών</strong><span class="service-description">Ίδρυση μέσω Υπηρεσίας Μίας Στάσης, καταστατικό, ΚΑΔ, μετατροπή ή λύση.</span><span class="service-tag">Γ.Ε.ΜΗ.</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Στρατηγικός Φορολογικός Σχεδιασμός"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 17h6v-6"/><path d="m22 17l-8.5-8.5l-5 5L2 7"/></g></svg></span><span class="service-copy"><strong class="rows__name">Φορολογικός σχεδιασμός</strong><span class="service-description">Το φορολογικό αποτέλεσμα υπολογίζεται πριν κλείσει η χρήση, με κάθε νόμιμη έκπτωση.</span><span class="service-tag">Πριν τον Δεκέμβριο</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2b" data-prefill-service="Διαχείριση Μισθοδοσίας & ΕΡΓΑΝΗ ΙΙ"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M16 3.128a4 4 0 0 1 0 7.744M22 21v-2a4 4 0 0 0-3-3.87"/><circle cx="9" cy="7" r="4"/></g></svg></span><span class="service-copy"><strong class="rows__name">Μισθοδοσία και εργατικά</strong><span class="service-description">Μισθοδοσία, προσλήψεις, άδειες, ΑΠΔ και η Ψηφιακή Κάρτα Εργασίας.</span><span class="service-tag">ΕΡΓΑΝΗ ΙΙ</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
           </ul>
         </div>
-        <div class="span-6 start-7 stack-4" id="services-b2c">
+        <div class="span-6 start-7 service-group" id="services-b2c">
           <div class="group-head"><h3>Για ιδιώτες</h3><p class="t-small muted">Μισθωτοί, εκμισθωτές, κάτοικοι εξωτερικού</p></div>
-          <ul class="rows rows--ic">
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 9H8m8 4H8m8 4H8"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Φορολογική Δήλωση Εισοδήματος (Ε1 / Ε2)">Φορολογικές δηλώσεις</a><p>Έλεγχος τεκμηρίων και ηλεκτρονικών αποδείξεων πριν από την οριστική υποβολή.</p><span class="rows__value">Ε1, Ε2</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Διαχείριση Ακίνητης Περιουσίας (Ε9 / ΕΝΦΙΑ)">Δηλώσεις ακινήτων</a><p>Διορθώσεις στο Ε9 για αγορά, γονική παροχή ή κληρονομιά, και έλεγχος του ΕΝΦΙΑ.</p><span class="rows__value">Ε9, ΕΝΦΙΑ</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Ηλεκτρονικά μισθωτήρια">Ηλεκτρονικά μισθωτήρια</a><p>Νέες μισθώσεις, τροποποιήσεις, λύσεις και το μητρώο βραχυχρόνιας διαμονής.</p><span class="rows__value">Airbnb, Booking</span></li>
-            <li><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21l1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9M2 16l6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></g></svg></span><a class="rows__name service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Επιδόματα & Ρυθμίσεις Οφειλών">Επιδόματα και ρυθμίσεις οφειλών</a><p>Αιτήσεις για επίδομα παιδιών, στέγασης και θέρμανσης, ρυθμίσεις σε ΑΑΔΕ και e-ΕΦΚΑ.</p><span class="rows__value">Α21, ΚΕΑΟ</span></li>
+          <ul class="service-list">
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Φορολογική Δήλωση Εισοδήματος (Ε1 / Ε2)"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"/><path d="M14 2v5a1 1 0 0 0 1 1h5M10 9H8m8 4H8m8 4H8"/></g></svg></span><span class="service-copy"><strong class="rows__name">Φορολογικές δηλώσεις</strong><span class="service-description">Έλεγχος τεκμηρίων και ηλεκτρονικών αποδείξεων πριν από την οριστική υποβολή.</span><span class="service-tag">Ε1, Ε2</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Διαχείριση Ακίνητης Περιουσίας (Ε9 / ΕΝΦΙΑ)"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></g></svg></span><span class="service-copy"><strong class="rows__name">Δηλώσεις ακινήτων</strong><span class="service-description">Διορθώσεις στο Ε9 για αγορά, γονική παροχή ή κληρονομιά, και έλεγχος του ΕΝΦΙΑ.</span><span class="service-tag">Ε9, ΕΝΦΙΑ</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Ηλεκτρονικά μισθωτήρια"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></g></svg></span><span class="service-copy"><strong class="rows__name">Ηλεκτρονικά μισθωτήρια</strong><span class="service-description">Νέες μισθώσεις, τροποποιήσεις, λύσεις και το μητρώο βραχυχρόνιας διαμονής.</span><span class="service-tag">Airbnb, Booking</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
+            <li><a class="service-link" href="#contact" data-prefill-segment="b2c" data-prefill-service="Επιδόματα & Ρυθμίσεις Οφειλών"><span class="row-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17"/><path d="m7 21l1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9M2 16l6 6"/><circle cx="16" cy="9" r="2.9"/><circle cx="6" cy="5" r="3"/></g></svg></span><span class="service-copy"><strong class="rows__name">Επιδόματα και ρυθμίσεις οφειλών</strong><span class="service-description">Αιτήσεις για επίδομα παιδιών, στέγασης και θέρμανσης, ρυθμίσεις σε ΑΑΔΕ και e-ΕΦΚΑ.</span><span class="service-tag">Α21, ΚΕΑΟ</span></span><span class="service-arrow" aria-hidden="true">↗</span></a></li>
           </ul>
         </div>
       </div>
@@ -205,7 +211,7 @@
           <p class="measure">Εξυπηρετεί πελάτες σε όλη την Αττική και, online, σε όλη την Ελλάδα και στο εξωτερικό.</p>
         </div>
         <div class="span-6 start-7 credentials">
-          <p class="credentials__stat"><span class="t-stat">20 χρόνια</span><span class="t-small muted">στη λογιστική και φοροτεχνική υποστήριξη</span></p>
+          <p class="credentials__stat"><span class="credentials__number">20<span>χρόνια</span></span><span class="t-small muted">στη λογιστική και φοροτεχνική υποστήριξη</span></p>
           <div class="group-head"><h3>Άδεια και σπουδές</h3></div>
           <ul class="rows rows--spec">
             <li><span class="rows__name">Οικονομικό Επιμελητήριο Ελλάδος</span><p>Μέλος, με άδεια λογιστή φοροτεχνικού Α' τάξης</p></li>
@@ -218,25 +224,25 @@
     </div>
   </section>
 
-  <section class="section statement" id="first-call" data-moment="word-highlight" aria-label="Η πρώτη συζήτηση">
-    <div class="wrap">
-      <p class="t-label">Πριν δεσμευτείτε</p>
-      <p class="mo-wh__text">Η πρώτη συζήτηση είναι δωρεάν, στο τηλέφωνο, online ή στο γραφείο. Αν θέλετε να συνεχίσουμε, παίρνετε <strong>γραπτή προσφορά</strong> με τις υπηρεσίες, το κόστος και το χρονοδιάγραμμα, και αποφασίζετε εσείς.</p>
+  <section class="section statement" id="first-call" data-moment="word-highlight" aria-labelledby="first-call-h">
+    <div class="wrap statement__layout">
+      <div><p class="t-label">Πριν δεσμευτείτε</p><h2 class="mo-wh__text" id="first-call-h">Η πρώτη συζήτηση είναι δωρεάν.</h2></div>
+      <div class="statement__detail"><p>Στο τηλέφωνο, online ή στο γραφείο. Αν θέλετε να συνεχίσουμε, παίρνετε <strong>γραπτή προσφορά</strong> με τις υπηρεσίες, το κόστος και το χρονοδιάγραμμα.</p><p>Αποφασίζετε εσείς.</p></div>
     </div>
   </section>
 
   <section class="section ground-surface" id="process" aria-labelledby="process-h">
     <div class="wrap">
-      <div class="grid grid--top">
-        <div class="span-5 stack-5">
+      <div class="process-layout">
+        <div class="section-head">
           <h2 id="process-h">Η συνεργασία σε 4 βήματα</h2>
           <p class="t-lead">Αλλαγή λογιστή γίνεται οποιονδήποτε μήνα του έτους, χωρίς διακοπή στη δουλειά σας.</p>
         </div>
-        <ol class="span-6 start-7 steps">
-          <li><span class="step-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 10a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 14.286V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2zm4-1a2 2 0 0 1 2 2v10.286a.71.71 0 0 1-1.212.502l-2.202-2.202A2 2 0 0 0 17.172 19H10a2 2 0 0 1-2-2v-1"/></svg></span><div><span class="t-small muted">Βήμα 1</span><h3>Μιλάμε για τις ανάγκες σας</h3><p>Τηλεφωνικά, με βιντεοκλήση ή στο γραφείο στην οδό Αχαιών.</p></div></li>
-          <li><span class="step-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M14.364 13.634a2 2 0 0 0-.506.854l-.837 2.87a.5.5 0 0 0 .62.62l2.87-.837a2 2 0 0 0 .854-.506l4.013-4.009a1 1 0 0 0-3.004-3.004zm.123-5.776A1 1 0 0 1 14 7V2"/><path d="M20 19.645V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l2.516 2.516M8 18h1"/></g></svg></span><div><span class="t-small muted">Βήμα 2</span><h3>Στέλνουμε γραπτή προσφορά</h3><p>Με συγκεκριμένες υπηρεσίες, κόστος και χρονοδιάγραμμα.</p></div></li>
-          <li><span class="step-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M2 9V5a2 2 0 0 1 2-2h3.9a2 2 0 0 1 1.69.9l.81 1.2a2 2 0 0 0 1.67.9H20a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-1m0-4h10"/><path d="m9 16l3-3l-3-3"/></g></svg></span><div><span class="t-small muted">Βήμα 3</span><h3>Παίρνουμε τον φάκελο</h3><p>Μιλάμε με τον προηγούμενο λογιστή, ελέγχουμε το myDATA και μεταφέρουμε το αρχείο, ή στήνουμε τη νέα εταιρεία.</p></div></li>
-          <li><span class="step-ic"><svg class="ic ic-svg ic-24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 2v4m8-4v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18M9 16l2 2l4-4"/></g></svg></span><div><span class="t-small muted">Βήμα 4</span><h3>Τρέχουμε τις υποχρεώσεις</h3><p>Βιβλία, μισθοδοσία και δηλώσεις κάθε μήνα, με ειδοποίηση πριν από κάθε προθεσμία.</p></div></li>
+        <ol class="steps">
+          <li><span class="step-number" aria-hidden="true">01</span><div><h3>Μιλάμε για τις ανάγκες σας</h3><p>Τηλεφωνικά, με βιντεοκλήση ή στο γραφείο στην οδό Αχαιών.</p></div></li>
+          <li><span class="step-number" aria-hidden="true">02</span><div><h3>Στέλνουμε γραπτή προσφορά</h3><p>Με συγκεκριμένες υπηρεσίες, κόστος και χρονοδιάγραμμα.</p></div></li>
+          <li><span class="step-number" aria-hidden="true">03</span><div><h3>Παίρνουμε τον φάκελο</h3><p>Μιλάμε με τον προηγούμενο λογιστή, ελέγχουμε το myDATA και μεταφέρουμε το αρχείο, ή στήνουμε τη νέα εταιρεία.</p></div></li>
+          <li><span class="step-number" aria-hidden="true">04</span><div><h3>Τρέχουμε τις υποχρεώσεις</h3><p>Βιβλία, μισθοδοσία και δηλώσεις κάθε μήνα, με ειδοποίηση πριν από κάθε προθεσμία.</p></div></li>
         </ol>
       </div>
     </div>
@@ -283,6 +289,7 @@
             <p class="field__error" id="profit-input-error" role="status" hidden></p>
             <label for="profit-slider" class="calc__range-label">Ή σύρετε τη μπάρα</label>
             <input type="range" id="profit-slider" min="15000" max="150000" step="500" value="45000">
+            <div class="calc__range-scale" aria-hidden="true"><span>15.000 €</span><span>150.000 €</span></div>
             <output id="profit-output" class="sr-only" for="profit-slider profit-amount" aria-live="polite">45.000 €</output>
           </div>
           <dl class="calc__results">
@@ -330,6 +337,7 @@
         </div>
 
         <div class="span-6 start-7 enquiry">
+          <div class="enquiry__heading"><h3>Πώς μπορούμε να βοηθήσουμε;</h3><p>Επιλέξτε τι σας αφορά και αφήστε τα στοιχεία σας.</p></div>
           <div class="segment" role="radiogroup" aria-label="Το αίτημα αφορά">
             <button type="button" class="segment__btn active" id="form-switch-b2b" role="radio" aria-checked="true" data-form-segment="b2b">Επιχείρηση</button>
             <button type="button" class="segment__btn" id="form-switch-b2c" role="radio" aria-checked="false" data-form-segment="b2c">Ιδιώτης</button>
@@ -445,12 +453,12 @@
 
 <footer class="footer closing footer--dark ground-inverse" id="footer" aria-labelledby="close-h">
   <div class="wrap">
-    <div class="closing__cta close--type">
+    <div class="closing__cta">
       <div class="section-head">
         <h2 id="close-h">Μιλήστε με τον Πέτρο</h2>
         <p class="t-small muted">Δευτέρα έως Παρασκευή, 09:00 έως 18:00. Η πρώτη συζήτηση είναι δωρεάν.</p>
       </div>
-      <a class="btn btn--primary btn--xl" href="#contact">Επικοινωνία<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      <a class="btn btn--primary" href="#contact">Επικοινωνία<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
     </div>
     <div class="closing__links">
       <div class="grid">
@@ -480,5 +488,6 @@
 <script type="module" src="assets/kit/motion/motion.js?v=1"></script>
 <script type="module" src="assets/kit/layout/layout.js?v=1"></script>
 <script type="module" src="js/main.js?v=3"></script>
+<script type="module" src="js/navigation.js?v=1"></script>
 </body>
 </html>
