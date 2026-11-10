@@ -2003,6 +2003,11 @@ input[type="range"]#profit-slider::-moz-range-thumb {
   border: 1px solid #6EE7B7;
 }
 
+.captcha-group { margin: 24px 0; }
+.captcha-group > strong { display: block; margin-bottom: 12px; color: var(--text-primary); }
+#contact-captcha:has(iframe) { min-height: 140px; }
+.captcha-group .form-hint { margin: 10px 0; }
+
 .form-feedback.error {
   background: var(--danger-50);
   color: #991B1B;

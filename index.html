@@ -35,7 +35,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
 
   <!-- Main Stylesheet -->
-  <link rel="stylesheet" href="css/styles.css?v=ux13" />
+  <link rel="stylesheet" href="css/styles.css?v=brevo1" />
 
   <!-- Structured Data JSON-LD: AccountingService + LocalBusiness (Athens) + FAQPage -->
   <script type="application/ld+json">
@@ -1219,6 +1219,12 @@
                   <span>Συναινώ στην επικοινωνία του TAX14 μαζί μου και αποδέχομαι την <button type="button" class="inline-legal-link" data-open-modal="modal-privacy">Πολιτική Απορρήτου</button>. <span class="req">*</span></span>
                 </label>
               </div>
+              <div class="captcha-group" id="captcha-group" tabindex="-1" role="group" aria-labelledby="captcha-heading" aria-describedby="captcha-status">
+                <strong id="captcha-heading">Έλεγχος ασφαλείας</strong>
+                <div id="contact-captcha"></div>
+                <p id="captcha-status" class="form-hint" role="status">Φόρτωση ελέγχου ασφαλείας…</p>
+                <button type="button" class="btn btn-outline btn-sm" id="captcha-retry" hidden>Νέος έλεγχος</button>
+              </div>
               <div id="form-feedback" class="form-feedback" tabindex="-1" role="status" hidden></div>
               <button type="submit" class="btn btn-primary btn-lg btn-block" id="form-submit-btn"><span id="form-submit-text">Στείλτε αίτημα επικοινωνίας</span></button>
             </form>
@@ -1420,7 +1426,7 @@
         <p><strong>1. Υπεύθυνος Επεξεργασίας:</strong> Το Λογιστικό – Φοροτεχνικό Γραφείο <strong>TAX14</strong> (Αχαιών 20, 11852 Άνω Πετράλωνα, Αθήνα, Email: petros.thanasos@gmail.com, Τηλ.: 210 202 4225) δεσμεύεται για την πλήρη προστασία των προσωπικών σας δεδομένων σύμφωνα με τον Γενικό Κανονισμό Προστασίας Δεδομένων (ΕΕ 2016/679 - GDPR) και τον Ν. 4624/2019.</p>
         <p><strong>2. Ποια Δεδομένα Συλλέγουμε:</strong> Μέσω της φόρμας επικοινωνίας συλλέγουμε αποκλειστικά τα στοιχεία που μας παρέχετε οικειοθελώς (Ονοματεπώνυμο/Επωνυμία, Τηλέφωνο, Email, Νομική Μορφή ή Κατηγορία Φορολογικού Αιτήματος και το μήνυμά σας).</p>
         <p><strong>3. Σκοπός Επεξεργασίας:</strong> Τα δεδομένα χρησιμοποιούνται αποκλειστικά για την εξέταση του αιτήματός σας, την κοστολόγηση των υπηρεσιών μας και την επικοινωνία φοροτεχνικού συμβούλου μαζί σας. Δεν διαβιβάζονται ούτε πωλούνται σε τρίτους για διαφημιστικούς σκοπούς.</p>
-        <p><strong>4. Αποστολή της φόρμας:</strong> Η φόρμα βρίσκεται σε δοκιμαστική λειτουργία. Τα στοιχεία διαβιβάζονται μέσω HTTPS στην υπηρεσία <a href="https://formsubmit.co/" target="_blank" rel="noopener">FormSubmit</a> για προώθηση στο δοκιμαστικό γραμματοκιβώτιο. Χρησιμοποιήστε μόνο δοκιμαστικά στοιχεία. Η υπηρεσία αναφέρει διατήρηση των υποβολών για 30 ημέρες. Δείτε την <a href="https://formsubmit.co/privacy.pdf" target="_blank" rel="noopener">πολιτική απορρήτου του FormSubmit</a>.</p>
+        <p><strong>4. Αποστολή της φόρμας:</strong> Η φόρμα βρίσκεται σε δοκιμαστική λειτουργία. Μετά τον έλεγχο ασφαλείας, τα στοιχεία διαβιβάζονται μέσω HTTPS στη <a href="https://www.brevo.com/legal/privacypolicy/" target="_blank" rel="noopener">Brevo</a> για αποστολή στο δοκιμαστικό γραμματοκιβώτιο. Για την προστασία από αυτοματοποιημένα αιτήματα χρησιμοποιείται το <a href="https://www.cloudflare.com/privacypolicy/" target="_blank" rel="noopener">Cloudflare Turnstile</a>. Χρησιμοποιήστε μόνο δοκιμαστικά στοιχεία.</p>
         <p><strong>5. Τα Δικαιώματά σας:</strong> Έχετε δικαίωμα πρόσβασης, διόρθωσης, διαγραφής («δικαίωμα στη λήθη»), περιορισμού της επεξεργασίας και ανάκλησης της συγκατάθεσής σας ανά πάσα στιγμή, αποστέλλοντας email στο <a href="mailto:petros.thanasos@gmail.com">petros.thanasos@gmail.com</a>.</p>
       </div>
       <div class="legal-modal-footer">
@@ -1466,6 +1472,6 @@
   </div>
 
   <!-- Main Interactive JavaScript -->
-  <script type="module" src="js/main.js?v=email2"></script>
+  <script type="module" src="js/main.js?v=brevo1"></script>
 </body>
 </html>

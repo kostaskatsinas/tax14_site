@@ -1,0 +1,6 @@
+# Actual credentials belong outside the public website and repository.
+.env
+.env.*
+!.env.example
+tax14-contact-config.php
+config/*.local.php

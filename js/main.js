@@ -3,7 +3,8 @@
  * Interactive UX Architecture & Smart Segmented Lead Capture
  */
 
-import { sendContactEnquiry } from './contact-delivery.mjs?v=email2';
+import { sendContactEnquiry } from './contact-delivery.mjs?v=brevo1';
+import { createContactCaptcha } from './contact-captcha.mjs?v=brevo1';
 
 document.addEventListener('DOMContentLoaded', () => {
   // 1. Dynamic Footer Year
@@ -545,6 +546,12 @@ document.addEventListener('DOMContentLoaded', () => {
   const intakeForm = document.getElementById('lead-intake-form');
   const formFeedback = document.getElementById('form-feedback');
   const formSubmitBtn = document.getElementById('form-submit-btn');
+  const contactCaptcha = createContactCaptcha({
+    container: document.getElementById('contact-captcha'),
+    status: document.getElementById('captcha-status'),
+    retryButton: document.getElementById('captcha-retry'),
+  });
+  contactCaptcha.start();
 
   const errorSummary = document.getElementById('form-errors');
   const showFeedback = (type, message) => {
@@ -641,7 +648,12 @@ document.addEventListener('DOMContentLoaded', () => {
         errorSummary.focus();
         return;
       }
-      const payload = Object.fromEntries(new FormData(intakeForm).entries());
+      if (!contactCaptcha.getToken()) {
+        showFeedback('error', 'Ολοκληρώστε τον έλεγχο ασφαλείας πριν στείλετε το αίτημα. Αν δεν φορτώνεται, δοκιμάστε «Νέος έλεγχος» ή καλέστε στο 210 202 4225.');
+        document.getElementById('captcha-group').focus();
+        return;
+      }
+      const payload = { ...Object.fromEntries(new FormData(intakeForm).entries()), captcha_token: contactCaptcha.getToken() };
       formSubmitBtn.disabled = true;
       intakeForm.setAttribute('aria-busy', 'true');
       submitBtnText.textContent = 'Αποστολή σε εξέλιξη…';
@@ -649,15 +661,16 @@ document.addEventListener('DOMContentLoaded', () => {
       const timeout = window.setTimeout(() => controller.abort(), 30000);
       try {
         await sendContactEnquiry(payload, { sourceUrl: window.location.href, signal: controller.signal });
-        showFeedback('success', 'Το δοκιμαστικό αίτημα έγινε δεκτό για αποστολή. Ελέγξτε το δοκιμαστικό email για την παραλαβή του. Στην πρώτη δοκιμή χρειάζεται ενεργοποίηση από το μήνυμα του FormSubmit.');
+        showFeedback('success', 'Το δοκιμαστικό αίτημα έγινε δεκτό για αποστολή. Ελέγξτε το δοκιμαστικό email για την παραλαβή του.');
       } catch (error) {
         console.warn('TAX14 email request failed:', error.name, error.message);
-        showFeedback('error', 'Δεν επιβεβαιώθηκε η αποστολή του δοκιμαστικού αιτήματος. Τα στοιχεία παραμένουν στη φόρμα. Ελέγξτε πρώτα το δοκιμαστικό email και τα ανεπιθύμητα πριν δοκιμάσετε ξανά.');
+        showFeedback('error', error.userMessage || 'Δεν επιβεβαιώθηκε η αποστολή του δοκιμαστικού αιτήματος. Τα στοιχεία παραμένουν στη φόρμα. Ελέγξτε πρώτα το δοκιμαστικό email και τα ανεπιθύμητα πριν δοκιμάσετε ξανά.');
       } finally {
         window.clearTimeout(timeout);
         intakeForm.removeAttribute('aria-busy');
         formSubmitBtn.disabled = false;
         submitBtnText.textContent = 'Στείλτε αίτημα επικοινωνίας';
+        contactCaptcha.reset();
       }
     });
   }

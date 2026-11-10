@@ -6,101 +6,80 @@ const sourceUrl = 'http://127.0.0.1:8000/index.html?private=value#contact';
 const business = {
   client_segment: 'Επιχείρηση (B2B)', b2b_company_name: 'Δοκιμαστική επιχείρηση',
   b2b_service_topic: 'Στρατηγικός Φορολογικός Σχεδιασμός',
-  preferred_mode: 'Τηλεφωνική Επικοινωνία', contact_phone: '+30 690 000 0000', gdpr_consent: 'on',
+  preferred_mode: 'Τηλεφωνική Επικοινωνία', contact_phone: '+30 690 000 0000',
+  gdpr_consent: 'on', captcha_token: 'test-token-not-a-real-challenge',
 };
 const individual = {
   client_segment: 'Ιδιώτης (B2C)', b2c_full_name: 'Δοκιμαστικός επισκέπτης',
   b2c_topic: 'Φορολογική Δήλωση Εισοδήματος (Ε1 / Ε2)',
-  preferred_mode: 'Απάντηση μέσω Email', contact_email: 'test@example.com', gdpr_consent: 'on',
+  preferred_mode: 'Απάντηση μέσω Email', contact_email: 'test@example.com',
+  gdpr_consent: 'on', captcha_token: 'test-token-not-a-real-challenge',
 };
 
-test('business phone enquiry sends only the selected segment and channel', () => {
+test('business phone enquiry sends only selected segment and channel', () => {
   const payload = buildContactPayload({ ...business, contact_email: 'unused@example.com', b2c_profile: 'unused', b2b_activity: 'Δοκιμή' }, sourceUrl);
-  assert.equal(payload['Τηλέφωνο'], business.contact_phone);
-  assert.equal(payload['Δραστηριότητα'], 'Δοκιμή');
-  assert.equal(payload['Προφίλ φορολογούμενου'], undefined);
-  assert.equal(payload.email, undefined);
-  assert.equal(payload._replyto, undefined);
+  assert.equal(payload.contact_phone, business.contact_phone);
+  assert.equal(payload.b2b_activity, 'Δοκιμή');
+  assert.equal(payload.b2c_profile, undefined);
+  assert.equal(payload.contact_email, undefined);
 });
 
-test('individual email enquiry sets Reply-To and omits phone and business details', () => {
-  const payload = buildContactPayload({ ...individual, contact_phone: 'unused', b2b_activity: 'unused', contact_message: 'Δοκιμαστικό μήνυμα' }, sourceUrl);
-  assert.equal(payload.email, individual.contact_email);
-  assert.equal(payload._replyto, individual.contact_email);
-  assert.equal(payload['Μήνυμα'], 'Δοκιμαστικό μήνυμα');
-  assert.equal(payload['Τηλέφωνο'], undefined);
-  assert.equal(payload['Δραστηριότητα'], undefined);
-  const businessEmail = buildContactPayload({ ...business, preferred_mode: 'Απάντηση μέσω Email', contact_email: 'test@example.com', contact_phone: '' }, sourceUrl);
-  assert.equal(businessEmail._replyto, 'test@example.com');
-  assert.equal(businessEmail['Τηλέφωνο'], undefined);
-  const individualPhone = buildContactPayload({ ...individual, preferred_mode: 'Τηλεφωνική Επικοινωνία', contact_phone: '2100000000', contact_email: '' }, sourceUrl);
-  assert.equal(individualPhone['Τηλέφωνο'], '2100000000');
-  assert.equal(individualPhone.email, undefined);
+test('both audiences can choose either contact channel', () => {
+  const email = buildContactPayload({ ...individual, contact_phone: 'unused', b2b_activity: 'unused' }, sourceUrl);
+  assert.equal(email.contact_email, individual.contact_email);
+  assert.equal(email.contact_phone, undefined);
+  assert.equal(email.b2b_activity, undefined);
+  assert.equal(buildContactPayload({ ...business, preferred_mode: 'Απάντηση μέσω Email', contact_email: 'test@example.com' }, sourceUrl).contact_email, 'test@example.com');
+  assert.equal(buildContactPayload({ ...individual, preferred_mode: 'Τηλεφωνική Επικοινωνία', contact_phone: '2100000000' }, sourceUrl).contact_phone, '2100000000');
 });
 
-test('input cannot redirect delivery, add copies or trigger autoresponses', () => {
-  const payload = buildContactPayload({ ...individual, _cc: 'other@example.com', _webhook: 'https://example.com', _autoresponse: 'unsafe', _subject: 'override', recipient: 'other@example.com' }, sourceUrl);
-  for (const key of ['_cc', '_webhook', '_autoresponse', 'recipient']) assert.equal(payload[key], undefined);
-  assert.match(payload._subject, /^\[ΔΟΚΙΜΗ\] TAX14/);
-  assert.equal(CONTACT_DELIVERY.endpoint, 'https://formsubmit.co/ajax/katsinas1986@gmail.com');
-  assert.equal(CONTACT_DELIVERY.mode, 'test');
+test('form fields cannot set credentials, recipients, sender or provider controls', () => {
+  const payload = buildContactPayload({ ...individual, _cc: 'other@example.com', recipient: 'other@example.com', sender_email: 'other@example.com', brevo_api_key: 'unsafe', _captcha: 'false' }, sourceUrl);
+  for (const key of ['_cc', 'recipient', 'sender_email', 'brevo_api_key', '_captcha', '_url']) assert.equal(payload[key], undefined);
+  assert.equal(CONTACT_DELIVERY.endpoint, 'api/contact.php');
   assert.equal(Object.isFrozen(CONTACT_DELIVERY), true);
+  assert.equal(payload.captcha_token, individual.captcha_token);
 });
 
-test('source URL excludes queries and fragments; email subject has no newlines', () => {
-  const payload = buildContactPayload({ ...individual, b2c_full_name: 'Test\r\nname' }, sourceUrl);
-  assert.equal(payload._url, 'http://127.0.0.1:8000/index.html');
-  assert.doesNotMatch(payload._subject, /[\r\n]/);
-});
-
-test('invalid requests fail before the provider is contacted', async () => {
+test('invalid requests and missing CAPTCHA never contact the server', async () => {
   let calls = 0;
   const fetchImpl = async () => { calls++; throw new Error('Unexpected request'); };
-  for (const payload of [
+  for (const fields of [
     { ...individual, gdpr_consent: '' }, { ...individual, b2c_full_name: '' },
     { ...individual, b2c_topic: '' }, { ...individual, contact_email: 'bad@' },
     { ...individual, contact_email: 'test@example.com\r\nBcc:other@example.com' },
     { ...individual, contact_email: ['bad'] }, { ...individual, website_url: 'bot' },
     { ...business, contact_phone: '123' }, { ...business, contact_phone: '1234567890123456' },
     { ...business, contact_phone: '6900000000abc' }, { ...business, preferred_mode: 'unknown' },
-    { ...business, client_segment: 'unknown' },
-  ]) await assert.rejects(sendContactEnquiry(payload, { sourceUrl, fetchImpl }));
+    { ...business, client_segment: 'unknown' }, { ...individual, captcha_token: '' },
+    { ...individual, captcha_token: 'x'.repeat(2049) },
+  ]) await assert.rejects(sendContactEnquiry(fields, { sourceUrl, fetchImpl }));
   assert.equal(calls, 0);
 });
 
-test('both documented success formats are acknowledgements, never inbox receipts', async () => {
+test('server acceptance is distinct from inbox delivery', async () => {
   const controller = new AbortController();
-  for (const success of [true, 'true']) {
-    const result = await sendContactEnquiry(individual, {
-      sourceUrl, signal: controller.signal,
-      fetchImpl: async (url, options) => {
-        assert.equal(url, CONTACT_DELIVERY.endpoint);
-        assert.equal(options.credentials, 'omit');
-        assert.equal(options.signal, controller.signal);
-        assert.equal(JSON.parse(options.body).email, individual.contact_email);
-        return new Response(JSON.stringify({ success }), { headers: { 'Content-Type': 'application/json' } });
-      },
-    });
-    assert.deepEqual(result, { accepted: true });
-  }
-});
-
-test('provider errors, HTML, invalid JSON and network failures never show success', async () => {
-  for (const response of [
-    new Response('unavailable', { status: 503 }),
-    new Response('<html>error</html>', { headers: { 'Content-Type': 'text/html' } }),
-    new Response('{', { headers: { 'Content-Type': 'application/json' } }),
-    ...[false, 'false', undefined, 1].map(success => new Response(JSON.stringify({ success }), { headers: { 'Content-Type': 'application/json' } })),
-  ]) await assert.rejects(sendContactEnquiry(individual, { sourceUrl, fetchImpl: async () => response }));
-  await assert.rejects(sendContactEnquiry(individual, { sourceUrl, fetchImpl: async () => { throw new TypeError('Network failure'); } }));
-});
-
-test('accepts the provider\'s actual JSON response even when labelled text/html', async () => {
   const result = await sendContactEnquiry(individual, {
-    sourceUrl,
-    fetchImpl: async () => new Response('{"success":"true","message":"The form was submitted successfully."}', {
-      headers: { 'Content-Type': 'text/html; charset=UTF-8' },
-    }),
+    sourceUrl, signal: controller.signal,
+    fetchImpl: async (url, options) => {
+      assert.equal(url, 'api/contact.php');
+      assert.equal(options.credentials, 'same-origin');
+      assert.equal(options.signal, controller.signal);
+      assert.equal(JSON.parse(options.body).captcha_token, individual.captcha_token);
+      return new Response('{"success":true}', { status: 202, headers: { 'Content-Type': 'application/json' } });
+    },
   });
   assert.deepEqual(result, { accepted: true });
+});
+
+test('server and network errors never become success', async () => {
+  for (const response of [
+    new Response('unavailable', { status: 503 }), new Response('<html>error</html>'),
+    new Response('{', { headers: { 'Content-Type': 'application/json' } }),
+    ...[false, 'true', undefined].map(success => new Response(JSON.stringify({ success }), { headers: { 'Content-Type': 'application/json' } })),
+  ]) await assert.rejects(sendContactEnquiry(individual, { sourceUrl, fetchImpl: async () => response }));
+  await assert.rejects(sendContactEnquiry(individual, { sourceUrl, fetchImpl: async () => { throw new TypeError('Network failure'); } }));
+  await assert.rejects(sendContactEnquiry(individual, {
+    sourceUrl, fetchImpl: async () => new Response('{"success":false,"message":"Επαναλάβετε τον έλεγχο."}', { status: 400, headers: { 'Content-Type': 'application/json' } }),
+  }), error => error.userMessage === 'Επαναλάβετε τον έλεγχο.');
 });

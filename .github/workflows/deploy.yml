@@ -28,6 +28,16 @@ jobs:
             **/.git*
             **/.git*/**
             **/.github/**
+            **/.hostinger/**
             SPECS.md
             HOSTINGER_DEPLOY.md
+            EMAIL_SETUP.md
+            BREVO_SETUP.md
+            FINANCIAL_STATEMENTS.md
+            config/**
+            tests/**
+            scripts/**
+            design-system/**
+            **/.env*
+            **/tax14-contact-config.php
             tax14_site.zip

@@ -1,5 +1,9 @@
 # Contact email — test setup
 
+> Historical FormSubmit setup and delivery record. The current uncommitted
+> implementation prepares Brevo with server-verified Turnstile CAPTCHA; see
+> `BREVO_SETUP.md`. Brevo is not yet verified for inbox delivery.
+
 Provider: [FormSubmit](https://formsubmit.co/documentation), free form-to-email service.
 No paid mailbox, SMTP password, PHP runtime or API key is needed for the active form.
 
