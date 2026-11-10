@@ -99,7 +99,7 @@
 «Προσθέστε λεπτομέρειες». Δεν υπάρχουν ξεχωριστές επιλογές video call ή ραντεβού
 στο select της φόρμας.
 
-Ροή: browser → `api/contact.php` → Cloudflare Siteverify → Brevo.
+Ροή: browser → `api/contact.php` (όριο 5 αιτημάτων ανά IP ανά 10 λεπτά, HTTP 429) → Cloudflare Siteverify → Brevo.
 Ο server ορίζει μοναδικό παραλήπτη `katsinas1986@gmail.com`, θέμα
 `TAX14 — Νέο αίτημα: <name>` και tags `tax14`, `contact`. Ο επισκέπτης δεν μπορεί
 να ορίσει παραλήπτη, αποστολέα ή CC. Reply-To προστίθεται μόνο για επιλεγμένη
@@ -118,7 +118,8 @@ JavaScript. Οδηγίες ετήσιας προσθήκης: [FINANCIAL_STATEME
 
 ## Οπτική κατεύθυνση και προσβασιμότητα
 
-Inter σε επικεφαλίδες και κείμενο, navy/teal/λευκές επιφάνειες και περιορισμένο
+Inter (self-hosted variable WOFF2 στο `assets/fonts/`, υποσύνολα Greek/Latin/Latin Extended,
+άδεια OFL) σε επικεφαλίδες και κείμενο, navy/teal/λευκές επιφάνειες και περιορισμένο
 χρυσό στα διαπιστευτήρια. Οι πραγματικές τιμές CSS και η τρέχουσα σύνθεση
 τεκμηριώνονται στο [design-system/TAX14.md](design-system/TAX14.md).
 Οι δύο φωτογραφίες διατηρούνται· τα παλιά briefs βρίσκονται στο
@@ -131,7 +132,7 @@ mobile menu Escape dismissal και `prefers-reduced-motion`. Πρόκειται
 
 ## SEO, cookies και δημοσίευση
 
-Κάθε σελίδα έχει ελληνικό τίτλο, description και canonical URL. Η αρχική
+Κάθε σελίδα έχει ελληνικό τίτλο, description, canonical URL και Open Graph/Twitter tags με εικόνα κοινοποίησης `assets/og-image.png` (1200 × 630, πηγή: `design-system/og-image-source.html`). Δεν υπάρχει meta keywords. Η αρχική
 περιλαμβάνει JSON-LD AccountingService/LocalBusiness και FAQPage. Το
 [sitemap.xml](sitemap.xml) περιέχει τις δύο σελίδες και το [robots.txt](robots.txt)
 παραπέμπει σε αυτό. Τα υπάρχοντα `lastmod` είναι 2026-11-06 και 2026-11-09·

@@ -19,10 +19,14 @@ PHP 8.3 και cURL στις 2026-11-10. Δεν έχει τεκμηριωθεί 
 ## Κανονική δημοσίευση μέσω GitHub Actions
 
 Το [.github/workflows/deploy.yml](.github/workflows/deploy.yml) εκτελείται σε push
-στο `main` ή με `workflow_dispatch`. Χρησιμοποιεί
+στο `main`, σε pull request ή με `workflow_dispatch`. Το job `test` τρέχει πρώτα
+όλα τα `tests/*.php` και `node --test tests/*.mjs`· το job `deploy` ξεκινά μόνο αν
+περάσουν και μόνο για το `main` (όχι για pull requests). Χρησιμοποιεί
 `SamKirkland/FTP-Deploy-Action@v4.3.5` με τα υπάρχοντα repository secrets
-`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`. Η τρέχουσα ρύθμιση είναι FTP, port 21,
-με `server-dir: ./` στον ήδη ρυθμισμένο FTP λογαριασμό του site.
+`FTP_SERVER`, `FTP_USERNAME`, `FTP_PASSWORD`. Η ρύθμιση είναι FTPS (FTP over TLS),
+port 21, `security: loose`, με `server-dir: ./` στον ήδη ρυθμισμένο FTP λογαριασμό.
+Αν ο server αρνηθεί TLS, το deploy αποτυγχάνει χωρίς να αλλάξει το live site·
+τότε ελέγξτε τη ρύθμιση FTPS στο hPanel πριν επιστρέψετε σε `protocol: ftp`.
 
 1. Ελέγξτε το diff και εκτελέστε τους σχετικούς ελέγχους.
 2. Κάντε commit και push στο `main`.
@@ -93,9 +97,14 @@ PHP 8.3 και cURL στις 2026-11-10. Δεν έχει τεκμηριωθεί 
 - Το Turnstile φορτώνει και επαληθεύεται στον server πριν από την Brevo.
 - Τα PDF 2020–2025 ανοίγουν και έχουν σύνδεσμο λήψης.
 - Η δημόσια διεύθυνση `/tax14-contact-config.php` επιστρέφει HTTP 404.
+- Η κονσόλα του browser δεν δείχνει μηνύματα «Refused to load» (CSP) και η
+  γραμματοσειρά φορτώνει από `assets/fonts/`.
+- Μετά από 5 αιτήματα φόρμας σε 10 λεπτά από την ίδια IP, το έκτο παίρνει HTTP 429.
 
 Η [.htaccess](.htaccess) περιέχει HTTPS redirect (με εξαίρεση local development),
-UTF-8, MIME type για `.mjs`, security headers, compression και static caching,
+UTF-8, MIME types για `.mjs` και `.woff2`, security headers (HSTS, Content-Security-Policy
+που επιτρέπει μόνο το ίδιο origin και το Cloudflare Turnstile, Permissions-Policy),
+compression και static caching,
 όταν τα αντίστοιχα modules είναι διαθέσιμα. Τα `sitemap.xml`/`lastmod` χρειάζονται
 χειροκίνητη συντήρηση. Για νέο ετήσιο PDF δείτε
 [FINANCIAL_STATEMENTS.md](FINANCIAL_STATEMENTS.md).

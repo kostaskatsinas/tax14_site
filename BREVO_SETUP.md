@@ -78,8 +78,17 @@ Automated checks use injected responses and never send email:
 ```sh
 php tests/contact-validation.php
 php tests/contact-service.php
+php tests/contact-rate-limit.php
 node --test tests/contact-delivery.mjs tests/contact-captcha.mjs
 ```
+
+GitHub Actions runs the same checks before every deploy and on pull requests.
+
+`api/contact.php` also limits each client IP to 5 POSTs per 10 minutes
+(`api/contact-rate-limit.php`), answering HTTP 429 with `Retry-After`. Only a
+SHA-256 hash of the IP is stored, in `tax14-contact-rate/` next to the private
+config (outside `public_html`), falling back to the system temp folder. Set
+`TAX14_RATE_LIMIT_DIR` to override the folder.
 
 The handler rejects missing, expired, forged, wrong-host or wrong-action CAPTCHA
 tokens before sending to Brevo. It does not retry mail automatically. On failure,

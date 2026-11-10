@@ -4,11 +4,38 @@ on:
   push:
     branches:
       - main
+  pull_request:
   workflow_dispatch:
 
 jobs:
+  test:
+    name: Run contact form tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: curl
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: PHP tests (validation, Brevo/CAPTCHA, rate limit)
+        run: for test in tests/*.php; do php "$test"; done
+
+      - name: Browser module tests (Node test runner)
+        run: node --test tests/*.mjs
+
   deploy:
     name: Upload to Hostinger public_html
+    needs: test
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -20,8 +47,11 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftp
+          # FTP over TLS so the password and files are encrypted in transit.
+          # "loose" accepts the shared-hosting certificate, whose name differs from FTP_SERVER.
+          protocol: ftps
           port: 21
+          security: loose
           local-dir: ./
           server-dir: ./
           exclude: |

@@ -9,6 +9,16 @@ if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Μη επιτρεπτή μέθοδος αιτήματος.'], JSON_UNESCAPED_UNICODE);
     exit;
 }
+require_once __DIR__ . '/contact-rate-limit.php';
+$rateLimitDir = tax14_rate_limit_dir();
+$retryAfter = tax14_rate_limit_hit((string) ($_SERVER['REMOTE_ADDR'] ?? 'unknown'), $rateLimitDir);
+if (random_int(1, 50) === 1) tax14_rate_limit_cleanup($rateLimitDir);
+if ($retryAfter > 0) {
+    http_response_code(429);
+    header('Retry-After: ' . $retryAfter);
+    echo json_encode(['success' => false, 'message' => 'Λάβαμε πολλά αιτήματα σε λίγο χρόνο. Δοκιμάστε ξανά σε λίγα λεπτά ή καλέστε στο 210 202 4225.'], JSON_UNESCAPED_UNICODE);
+    exit;
+}
 if ((int) ($_SERVER['CONTENT_LENGTH'] ?? 0) > 20000) {
     http_response_code(413);
     echo json_encode(['success' => false, 'message' => 'Το αίτημα είναι πολύ μεγάλο.'], JSON_UNESCAPED_UNICODE);

@@ -4,6 +4,7 @@
 
 AddDefaultCharset UTF-8
 AddType application/javascript .mjs
+AddType font/woff2 .woff2
 DirectoryIndex index.html index.php
 
 <IfModule mod_rewrite.c>
@@ -16,10 +17,15 @@ DirectoryIndex index.html index.php
 </IfModule>
 
 # Security Headers
+# The CSP allows only this site plus Cloudflare Turnstile (contact form CAPTCHA).
+# Inline styles stay allowed because the Turnstile widget sets them.
 <IfModule mod_headers.c>
-  Header set X-Content-Type-Options "nosniff"
-  Header set X-Frame-Options "SAMEORIGIN"
-  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set Strict-Transport-Security "max-age=31536000"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+  Header always set Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self'; img-src 'self' data:; style-src 'self' 'unsafe-inline'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'self'; upgrade-insecure-requests"
 </IfModule>
 
 # Gzip / Deflate Compression για ταχύτατη φόρτωση
@@ -35,4 +41,5 @@ DirectoryIndex index.html index.php
   ExpiresByType image/svg+xml "access plus 6 months"
   ExpiresByType image/webp "access plus 6 months"
   ExpiresByType image/png "access plus 6 months"
+  ExpiresByType font/woff2 "access plus 1 year"
 </IfModule>
