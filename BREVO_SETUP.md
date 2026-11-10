@@ -136,6 +136,16 @@ does not verify the replacement Brevo integration.
 - With the owner's explicit approval, authorized `82.198.229.189` in Brevo and
   verified its presence in the authorized-IP table. Other IP restrictions remain
   enabled. Recheck the actual outgoing IP if hosting infrastructure changes.
-- Deployment and a final live form/inbox check are the remaining activation
-  steps. Customer delivery remains disabled until the owner supplies the final
-  recipient and explicitly approves enabling customer use.
+- Committed the integration as `24c6275` and pushed it to `main` after the owner
+  approved GitHub's additional Workflow permission. Hostinger deployment
+  [42805863578](https://github.com/kostaskatsinas/tax14_site/actions/runs/42805863578)
+  completed successfully.
+- Verified the live configuration endpoint reports ready and the contact endpoint
+  rejects GET with HTTP 405. Submitted one real browser test through
+  `https://tax14.gr/index.html#contact`, including server-validated Turnstile.
+  The live form accepted the request, and the owner confirmed receipt of
+  `[ΔΟΚΙΜΗ] TAX14 — Νέο αίτημα: TAX14 LIVE TEST — Brevo και CAPTCHA` at the fixed
+  test recipient. This verifies live email receipt, not just API acceptance.
+- Customer delivery remains disabled until the owner supplies the final recipient
+  and explicitly approves enabling customer use. Do not remove the test notice or
+  change recipients on the strength of the successful test alone.
