@@ -20,7 +20,7 @@ design-taste-frontend skill. The CSS files are authoritative for exact values.
 
 ## Page (index.html), one section per screen at 1440x900
 
-1. Hero: full-bleed photograph of Philopappos Hill (Wikimedia Commons stand-in, CC BY-SA 4.0, credited on
+1. Hero: full-bleed photograph of the Acropolis from Philopappos Hill (A.Savin, Wikipedia, via Wikimedia Commons, CC BY-SA 3.0, credited on
    `credits.html`), the words in a white box: h1, one line, "Ζητήστε κλήση" and the phone.
 2. Services: two lists (επιχειρήσεις / ιδιώτες); each service links to the form and preselects it.
 3. Ο Πέτρος: short story beside a card with 20 years, O.E.E. licence, degrees and platforms. First name
