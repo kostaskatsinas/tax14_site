@@ -1,64 +1,98 @@
-# TAX14 interface direction
+# TAX14 — Current interface reference
 
-Audience: Greek business owners and individuals looking for an accountant in Athens or remote support. The main job is to find the right service and request a conversation.
+Last checked: **2026-11-10**. This document describes the implemented interface,
+not an open design proposal. The CSS files are authoritative for exact values.
+See [../SPECS.md](../SPECS.md) for content, form behavior and technical structure.
 
-## Tokens
-- Ink navy #0A1628: headings, service selector, footer.
-- Aegean teal #087F75: primary actions and selection, with white text.
-- Mist #EDF4F7: hero and supporting surfaces.
-- Paper #FFFFFF: reading and form surfaces.
-- Slate #475569: secondary text.
-- Bronze #E2BA78: restrained brand detail on navy only.
+## Audience and purpose
 
-Typography: Inter throughout, with native Greek system fallbacks. Strong 40–64px hero, 28–40px section titles, 16px body, 14px secondary labels. Tabular numbers for the existing comparison tool. Remove decorative monospace and capitalized labels.
+Greek business owners and individuals need to identify the right accounting
+service and request a conversation with Petros. The interface uses concise Greek
+copy, explicit audience choices and a short form with optional extra details.
 
-## Layout exploration
-A. Keep the current dark dashboard hero: familiar, but duplicates service navigation and implies live client data.
-B. Clear, left-aligned introduction beside a navy service folder: makes audience choice the memorable interaction. Selected.
+## Implemented visual system
 
-    [Brand]    [Businesses | Individuals | Company guide | FAQ] [Contact]
-    [Athens / online]             [How can we help?              ]
-    [Short Greek headline]        [Business | Individual         ]
-    [Brief introduction]          [Three relevant service links  ]
-    [Request conversation]        [Personal contact reassurance  ]
-    [Credentials and connections, quieter supporting strip]
-    [Service overview with expandable detail]
-    [Existing comparison tool / reasons / process / FAQ]
-    [Contact information]         [Segmented form + inline errors]
+| Role | Value / implementation |
+| --- | --- |
+| Primary navy | `--navy-900: #0A1628`; darker `#060D1A`, supporting `#0F213C` |
+| Primary action teal | `--emerald-600: #087F75`, with white text |
+| Supporting teal | `#10B981`, `#14B8A6` |
+| Hero mist surface | `#EDF4F7` on `.hero-section` |
+| Page / subtle surfaces | `--bg-page: #F8FAFC`, `--bg-subtle: #F1F5F9` |
+| Reading surface | `--surface-white: #FFFFFF` |
+| Body / supporting text | `#0F172A`, `#334155`, muted `#526176` |
+| Bronze detail | `--gold-400: #E2BA78` and `--gold-500: #C89D54` |
+| Typography | Inter for headings, body and UI, with system fallbacks |
+| Numeric data | Tabular numbers in the comparison tool and archive year labels |
 
-## Review against the brief
-The skill search matched accessible professional services and low-friction contact. Keep those principles, but reject the generic serif legal-office pairing and orange CTA: they do not fit TAX14's existing Greek navy/teal identity. Replace the fictitious status dashboard with a useful service folder. Preserve the existing service content and tax calculation behavior; this is an interface revision, not a review of tax advice.
+Both `--font-display` and `--font-sans` use Inter. `--font-mono` aliases the same
+sans family; Plus Jakarta Sans and JetBrains Mono are not loaded. Body text is
+based on 16px; supporting text commonly uses `.875rem` (14px). Responsive and
+component rules determine heading sizes and weights.
 
-Use fewer badges, no decorative glow, no repeated card-lift animation. Keep service detail available through native disclosures. Respect reduced motion; support keyboard tabs, radio selection, modal focus containment and mobile Escape dismissal. Failed requests retain entered details and never claim success. Verify desktop, narrow mobile, tablet, keyboard flows, deep links, validation and server failures.
+## Page composition
 
-## Follow-up usability improvements
+- Sticky logo/header with boxed navigation links, four main section choices and
+  an “Επικοινωνία” action. The active section uses `aria-current="location"`.
+- Left-aligned hero introduction beside a navy service folder headed
+  “Τι σας απασχολεί;”. The folder chooses business/individual journeys and never
+  represents real customer data or a live compliance dashboard.
+- Bordered location badge and enlarged audience badges make important labels
+  visible. The small ledger rule comes from [../assets/ledger-rule.svg](../assets/ledger-rule.svg).
+- Services use concise titles, supporting scope and native expandable details.
+  Enquiry actions have service-specific accessible labels and form prefill.
+- The advisor section introduces Petros with a single 20-year experience figure,
+  a short biography and the two supplied degrees. It does not invent a surname,
+  awards or additional credentials.
+- Existing office and handshake photos stay at the top right of their sections
+  on desktop. Source images are 960 × 640 (3:2); `.section-photo` presents them
+  with a 16:9 crop. Do not replace either photo without a new request.
+- Contact form comes first in both DOM and visual order. Contact information is
+  beside it on desktop and stacks below on small screens. Main layout changes
+  use 1120px, 960px and 760px ranges; the archive has its own 760px layout rule.
 
-Supporting text has a 14px minimum; key explanatory copy uses 16px. On mobile, service shortcuts follow the headline. Contact form markup and visual order are identical, with the form first. Initial required fields are name, service, selected contact channel and consent. Business/profile details remain optional in a disclosure. The server validates the same short-form contract and reports mail handoff failures. A numeric amount field and the range input share the existing tax simulation without changing its rates. Navigation reflects the section currently in view with aria-current="location". Repeated promotional copy in the benefits and process sections is condensed.
+## Contact form and feedback
 
-Validation: JavaScript syntax, HTML structure and references, mobile/desktop overflow and interaction checks. Pure PHP validation cases live in tests/contact-validation.php; run with PHP 8.x. A PHP interpreter is required to execute those tests and check the delivery handler.
+Normal customer delivery is enabled. The sole recipient and every public email
+link use `katsinas1986@gmail.com`. No test banner, subject prefix or test-only
+acknowledgement is displayed. See [../EMAIL_SETUP.md](../EMAIL_SETUP.md).
 
-## Frontend design refinement
+Initial required information is name, service, the selected phone/email contact
+channel and consent. Business/profile details and the message stay optional in a
+disclosure. Do not make both phone and email mandatory. Keep field errors and the
+error summary associated with the relevant input; failed submissions retain data.
 
-Retain the six palette tokens and Inter. Keep the navy service folder as the focal point. Use the logo's ledger columns and rising line only as a small section-heading rule, plus a matching inset line on sequential process markers. Main headings use 650–700 weight, component titles 600, and secondary labels 400–500. This avoids a new decorative theme and grounds the detail in TAX14's own mark.
+The compact, light Cloudflare Turnstile widget is labelled “Έλεγχος ασφαλείας”.
+Loading, success, expiry and error states use status text. “Νέος έλεγχος” allows
+recovery. The server verifies the token before calling Brevo. A successful send
+shows “Το αίτημά σας υποβλήθηκε. Θα επικοινωνήσουμε μαζί σας με τον τρόπο που
+επιλέξατε.” API acceptance does not independently establish inbox receipt.
 
-Layout: left-aligned reading copy beside wider, top-aligned photography (16:9) in the requested right-hand positions. Short service titles sit above their technical scope; detailed explanations remain expandable. On mobile the two audience shortcuts remain early, while the service folder opens on demand. Its content remains visible without JavaScript and fully available on desktop.
+Use “Ζητήστε επικοινωνία” for enquiry entry points and “Στείλτε αίτημα
+επικοινωνίας” for form submission. Header navigation uses “Επικοινωνία”.
 
-    [Section rule + short heading]  [Wide office / handshake photo]
-    [Brief explanation]            [Top aligned with introduction]
-    [Services / benefits / actual sequential process]
+## Financial statements
 
-Use “Ζητήστε επικοινωνία” consistently for enquiry entry points, with service-specific accessible labels and the same existing form prefill. The submit action is “Στείλτε αίτημα επικοινωνίας”. Short FAQ questions retain their existing answer context and matching structured-data names. No tax rates or delivery logic change in this refinement.
+[../financial-statements.html](../financial-statements.html) is a separate static
+archive. The footer entry sits under the credentials as a gold, bold outlined
+link. Six rows cover 2025–2020, with a large year, document description, file size,
+preview in a new tab and download. Separators replace repeated cards. Mobile
+actions wrap beneath the description. The page works without JavaScript.
+Adding a year uses [../FINANCIAL_STATEMENTS.md](../FINANCIAL_STATEMENTS.md).
 
-## Advisor profile refinement
+## Accessibility and maintenance checks
 
-Keep Inter and the existing navy, teal, mist, paper, slate and bronze tokens. Introduce Petros with a short third-person biography and a single prominent 20-year experience figure, without a new card or decorative badge. Keep both photographs unchanged. Place the two degrees below the introduction in two aligned columns on desktop and one column on mobile; separate qualification level, subject and institution. Compact mobile institutional cards with 30px icons, 8px gaps and shorter descriptions while retaining readable 14px text.
+Implemented patterns include skip links, visible focus, keyboard tabs/radios,
+modal focus containment, mobile menu Escape handling, disclosure controls,
+reduced-motion rules and status/error feedback. These are implementation features,
+not a claim of full accessibility certification.
 
-    [Petros + 20 years + introduction] [Existing office photograph]
-    [Degree / subject / university]    [Master's / subject / university]
-    [Existing service benefits]
+For a UI change, check desktop/narrow-mobile layout, keyboard focus, deep links,
+form validation, CAPTCHA recovery and the changed component's actual behavior.
+Use existing automated contact checks when delivery logic changes; see
+[../BREVO_SETUP.md](../BREVO_SETUP.md). Preserve the original tax-comparison
+behavior unless a separate change is requested. The current interface assets use
+`contact2` cache versions; bump affected asset URLs when their contents change.
 
-The figure is explicitly requested and belongs to the advisor's experience. No invented surname, employment history, awards or new credential claims.
-
-## Financial statements archive
-
-Use the existing navy, teal, white, slate and bronze palette and Inter. A separate page, linked under the company credentials in the home footer, presents one chronological list from newest to oldest. Large year labels anchor each row; document descriptions and file sizes support two explicit actions: preview in a new tab and download. Use separators instead of six separate cards. On mobile, actions wrap beneath each document description. Preserve original PDFs byte for byte. A local Python script rebuilds static rows from year-based filenames, so browsing requires no JavaScript and adding a year requires no layout changes.
+Photo files and archived creative briefs are documented separately in
+[IMAGE-PROMPTS.md](IMAGE-PROMPTS.md).

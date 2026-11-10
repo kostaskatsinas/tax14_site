@@ -1,5 +1,7 @@
 # Brevo and CAPTCHA setup
 
+Last checked: **2026-11-10**, against the current source and live configuration.
+
 The contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
 Actual credentials are never included in HTML, JavaScript, Git, logs or API responses.
 The permanent recipient is `katsinas1986@gmail.com`, fixed in server code. The same
@@ -8,12 +10,16 @@ customer replies, contact-list imports or marketing campaigns are created.
 
 ## Account setup
 
-1. Sign in to the free Brevo account and complete any requested phone/account
+1. Sign in to the Brevo account and complete any requested phone/account
    verification. Transactional sending may need activation by Brevo.
-2. Configure an email sender in Brevo. For customer use, authenticate a domain you
-   own using Brevo's DNS records. Preserve existing MX, SPF, DKIM, DMARC and other
-   verification records. Never replace the DNS zone as a shortcut.
-3. Generate an API key under Settings → SMTP & API → API Keys. Do not paste the
+2. Configure and verify an email sender in Brevo. The current site uses its
+   existing verified Gmail sender. Gmail is not an owned custom sending domain
+   and cannot be authenticated through your DNS. For a new custom-domain sender,
+   authenticate the domain you own with Brevo's records. Preserve existing MX,
+   SPF, DKIM, DMARC and verification records; never reset the DNS zone.
+3. For a new installation, generate a restricted Transactional email API key under
+   Settings → SMTP & API → API Keys. The live site already has one; do not create
+   duplicates for a normal deployment. Do not paste the
    key in chat or commit it. Save it directly in the private configuration below.
 4. Create a free Cloudflare Turnstile widget for the site's actual hostname(s).
    Add local development hostnames when local delivery testing is needed. Use
@@ -22,7 +28,7 @@ customer replies, contact-list imports or marketing campaigns are created.
 
 Official references:
 - [Brevo email API](https://developers.brevo.com/docs/send-a-transactional-email)
-- [Domain authentication](https://help.brevo.com/hc/en-us/articles/12163873383186)
+- [Domain authentication](https://help.brevo.com/hc/en-us/articles/12163873383186-Authenticate-your-domain-with-Brevo-Brevo-code-DKIM-DMARC)
 - [Turnstile token verification](https://developers.cloudflare.com/turnstile/get-started/server-side-validation/)
 
 ## Private server configuration
@@ -72,8 +78,7 @@ Automated checks use injected responses and never send email:
 ```sh
 php tests/contact-validation.php
 php tests/contact-service.php
-node tests/contact-delivery.mjs
-node --test tests/contact-captcha.mjs
+node --test tests/contact-delivery.mjs tests/contact-captcha.mjs
 ```
 
 The handler rejects missing, expired, forged, wrong-host or wrong-action CAPTCHA
@@ -94,12 +99,15 @@ test-only notice. Email subjects use `TAX14 — Νέο αίτημα: <name>`.
 - Website: `https://tax14.gr/` (Hostinger account `u635942677`).
 - Private configuration: domain directory above `public_html`, owner-only mode
   600. Its public URL returns HTTP 404. Credentials stay outside the repository.
-- Production CAPTCHA hostnames: `tax14.gr`, `www.tax14.gr`.
+- Production server-accepted CAPTCHA hostnames: `tax14.gr`, `www.tax14.gr`.
+  The widget also allows `localhost` and `127.0.0.1` for local development; the
+  production PHP configuration accepts only the two production hosts.
 - Brevo sender: existing verified `katsinas1986@gmail.com` sender.
 - Brevo transport: IPv4; authorized hosting egress IP `82.198.229.189`.
   IP restrictions remain enabled. Recheck egress if hosting infrastructure changes.
 - Restricted API key: `TAX14 contact form`, Transactional email permission only.
-  Its original setup reports a one-year expiry and expiry after 90 inactive days.
+  At creation on 2026-11-10 the UI reported expiry on 2027-11-10 and expiry after
+  90 inactive days. Check its current status in Brevo during maintenance.
 - The local and live CAPTCHA-protected form deliveries were verified, with inbox
   receipt confirmed by the owner before enabling customer use.
 - GitHub deploys pushes to `main` using `.github/workflows/deploy.yml`. Private
@@ -116,3 +124,28 @@ verify receipt at the permanent mailbox. Do not bypass CAPTCHA verification.
 
 Automated test fixtures remain isolated from production settings and never send
 real email. Published always-pass CAPTCHA keys remain blocked by the handler.
+
+## Current source and verification record
+
+Normal delivery and public email links were enabled in commit `f818456`.
+[Deployment 42806779923](https://github.com/kostaskatsinas/tax14_site/actions/runs/42806779923)
+succeeded. The owner confirmed inbox receipt from the live CAPTCHA-protected
+flow before normal customer use was enabled. The subsequent production-mode
+change passed 30 service checks, 19 request-validation cases and both JavaScript
+test files; it did not change the provider credentials or destination.
+
+The current response is “Το αίτημά σας υποβλήθηκε. Θα επικοινωνήσουμε μαζί σας με
+τον τρόπο που επιλέξατε.” Email bodies start with “Νέο αίτημα επικοινωνίας TAX14”
+and use the tags `tax14`, `contact`. Error text gives a retry/telephone route
+instead of asking a visitor to check the business mailbox.
+
+`GET /api/contact.php` returns HTTP 405. Malformed JSON, oversized requests and
+invalid fields fail before provider delivery. `GET /api/contact-config.php`
+returns only readiness and the public site key; credentials are never returned.
+The main handler's readiness check also rejects published always-pass CAPTCHA
+keys. Backend logic is split across `api/contact.php`, `api/contact-service.php`,
+`api/contact-settings.php` and `api/contact-validation.php`.
+
+For deployment and a complete public/private file layout, see
+[HOSTINGER_DEPLOY.md](HOSTINGER_DEPLOY.md). For the short operational summary, see
+[EMAIL_SETUP.md](EMAIL_SETUP.md).
