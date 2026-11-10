@@ -36,6 +36,14 @@ design-taste-frontend skill. The CSS files are authoritative for exact values.
 The main action reads "Επικοινωνία" in the nav, the hero, the footer and the phone action bar. The
 phone bar also carries "Καλέστε".
 
+## Header branding and navigation
+
+The header presents the logo icon and TAX14 left to right, vertically centred, without a tagline.
+The home menu contains «Υπηρεσίες», «Ο Πέτρος», «Σύγκριση», «Συχνές Ερωτήσεις» and
+«Οικονομικές καταστάσεις» (immediately after FAQ), plus «Επικοινωνία».
+The same financial archive link and branding appear on the inner pages and in the mobile menu.
+The menu sheet is used below 1200px; on phones the contact action is inside the menu.
+
 ## Language readiness
 
 `<html lang="el">`, `hreflang` el and x-default in the head, and a commented EN slot in the nav actions.
