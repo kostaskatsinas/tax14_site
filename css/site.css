@@ -1,0 +1,161 @@
+/* TAX14 page CSS. The system (grid, type, buttons, sections, nav, footer) is assets/kit/system.css and
+   layout.css; this file holds the palette and only what sits inside the page's own visuals:
+   the logo, the service rows, the comparison table, the calculator and the enquiry form. */
+
+/* The client's own colours (start.mjs brand: navy ink, teal action, white ground). On the navy
+   ground links and the focus ring use the lighter #14B8A6 (3:1 there); buttons stay one teal. */
+:root {
+  --p-bg: #ffffff; --p-surface: #f1f5f9; --p-ink: #0a1628; --p-muted: #526176;
+  --p-accent: #087f75; --p-accent-ink: #ffffff; --p-action: #087f75; --p-action-ink: #ffffff;
+  --p-inv-bg: #0a1628; --p-inv-surface: #182335; --p-inv-ink: #ffffff; --p-inv-muted: #a3abb6;
+  --p-inv-accent: #14b8a6; --p-inv-accent-ink: #0a1628; --p-inv-action: #087f75; --p-inv-action-ink: #ffffff;
+  --font-display: "Manrope", system-ui, sans-serif;
+  --font-text: "Manrope", system-ui, sans-serif;
+  --display-weight: 400;
+  --display-tracking: -0.035em;
+  --display-tracking-xl: -0.045em;
+  --ly-scale: 0.97;
+}
+
+/* ------------------------------------------------------------------ logo */
+.nav__logo .logo-mark { width: 32px; height: 32px; }
+.nav__logo { font-weight: 600; }
+.logo-accent { color: var(--accent); }
+.footer__name { font-size: 48px; font-weight: 500; }
+@media (max-width: 639px) { .footer__name { font-size: 30px; } }
+
+/* ------------------------------------------------------------------ services */
+.group-head { display: grid; gap: var(--s-1); }
+.group-head h3 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: -0.01em; }
+.services .rows > li { row-gap: var(--s-1); }
+.rows--ic > li { grid-template-columns: 24px minmax(0, 1fr) auto; column-gap: var(--s-4); }
+.rows--ic > li > .row-ic { grid-column: 1; grid-row: 1 / span 2; padding-top: 10px; color: var(--accent); }
+.rows--ic > li > .rows__name, .rows--ic > li > p { grid-column: 2; }
+.rows--ic > li > .rows__value { grid-column: 3; grid-row: 1; align-self: center; }
+.row-ic .ic-svg { width: 24px; height: 24px; display: block; }
+.visit__label { display: inline-flex; align-items: center; gap: var(--s-3); }
+.visit__label .row-ic { color: var(--accent); }
+@media (max-width: 639px) {
+  .services .rows > li { padding-block: var(--s-3); }
+  .rows--ic > li > .rows__value { display: none; }
+}
+.service-link { display: inline-flex; align-items: center; min-height: 44px; margin-block: calc(var(--s-3) * -1) 0; color: var(--ink); text-decoration: underline; text-decoration-color: transparent; text-underline-offset: 4px;
+  transition: text-decoration-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+.service-link:hover { color: var(--accent); text-decoration-color: currentColor; }
+.services .rows__value { color: var(--ink); font-size: var(--t-small); }
+
+/* ------------------------------------------------------------------ Petros */
+.credentials { display: grid; gap: var(--s-5); align-content: start; background: var(--g-alt, var(--p-surface)); border-radius: var(--r-lg); padding: var(--s-7); }
+@media (max-width: 639px) { .credentials { padding: var(--s-5); } }
+.credentials__stat { display: grid; gap: var(--s-1); }
+.credentials .rows--spec > li { grid-template-columns: minmax(0, 1fr); }
+.credentials .rows--spec .rows__name { color: var(--muted); font-size: var(--t-small); }
+
+/* ------------------------------------------------------------------ steps */
+.group-title { font: var(--display-weight) var(--t-h3)/1.15 var(--font-display); letter-spacing: var(--display-tracking); }
+ol.steps { list-style: none; margin: 0; padding: 0; display: grid; }
+.steps > li { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--s-5); padding-block: var(--s-6); border-bottom: 1px solid var(--line); }
+.steps > li:first-child { padding-top: 0; }
+.step-ic { color: var(--accent); padding-top: 2px; }
+.step-ic .ic-svg { width: 24px; height: 24px; display: block; }
+.steps li > div { display: grid; gap: var(--s-1); }
+@media (min-width: 1024px) { .steps > li { padding-block: var(--s-7); } }
+.steps h3 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: -0.01em; }
+
+/* ------------------------------------------------------------------ comparison table */
+.compare__table { width: 100%; border-collapse: collapse; table-layout: fixed; font-size: var(--t-body); }
+.compare__table th, .compare__table td { text-align: left; vertical-align: top; padding: var(--s-4) var(--s-5) var(--s-4) 0; border-bottom: 1px solid var(--line); }
+.compare__table thead th { font: 500 var(--t-card)/1.3 var(--font-text); padding-top: 0; border-bottom-color: var(--line-strong); }
+.compare__table tbody th { font-weight: 500; color: var(--muted); width: 22%; }
+.compare__table td { color: var(--ink); line-height: 1.5; }
+@media (max-width: 1023px) {
+  .compare__table, .compare__table tbody, .compare__table tr, .compare__table td, .compare__table th { display: block; width: auto; }
+  .compare__table thead { display: none; }
+  .compare__table tbody { display: grid; gap: var(--s-5); }
+  .compare__table tbody { gap: var(--s-4); }
+  .compare__table tr { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-2) var(--s-4); border-bottom: 1px solid var(--line-strong); padding-bottom: var(--s-4); }
+  .compare__table tbody th { grid-column: 1 / -1; padding: 0; border: 0; color: var(--ink); }
+  .compare__table td { padding: 0; border: 0; line-height: 1.4; }
+  .compare__table td::before { content: attr(data-label); display: block; color: var(--muted); font-size: var(--t-small); }
+}
+
+/* ------------------------------------------------------------------ calculator (the dark band) */
+.calc { min-width: 0; display: grid; gap: var(--s-6); align-content: start; }
+.calc__note { color: var(--muted); max-width: 52ch; }
+.calc__input { display: grid; gap: var(--s-2); }
+.calc__input label { font-size: var(--t-small); font-weight: 500; }
+.calc__input input[type="number"] { height: 56px; padding: 0 var(--s-4); border-radius: var(--r-sm); border: 1px solid var(--line-strong);
+  background: var(--bg); color: var(--ink); font: 500 24px/1 var(--font-text); font-variant-numeric: tabular-nums; max-width: 260px; }
+.calc__range-label { margin-top: var(--s-3); }
+.calc__input input[type="range"] { width: 100%; height: 44px; accent-color: var(--accent); margin: 0; }
+.calc__results { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); margin: 0; }
+.calc__box { display: grid; gap: var(--s-1); padding: var(--s-5); border-radius: var(--r-md); border: 1px solid var(--line); }
+.calc__box dt { font-size: var(--t-small); color: var(--muted); }
+.calc__box dd { margin: 0; }
+.calc__box .t-small { color: var(--muted); }
+.calc__tax { font: var(--display-weight) var(--t-stat)/1.1 var(--font-display); letter-spacing: var(--display-tracking); font-variant-numeric: tabular-nums; }
+.calc__box.is-lower { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.calc .btn-row .btn { width: 100%; }
+.calc__verdict { font-size: var(--t-lead); line-height: 1.5; max-width: 52ch; }
+@media (max-width: 639px) { .calc__box { padding: var(--s-4); } .calc__tax { font-size: 26px; } }
+
+/* ------------------------------------------------------------------ the statement (word-highlight) */
+#first-call .t-label { color: var(--muted); margin-bottom: var(--s-5); }
+
+/* ------------------------------------------------------------------ contact and the form */
+.contact__info .visit__rows > li > :last-child { text-align: right; }
+.contact__info .hours { margin: 0; }
+.enquiry { background: var(--g-alt, var(--p-surface)); border-radius: var(--r-lg); padding: var(--s-7); display: grid; gap: var(--s-5); align-content: start; }
+@media (max-width: 639px) { .enquiry { padding: var(--s-5); } }
+.segment { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-1); padding: var(--s-1); border-radius: var(--r-btn, 10px); background: var(--bg); border: 1px solid var(--line); }
+.segment__btn { min-height: 44px; border: 0; border-radius: calc(var(--r-btn, 10px) - 4px); background: transparent; color: var(--ink);
+  font: 500 var(--t-body)/1 var(--font-text); cursor: pointer; transition: background var(--dur) var(--ease), color var(--dur) var(--ease); }
+.segment__btn.active { background: var(--ink); color: var(--bg); }
+.enquiry__form { display: grid; gap: var(--s-4); }
+.enquiry__group { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--s-4); }
+.enquiry__group[hidden] { display: none; }
+.enquiry__group > .field--full { grid-column: 1 / -1; }
+@media (max-width: 639px) { .enquiry__group { grid-template-columns: minmax(0, 1fr); } }
+.field[hidden] { display: none; }
+.field :is(input, select, textarea) { background: var(--bg); }
+.enquiry__more { display: grid; gap: var(--s-4); }
+.enquiry__more > summary { cursor: pointer; font-weight: 500; min-height: 44px; display: flex; align-items: center; }
+.enquiry__more[open] > summary { margin-bottom: var(--s-4); }
+.enquiry__more > :not(summary) + :not(summary) { margin-top: var(--s-4); }
+.consent { display: grid; grid-template-columns: 24px minmax(0, 1fr); gap: var(--s-3); align-items: start; font-size: var(--t-small); line-height: 1.5; }
+.consent input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--accent); }
+.consent .link::after { content: none; }
+.consent .field__error { grid-column: 2; }
+.captcha-group { display: grid; gap: var(--s-2); }
+.captcha-group:focus { outline: 2px solid var(--action); outline-offset: 4px; border-radius: var(--r-sm); }
+.captcha-group > p { margin: 0; color: var(--ink); }
+.form-feedback { padding: var(--s-4); border-radius: var(--r-sm); font-size: var(--t-body); line-height: 1.5; background: var(--bg); border: 1px solid var(--line); }
+.form-feedback[hidden] { display: none; }
+.form-feedback.success { border-color: var(--accent); }
+.form-feedback.error { border-color: color-mix(in oklab, #d92d20 72%, var(--ink)); }
+.form-feedback ul { margin: var(--s-2) 0 0; padding-left: var(--s-5); }
+.form-feedback a { color: inherit; }
+.field__error { font: 500 var(--t-small)/1.4 var(--font-text); color: color-mix(in oklab, #d92d20 72%, var(--ink)); }
+.field :is(input, select, textarea)[aria-invalid="true"] { border: 2px solid color-mix(in oklab, #d92d20 72%, var(--ink)); }
+.hp-field { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+.enquiry .btn-row .btn { width: 100%; }
+
+/* ------------------------------------------------------------------ inner pages (legal, statements) */
+.page-text { max-width: 760px; display: grid; gap: var(--s-5); }
+.page-text h1 { font: var(--display-weight) var(--t-h2)/1.1 var(--font-display); letter-spacing: var(--display-tracking); }
+.page-text h2 { font: 500 var(--t-card)/1.3 var(--font-text); letter-spacing: 0; margin-top: var(--s-4); }
+.page-text p, .page-text li { line-height: 1.7; }
+.page { padding: calc(var(--nav) + var(--s-8)) 0 var(--s-9); }
+.link--back::after { content: none; }
+.link--back::before { content: "\2190"; }
+.page-text ul { padding-left: var(--s-5); display: grid; gap: var(--s-3); }
+.inner-footer { padding-block: var(--s-7); }
+.inner-footer .footer__legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: var(--s-4); }
+
+/* the phone's action bar sits over the foot of the page: the footer pads for it */
+@media (max-width: 639px) {
+  .footer.closing { padding-bottom: calc(var(--s-6) + var(--bar, 0px)); }
+  .hero--photo { --photo: 36svh; }
+}
+
+.contact__info .hours dd { white-space: nowrap; }

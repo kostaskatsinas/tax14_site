@@ -4,3 +4,6 @@
 !.env.example
 tax14-contact-config.php
 config/*.local.php
+
+# Design-skill working files (screenshots, browser profile, check reports)
+.taste-skill/

@@ -32,7 +32,7 @@ def main():
               <p class="financial-document-meta">Β5 &amp; Β6 · PDF · {size} KB</p>
             </div>
             <div class="financial-actions">
-              <a class="btn btn-outline" href="{href}" target="_blank" rel="noopener" aria-label="Προβολή PDF οικονομικών καταστάσεων {year} (νέα καρτέλα)">Προβολή PDF <span aria-hidden="true">↗</span></a>
+              <a class="btn btn--secondary" href="{href}" target="_blank" rel="noopener" aria-label="Προβολή PDF οικονομικών καταστάσεων {year} (νέα καρτέλα)">Προβολή PDF <span aria-hidden="true">↗</span></a>
               <a class="financial-download" href="{href}" download aria-label="Λήψη οικονομικών καταστάσεων {year} σε PDF">Λήψη</a>
             </div>
           </li>''')

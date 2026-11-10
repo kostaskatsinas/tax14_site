@@ -71,3 +71,4 @@ jobs:
             **/.env*
             **/tax14-contact-config.php
             tax14_site.zip
+            .taste-skill/**
