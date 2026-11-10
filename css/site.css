@@ -168,3 +168,25 @@ ol.steps { list-style: none; margin: 0; padding: 0; display: grid; }
 @media (max-width: 639px) {
   .footer__legal a { display: inline-flex; align-items: center; min-height: 44px; }
 }
+
+/* Sections take the height of their content (owner's request, 10 Nov: the kit's one-screen-per-section
+   boxes left large empty bands). Only the hero keeps the full first screen. */
+main > :is(section, .section):not(.hero), footer.closing {
+  height: auto; min-height: 0;
+  padding-top: var(--s-10); padding-bottom: var(--s-10);
+}
+main > :is(section, .section):not(.hero) > .wrap, footer.closing > .wrap { height: auto; }
+/* two white sections in a row share one gap, not two paddings */
+main > section:not(.hero, .ground-inverse) + section:not(.ground-inverse) { padding-top: 0; }
+footer.closing { padding-bottom: calc(var(--s-7) + var(--bar, 0px)); }
+footer.closing > .wrap { display: grid; grid-template-rows: auto; row-gap: var(--s-10); }
+@media (max-width: 639px) {
+  main > :is(section, .section):not(.hero), footer.closing { min-height: 0; padding-top: var(--s-8); padding-bottom: var(--s-8); }
+  main > section:not(.hero, .ground-inverse) + section:not(.ground-inverse) { padding-top: 0; }
+  footer.closing { padding-bottom: calc(var(--s-7) + var(--bar, 0px)); }
+  footer.closing > .wrap { row-gap: var(--s-8); }
+  :where(main > :is(section, .section):not(.hero), footer.closing) { display: block; }
+}
+@media (min-width: 640px) and (max-width: 1279px) {
+  :where(main > :is(section, .section):not(.hero), footer.closing) { display: block; }
+}
