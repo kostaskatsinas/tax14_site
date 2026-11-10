@@ -5,7 +5,7 @@
 /* The client's own colours (start.mjs brand: navy ink, teal action, white ground). On the navy
    ground links and the focus ring use the lighter #14B8A6 (3:1 there); buttons stay one teal. */
 :root {
-  --p-bg: #ffffff; --p-surface: #f1f5f9; --p-ink: #0a1628; --p-muted: #526176;
+  --p-bg: #ffffff; --p-surface: #eaf1f5; --p-ink: #0a1628; --p-muted: #526176;
   --p-accent: #087f75; --p-accent-ink: #ffffff; --p-action: #087f75; --p-action-ink: #ffffff;
   --p-inv-bg: #0a1628; --p-inv-surface: #182335; --p-inv-ink: #ffffff; --p-inv-muted: #a3abb6;
   --p-inv-accent: #14b8a6; --p-inv-accent-ink: #0a1628; --p-inv-action: #087f75; --p-inv-action-ink: #ffffff;
@@ -176,13 +176,14 @@ main > :is(section, .section):not(.hero), footer.closing {
   padding-top: var(--s-10); padding-bottom: var(--s-10);
 }
 main > :is(section, .section):not(.hero) > .wrap, footer.closing > .wrap { height: auto; }
-/* two white sections in a row share one gap, not two paddings */
-main > section:not(.hero, .ground-inverse) + section:not(.ground-inverse) { padding-top: 0; }
+/* Sections alternate white and the light slate surface (navy for the calculator and the footer), so each
+   one reads as its own band (owner's request, 10 Nov). */
+main > .ground-surface { background: var(--p-surface); }
+.ground-surface .credentials { background: var(--p-bg); }
 footer.closing { padding-bottom: calc(var(--s-7) + var(--bar, 0px)); }
 footer.closing > .wrap { display: grid; grid-template-rows: auto; row-gap: var(--s-10); }
 @media (max-width: 639px) {
   main > :is(section, .section):not(.hero), footer.closing { min-height: 0; padding-top: var(--s-8); padding-bottom: var(--s-8); }
-  main > section:not(.hero, .ground-inverse) + section:not(.ground-inverse) { padding-top: 0; }
   footer.closing { padding-bottom: calc(var(--s-7) + var(--bar, 0px)); }
   footer.closing > .wrap { row-gap: var(--s-8); }
   :where(main > :is(section, .section):not(.hero), footer.closing) { display: block; }
