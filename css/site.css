@@ -191,3 +191,18 @@ footer.closing > .wrap { display: grid; grid-template-rows: auto; row-gap: var(-
 @media (min-width: 640px) and (max-width: 1279px) {
   :where(main > :is(section, .section):not(.hero), footer.closing) { display: block; }
 }
+
+/* Top-bar links as bordered buttons (owner's request, 10 Nov), as on the previous site: a light border,
+   bold text, 8px apart; hover and the current page take the teal. Desktop bar only; the phone sheet keeps rows. */
+@media (min-width: 1024px) {
+  .nav .nav__links { gap: var(--s-2); }
+  .nav .nav__link { height: 44px; padding: 0 var(--s-4); border: 1px solid #cbd5e1; border-radius: 8px; background: #f8fafc; font-weight: 600; font-size: 14px;
+    transition: background-color var(--dur) var(--ease), border-color var(--dur) var(--ease), color var(--dur) var(--ease); }
+  .nav .nav__link::before, .nav .nav__link[aria-current="page"]::after { display: none; }
+  .nav .nav__link:hover, .nav .nav__link[aria-current="page"] { color: var(--p-accent); border-color: var(--p-accent); background: #ecfdf5; }
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .nav .nav__links { gap: 6px; }
+  .nav .nav__link { padding: 0 10px; font-size: 13px; }
+  .nav__bar { gap: var(--s-5); }
+}
