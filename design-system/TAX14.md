@@ -33,7 +33,7 @@ design-taste-frontend skill. The CSS files are authoritative for exact values.
 9. Contact: phone, email, address, hours, and the enquiry form (Turnstile + Brevo, unchanged API).
 10. Footer: one closing call, link columns, legal row.
 
-The main action reads "Ζητήστε κλήση" in the nav, the hero, the footer and the phone action bar. The
+The main action reads "Επικοινωνία" in the nav, the hero, the footer and the phone action bar. The
 phone bar also carries "Καλέστε".
 
 ## Language readiness
