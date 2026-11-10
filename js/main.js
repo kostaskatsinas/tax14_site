@@ -250,6 +250,24 @@ function setupEnquiryForm() {
 
   preferredMode.addEventListener('change', () => { syncContactMethod(); clearValidation(); });
   segmentButtons.forEach((button) => button.addEventListener('click', clearValidation));
+  // A filled field is checked when the visitor leaves it, so a typo shows up before the submit.
+  const showFieldError = (field, message) => {
+    clearFieldError(field);
+    const error = document.createElement('p');
+    error.id = `${field.id}-error`;
+    error.className = 'field__error';
+    error.textContent = message;
+    field.setAttribute('aria-invalid', 'true');
+    field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'), error.id].filter(Boolean).join(' '));
+    (field.closest('.form-group') || field.closest('.form-row') || field.parentElement).append(error);
+  };
+  fields.forEach((field) => {
+    field.addEventListener('blur', () => {
+      if (field.type === 'checkbox' || field.tagName === 'SELECT' || !field.value.trim()) return;
+      const message = validationMessage(field);
+      if (message) showFieldError(field, message);
+    });
+  });
   fields.forEach((field) => {
     field.addEventListener('input', () => {
       if (field.hasAttribute('aria-invalid') && !validationMessage(field)) {
@@ -271,13 +289,7 @@ function setupEnquiryForm() {
       const list = document.createElement('ul');
       errorSummary.replaceChildren(heading, list);
       invalid.forEach(({ field, message }) => {
-        const error = document.createElement('p');
-        error.id = `${field.id}-error`;
-        error.className = 'field__error';
-        error.textContent = message;
-        field.setAttribute('aria-invalid', 'true');
-        field.setAttribute('aria-describedby', [field.getAttribute('aria-describedby'), error.id].filter(Boolean).join(' '));
-        (field.closest('.form-group') || field.closest('.form-row') || field.parentElement).append(error);
+        showFieldError(field, message);
         const item = document.createElement('li');
         const link = document.createElement('a');
         link.href = `#${field.id}`;
@@ -303,6 +315,10 @@ function setupEnquiryForm() {
     const timeout = window.setTimeout(() => controller.abort(), 30000);
     try {
       await sendContactEnquiry(payload, { sourceUrl: window.location.href, signal: controller.signal });
+      const segment = segmentInput.value.includes('B2C') ? 'b2c' : 'b2b';
+      form.reset();
+      setSegment(segment);
+      syncContactMethod();
       showFeedback('success', 'Το αίτημά σας στάλθηκε. Ο Πέτρος θα επικοινωνήσει μαζί σας με τον τρόπο που επιλέξατε.');
     } catch (error) {
       console.warn('TAX14 email request failed:', error.name, error.message);

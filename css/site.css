@@ -155,7 +155,16 @@ ol.steps { list-style: none; margin: 0; padding: 0; display: grid; }
 /* the phone's action bar sits over the foot of the page: the footer pads for it */
 @media (max-width: 639px) {
   .footer.closing { padding-bottom: calc(var(--s-6) + var(--bar, 0px)); }
-  .hero--photo { --photo: 36svh; }
+  .hero--photo { --photo: 32svh; }
 }
 
 .contact__info .hours dd { white-space: nowrap; }
+
+/* ui-ux-pro-max review (2026-11-10) */
+/* Focus never hides under the fixed header or the phone action bar (WCAG 2.4.11). */
+:is(a, button, input, select, textarea, summary):focus { scroll-margin-top: calc(var(--nav) + var(--s-5)); scroll-margin-bottom: calc(var(--bar, 0px) + var(--s-5)); }
+.hero--photo .hero-notice { margin-bottom: var(--s-4); }
+/* Legal links in the footer: whole 44px targets on a phone, 8px apart. */
+@media (max-width: 639px) {
+  .footer__legal a { display: inline-flex; align-items: center; min-height: 44px; }
+}
