@@ -54,3 +54,10 @@ pattern και την κεφαλίδα `%PDF-`, ταξινομεί τα έτη �
 PDF. Δεν χρειάζεται Python στον server και το GitHub Actions δεν εκτελεί τον
 generator. Οι σελίδες χρησιμοποιούν τα κοινά styles και το
 [css/financial-statements.css](css/financial-statements.css).
+
+## English archive
+
+The archive is also available at `/en/financial-statements.html`. The update
+script regenerates it automatically using `scripts/build-english.py`. PDF files
+remain the original Greek documents. Commit both HTML pages and update both
+archive URLs in `sitemap.xml`. See `design-system/translations/README.md`.

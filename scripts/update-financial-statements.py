@@ -3,6 +3,8 @@
 from pathlib import Path
 import html
 import re
+import subprocess
+import sys
 
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / 'financial-statements.html'
@@ -42,6 +44,7 @@ def main():
     before, remainder = source.split(START)
     _, after = remainder.split(END)
     PAGE.write_text(before + START + '\n' + '\n'.join(rows) + '\n' + END + after, encoding='utf-8')
+    subprocess.run([sys.executable, str(ROOT / 'scripts/build-english.py')], check=True)
     print(f'Updated {PAGE.name}: {len(documents)} years, newest first.')
 
 

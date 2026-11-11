@@ -4,11 +4,14 @@
  * company-form tax calculator.
  */
 
-import { sendContactEnquiry } from './contact-delivery.mjs?v=contact2';
-import { createContactCaptcha } from './contact-captcha.mjs?v=contact2';
+import { sendContactEnquiry } from './contact-delivery.mjs?v=language1';
+import { createContactCaptcha } from './contact-captcha.mjs?v=language1';
+import { createTranslator, formatEuro, siteLanguage } from './i18n.mjs?v=1';
 
-const PHONE_DISPLAY = '210 202 4225';
-const SUBMIT_LABEL = 'Στείλτε το αίτημα';
+const language = siteLanguage();
+const t = createTranslator(language);
+const PHONE_DISPLAY = language === 'en' ? '+30 210 202 4225' : '210 202 4225';
+const SUBMIT_LABEL = t('submit');
 
 document.addEventListener('DOMContentLoaded', () => {
   const yearEl = document.getElementById('current-year');
@@ -34,7 +37,7 @@ function setupCalculator() {
   const boxAtomiki = document.getElementById('sim-box-atomiki');
   const boxIke = document.getElementById('sim-box-ike');
 
-  const formatEUR = (num) => `${Math.round(num).toLocaleString('el-GR')} €`;
+  const formatEUR = (num) => formatEuro(num, language);
 
   // Progressive scale for individual business income.
   const atomikiTax = (profit) => {
@@ -62,17 +65,17 @@ function setupCalculator() {
     const diff = taxA - taxI;
     output.textContent = formatEUR(profit);
     taxAtomikiEl.textContent = formatEUR(taxA);
-    rateAtomikiEl.textContent = `Μέσος συντελεστής ${((taxA / profit) * 100).toFixed(1).replace('.', ',')}%`;
+    rateAtomikiEl.textContent = t('averageRate', { rate: ((taxA / profit) * 100).toLocaleString(language === 'en' ? 'en-GB' : 'el-GR', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) });
     taxIkeEl.textContent = formatEUR(taxI);
     const ikeAhead = diff > 1500;
     boxIke.classList.toggle('is-lower', ikeAhead);
     boxAtomiki.classList.toggle('is-lower', !ikeAhead);
     if (profit <= 25000) {
-      verdictEl.textContent = `Στα ${formatEUR(profit)} καθαρά κέρδη, η ατομική επιχείρηση μένει συνήθως φθηνότερη, με χαμηλή πρώτη κλίμακα και απλογραφικά βιβλία.`;
+      verdictEl.textContent = t('soleTraderVerdict', { profit: formatEUR(profit), difference: formatEUR(diff) });
     } else if (diff <= 0) {
-      verdictEl.textContent = `Στα ${formatEUR(profit)} καθαρά κέρδη, ο κύριος φόρος είναι περίπου ίδιος. Αποφασίζουν το κόστος τήρησης και οι εισφορές.`;
+      verdictEl.textContent = t('equalVerdict', { profit: formatEUR(profit), difference: formatEUR(diff) });
     } else {
-      verdictEl.textContent = `Στα ${formatEUR(profit)} καθαρά κέρδη, η Ι.Κ.Ε. γλιτώνει περίπου ${formatEUR(diff)} τον χρόνο σε κύριο φόρο.`;
+      verdictEl.textContent = t('ikeVerdict', { profit: formatEUR(profit), difference: formatEUR(diff) });
     }
   };
 
@@ -83,7 +86,7 @@ function setupCalculator() {
   const validate = () => {
     if (amount.value !== '' && amount.validity.valid) return;
     amount.setAttribute('aria-invalid', 'true');
-    inputError.textContent = 'Γράψτε ποσό από 15.000 € έως 150.000 €, χωρίς δεκαδικά. Η σύγκριση δείχνει το τελευταίο σωστό ποσό.';
+    inputError.textContent = t('profitError');
     inputError.hidden = false;
   };
 
@@ -205,6 +208,7 @@ function setupEnquiryForm() {
     container: document.getElementById('contact-captcha'),
     status: document.getElementById('captcha-status'),
     retryButton: document.getElementById('captcha-retry'),
+    language,
   });
   captcha.start();
 
@@ -214,16 +218,16 @@ function setupEnquiryForm() {
   const validationMessage = (field) => {
     if (field.disabled) return '';
     if (!field.required && !field.value.trim()) return '';
-    if (field.type === 'checkbox' && !field.checked) return 'Χρειάζεται η συγκατάθεσή σας για να σας καλέσουμε.';
+    if (field.type === 'checkbox' && !field.checked) return t('consentRequired');
     if (field.required && !field.value.trim()) {
-      if (field.tagName === 'SELECT') return 'Διαλέξτε την υπηρεσία που σας ενδιαφέρει.';
-      if (field.id === 'contact_phone') return 'Γράψτε το τηλέφωνό σας, π.χ. 69XXXXXXXX.';
-      if (field.id === 'contact_email') return 'Γράψτε το email σας.';
-      return 'Γράψτε το όνομά σας ή την επωνυμία.';
+      if (field.tagName === 'SELECT') return t('serviceRequired');
+      if (field.id === 'contact_phone') return t('phoneRequired');
+      if (field.id === 'contact_email') return t('emailRequired');
+      return t('nameRequired');
     }
-    if (field.id === 'contact_phone' && !/^\+?[\d\s().-]+$/.test(field.value.trim())) return 'Γράψτε μόνο ψηφία και, αν θέλετε, τον κωδικό χώρας.';
-    if (field.id === 'contact_phone' && (field.value.replace(/\D/g, '').length < 10 || field.value.replace(/\D/g, '').length > 15)) return 'Το τηλέφωνο θέλει 10 έως 15 ψηφία.';
-    if (field.type === 'email' && field.validity.typeMismatch) return 'Γράψτε ένα email με @, π.χ. onoma@gmail.com.';
+    if (field.id === 'contact_phone' && !/^\+?[\d\s().-]+$/.test(field.value.trim())) return t('phoneCharacters');
+    if (field.id === 'contact_phone' && (field.value.replace(/\D/g, '').length < 10 || field.value.replace(/\D/g, '').length > 15)) return t('phoneLength');
+    if (field.type === 'email' && field.validity.typeMismatch) return t('emailInvalid');
     return '';
   };
 
@@ -285,7 +289,7 @@ function setupEnquiryForm() {
     const invalid = fields.map((field) => ({ field, message: validationMessage(field) })).filter((item) => item.message);
     if (invalid.length) {
       const heading = document.createElement('strong');
-      heading.textContent = invalid.length === 1 ? 'Διορθώστε 1 πεδίο:' : `Διορθώστε ${invalid.length} πεδία:`;
+      heading.textContent = invalid.length === 1 ? t('oneError') : t('manyErrors', { count: invalid.length });
       const list = document.createElement('ul');
       errorSummary.replaceChildren(heading, list);
       invalid.forEach(({ field, message }) => {
@@ -293,7 +297,7 @@ function setupEnquiryForm() {
         const item = document.createElement('li');
         const link = document.createElement('a');
         link.href = `#${field.id}`;
-        link.textContent = field.id === 'gdpr_consent' ? 'Συγκατάθεση' : (field.labels?.[0]?.textContent.trim() || message);
+        link.textContent = field.id === 'gdpr_consent' ? t('consent') : (field.labels?.[0]?.textContent.trim() || message);
         link.addEventListener('click', (e) => { e.preventDefault(); field.focus(); });
         item.append(link);
         list.append(item);
@@ -303,26 +307,26 @@ function setupEnquiryForm() {
       return;
     }
     if (!captcha.getToken()) {
-      showFeedback('error', `Ολοκληρώστε τον έλεγχο ασφαλείας πριν στείλετε το αίτημα. Αν δεν φορτώνει, πατήστε «Νέος έλεγχος» ή καλέστε στο ${PHONE_DISPLAY}.`);
+      showFeedback('error', t('captchaRequired', { phone: PHONE_DISPLAY }));
       document.getElementById('captcha-group').focus();
       return;
     }
     const payload = { ...Object.fromEntries(new FormData(form).entries()), captcha_token: captcha.getToken() };
     submitBtn.disabled = true;
     form.setAttribute('aria-busy', 'true');
-    submitText.textContent = 'Αποστολή…';
+    submitText.textContent = t('sending');
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 30000);
     try {
-      await sendContactEnquiry(payload, { sourceUrl: window.location.href, signal: controller.signal });
+      await sendContactEnquiry(payload, { sourceUrl: window.location.href, language, signal: controller.signal });
       const segment = segmentInput.value.includes('B2C') ? 'b2c' : 'b2b';
       form.reset();
       setSegment(segment);
       syncContactMethod();
-      showFeedback('success', 'Το αίτημά σας στάλθηκε. Ο Πέτρος θα επικοινωνήσει μαζί σας με τον τρόπο που επιλέξατε.');
+      showFeedback('success', t('success'));
     } catch (error) {
       console.warn('TAX14 email request failed:', error.name, error.message);
-      showFeedback('error', error.userMessage || `Δεν επιβεβαιώθηκε η αποστολή. Τα στοιχεία σας είναι ακόμη στη φόρμα. Δοκιμάστε ξανά σε λίγο ή καλέστε στο ${PHONE_DISPLAY}.`);
+      showFeedback('error', error.userMessage || t('deliveryError', { phone: PHONE_DISPLAY }));
     } finally {
       window.clearTimeout(timeout);
       form.removeAttribute('aria-busy');

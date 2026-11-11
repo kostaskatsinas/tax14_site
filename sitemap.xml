@@ -1,15 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://tax14.gr/</loc>
-    <lastmod>2026-11-10</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>1.0</priority>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/"/>
   </url>
   <url>
     <loc>https://tax14.gr/financial-statements.html</loc>
-    <lastmod>2026-11-09</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.4</priority>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/financial-statements.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/financial-statements.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/financial-statements.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/financial-statements.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/financial-statements.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/financial-statements.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/financial-statements.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/privacy.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/privacy.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/privacy.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/privacy.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/terms.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/terms.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/terms.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/terms.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/cookies.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/cookies.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/cookies.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/cookies.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/cookies.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/credits.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/credits.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/credits.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/credits.html"/>
+  </url>
+  <url>
+    <loc>https://tax14.gr/en/credits.html</loc>
+    <lastmod>2026-11-11</lastmod>
+    <xhtml:link rel="alternate" hreflang="el" href="https://tax14.gr/credits.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://tax14.gr/en/credits.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://tax14.gr/credits.html"/>
   </url>
 </urlset>

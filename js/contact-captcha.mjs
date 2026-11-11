@@ -1,24 +1,27 @@
-export function createContactCaptcha({ container, status, retryButton }) {
+import { createTranslator } from './i18n.mjs?v=1';
+
+export function createContactCaptcha({ container, status, retryButton, language = 'el' }) {
+  const t = createTranslator(language);
   let token = '';
   let widget = null;
   let starting = false;
   const notify = message => { status.textContent = message; };
   const reset = () => {
     token = '';
-    notify('Ολοκληρώστε τον νέο έλεγχο ασφαλείας πριν από την αποστολή.');
+    notify(t('captchaReset'));
     if (widget !== null && window.turnstile) window.turnstile.reset(widget);
   };
   const start = async () => {
     if (starting) return;
     starting = true;
     retryButton.hidden = true;
-    notify('Φόρτωση ελέγχου ασφαλείας…');
+    notify(t('captchaLoading'));
     try {
-      const response = await fetch('api/contact-config.php', { headers: { Accept: 'application/json' }, cache: 'no-store', signal: AbortSignal.timeout(10000) });
+      const response = await fetch('/api/contact-config.php', { headers: { Accept: 'application/json' }, cache: 'no-store', signal: AbortSignal.timeout(10000) });
       if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error('Configuration unavailable');
       const config = await response.json();
       if (config.ready !== true || typeof config.captchaSiteKey !== 'string' || !config.captchaSiteKey) {
-        notify('Η φόρμα δεν είναι διαθέσιμη αυτή τη στιγμή. Καλέστε μας στο 210 202 4225.');
+        notify(t('formUnavailable'));
         retryButton.hidden = false;
         return;
       }
@@ -35,16 +38,16 @@ export function createContactCaptcha({ container, status, retryButton }) {
       });
       // The script load event above guarantees the explicit render API is ready.
       widget = window.turnstile.render(container, {
-        sitekey: config.captchaSiteKey, action: 'tax14_contact', theme: 'light', size: 'compact', language: 'el',
+        sitekey: config.captchaSiteKey, action: 'tax14_contact', theme: 'light', size: 'compact', language,
         'response-field': false,
-        callback: value => { token = value; notify('Ο έλεγχος ασφαλείας ολοκληρώθηκε. Μπορείτε να στείλετε το αίτημα.'); retryButton.hidden = true; },
-        'expired-callback': () => { token = ''; notify('Ο έλεγχος ασφαλείας έληξε. Πατήστε «Νέος έλεγχος».'); retryButton.hidden = false; },
-        'error-callback': () => { token = ''; notify('Ο έλεγχος ασφαλείας δεν είναι διαθέσιμος. Δοκιμάστε νέο έλεγχο ή καλέστε μας.'); retryButton.hidden = false; },
+        callback: value => { token = value; notify(t('captchaComplete')); retryButton.hidden = true; },
+        'expired-callback': () => { token = ''; notify(t('captchaExpired')); retryButton.hidden = false; },
+        'error-callback': () => { token = ''; notify(t('captchaUnavailable')); retryButton.hidden = false; },
       });
-      notify('Ολοκληρώστε τον έλεγχο ασφαλείας πριν από την αποστολή.');
+      notify(t('captchaPrompt'));
     } catch (_error) {
       token = '';
-      notify('Δεν φορτώθηκε ο έλεγχος ασφαλείας. Δοκιμάστε ξανά ή καλέστε στο 210 202 4225.');
+      notify(t('captchaFailed'));
       retryButton.hidden = false;
     } finally {
       starting = false;

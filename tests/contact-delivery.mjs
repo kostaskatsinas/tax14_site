@@ -36,7 +36,7 @@ test('both audiences can choose either contact channel', () => {
 test('form fields cannot set credentials, recipients, sender or provider controls', () => {
   const payload = buildContactPayload({ ...individual, _cc: 'other@example.com', recipient: 'other@example.com', sender_email: 'other@example.com', brevo_api_key: 'unsafe', _captcha: 'false' }, sourceUrl);
   for (const key of ['_cc', 'recipient', 'sender_email', 'brevo_api_key', '_captcha', '_url']) assert.equal(payload[key], undefined);
-  assert.equal(CONTACT_DELIVERY.endpoint, 'api/contact.php');
+  assert.equal(CONTACT_DELIVERY.endpoint, '/api/contact.php');
   assert.equal(Object.isFrozen(CONTACT_DELIVERY), true);
   assert.equal(payload.captcha_token, individual.captcha_token);
 });
@@ -62,7 +62,7 @@ test('server acceptance is distinct from inbox delivery', async () => {
   const result = await sendContactEnquiry(individual, {
     sourceUrl, signal: controller.signal,
     fetchImpl: async (url, options) => {
-      assert.equal(url, 'api/contact.php');
+      assert.equal(url, '/api/contact.php');
       assert.equal(options.credentials, 'same-origin');
       assert.equal(options.signal, controller.signal);
       assert.equal(JSON.parse(options.body).captcha_token, individual.captcha_token);

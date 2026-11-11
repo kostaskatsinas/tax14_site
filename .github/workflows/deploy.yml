@@ -9,7 +9,7 @@ on:
 
 jobs:
   test:
-    name: Run contact form tests
+    name: Run website tests
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -28,6 +28,9 @@ jobs:
 
       - name: PHP tests (validation, Brevo/CAPTCHA, rate limit)
         run: for test in tests/*.php; do php "$test"; done
+
+      - name: Translation, SEO and local link checks
+        run: python3 tests/languages.py
 
       - name: Browser module tests (Node test runner)
         run: node --test tests/*.mjs

@@ -1,6 +1,17 @@
 /* Shared navigation polish. The kit owns opening/closing; this adds focus
-   containment, background isolation and the site's 1200px menu breakpoint. */
+   containment, background isolation and the site's 1360px menu breakpoint. */
 document.addEventListener('DOMContentLoaded', () => {
+  const english = document.documentElement.lang === 'en';
+  // Equivalent pages share section IDs. Keep deep links when switching language.
+  const languageLinks = [...document.querySelectorAll('[data-language-link]')];
+  const syncLanguageLinks = () => languageLinks.forEach((link) => {
+    const target = new URL(link.href);
+    target.hash = window.location.hash;
+    link.href = target.href;
+  });
+  syncLanguageLinks();
+  addEventListener('hashchange', syncLanguageLinks);
+
   const nav = document.querySelector('header.nav');
   const toggle = nav?.querySelector('.nav__toggle');
   const links = nav?.querySelector('.nav__links');
@@ -15,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const open = nav.classList.contains('is-open');
     if (open === wasOpen) return;
     wasOpen = open;
-    toggle.setAttribute('aria-label', open ? 'Κλείσιμο μενού' : 'Μενού');
+    toggle.setAttribute('aria-label', english ? (open ? 'Close menu' : 'Menu') : (open ? 'Κλείσιμο μενού' : 'Μενού'));
     if (open) {
       document.querySelectorAll('main, footer, .actionbar').forEach((element) => {
         background.set(element, element.inert);
@@ -45,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  matchMedia('(min-width: 1200px)').addEventListener('change', (event) => {
+  matchMedia('(min-width: 1360px)').addEventListener('change', (event) => {
     if (event.matches && nav.classList.contains('is-open')) toggle.click();
   });
 

@@ -1,6 +1,8 @@
+import { localizeServerError } from './i18n.mjs?v=1';
+
 // The recipient is fixed on the server. Form input never controls the destination.
 export const CONTACT_DELIVERY = Object.freeze({
-  endpoint: 'api/contact.php',
+  endpoint: '/api/contact.php',
 });
 
 export function buildContactPayload(fields, sourceUrl) {
@@ -47,7 +49,7 @@ export function buildContactPayload(fields, sourceUrl) {
   return payload;
 }
 
-export async function sendContactEnquiry(fields, { sourceUrl, signal, fetchImpl = fetch }) {
+export async function sendContactEnquiry(fields, { sourceUrl, signal, language = 'el', fetchImpl = fetch }) {
   const response = await fetchImpl(CONTACT_DELIVERY.endpoint, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
@@ -60,7 +62,7 @@ export async function sendContactEnquiry(fields, { sourceUrl, signal, fetchImpl 
   if (!response.ok || result?.success !== true) {
     // Only the same-origin server supplies this message, never a provider body.
     const error = new Error('Enquiry was not accepted');
-    error.userMessage = typeof result?.message === 'string' ? result.message : '';
+    error.userMessage = localizeServerError(result?.message, response.status, language);
     throw error;
   }
   // Brevo acceptance is not proof of inbox delivery.

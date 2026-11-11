@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createContactCaptcha } from '../js/contact-captcha.mjs';
 
-test('CAPTCHA loads explicitly, clears expired tokens and resets before reuse', async () => {
+for (const language of ['el', 'en']) test(`CAPTCHA loads, expires and resets in ${language}`, async () => {
   const original = { window: globalThis.window, document: globalThis.document, fetch: globalThis.fetch };
   let callbacks;
   let scriptLoads = 0;
@@ -11,7 +11,7 @@ test('CAPTCHA loads explicitly, clears expired tokens and resets before reuse', 
   const status = { textContent: '' };
   const retryButton = { hidden: false, addEventListener: (_, handler) => { retry = handler; } };
   globalThis.window = { setTimeout, clearTimeout };
-  globalThis.fetch = async () => ({ ok: true, headers: new Headers({ 'content-type': 'application/json' }), json: async () => ({ ready: true, captchaSiteKey: 'public-widget-key' }) });
+  globalThis.fetch = async (url) => { assert.equal(url, '/api/contact-config.php'); return ({ ok: true, headers: new Headers({ 'content-type': 'application/json' }), json: async () => ({ ready: true, captchaSiteKey: 'public-widget-key' }) }); };
   globalThis.document = {
     getElementById: () => null,
     createElement: () => ({}),
@@ -27,13 +27,16 @@ test('CAPTCHA loads explicitly, clears expired tokens and resets before reuse', 
     } },
   };
   try {
-    const captcha = createContactCaptcha({ container: {}, status, retryButton });
+    const captcha = createContactCaptcha({ container: {}, status, retryButton, language });
     await captcha.start();
     assert.equal(scriptLoads, 1);
     assert.equal(callbacks.action, 'tax14_contact');
+    assert.equal(callbacks.language, language);
+    assert.match(status.textContent, language === 'en' ? /Complete the security check/ : /Ολοκληρώστε/);
     assert.equal(captcha.getToken(), '');
     callbacks.callback('single-use-token');
     assert.equal(captcha.getToken(), 'single-use-token');
+    assert.match(status.textContent, language === 'en' ? /Security check complete/ : /ολοκληρώθηκε/);
     callbacks['expired-callback']();
     assert.equal(captcha.getToken(), '');
     assert.equal(retryButton.hidden, false);
