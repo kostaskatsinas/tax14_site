@@ -3,7 +3,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/../api/contact-service.php';
 
 $settings = [
-    'recipient' => 'katsinas1986@gmail.com',
+    'recipient' => 'petros.thanasos@gmail.com',
     'brevo_api_key' => 'fake-key-for-tests-only', 'sender_email' => 'forms@example.com',
     'turnstile_site_key' => 'fake-site-key', 'turnstile_secret_key' => 'fake-secret-key',
     'allowed_hostnames' => ['localhost'],
@@ -37,7 +37,7 @@ $run = static function (array $data, array $config, array $responses) use (&$cal
 $result = $run(array_merge($business, ['recipient' => 'other@example.com', '_cc' => 'other@example.com']), $settings, [$verified, $accepted]);
 $check($result['status'] === 202 && $result['body']['success'] === true, 'valid business enquiry accepted');
 $check(count($calls) === 2 && str_contains($calls[0]['url'], 'siteverify') && str_contains($calls[1]['url'], 'api.brevo.com'), 'CAPTCHA verified before Brevo');
-$check($calls[1]['body']['to'] === [['email' => 'katsinas1986@gmail.com']] && !isset($calls[1]['body']['cc']), 'input cannot redirect mail');
+$check($calls[1]['body']['to'] === [['email' => 'petros.thanasos@gmail.com']] && !isset($calls[1]['body']['cc']), 'input cannot redirect mail');
 $check($calls[1]['body']['subject'] === 'TAX14 — Νέο αίτημα: Test company', 'customer subject has no test prefix');
 $check(str_starts_with($calls[1]['body']['textContent'], 'Νέο αίτημα επικοινωνίας TAX14'), 'customer email is not labelled as a test');
 $check($calls[1]['body']['tags'] === ['tax14', 'contact'] && !str_contains($result['body']['message'], 'δοκιμαστικό'), 'normal delivery tags and acknowledgement');

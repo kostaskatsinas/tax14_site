@@ -1,10 +1,10 @@
 # Brevo and CAPTCHA setup
 
-Last checked: **2026-11-10**, against the current source and live configuration.
+Contact address updated: **2026-11-11**. Original delivery setup verified on **2026-11-10**.
 
 The contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
 Actual credentials are never included in HTML, JavaScript, Git, logs or API responses.
-The permanent recipient is `katsinas1986@gmail.com`, fixed in server code. The same
+The permanent recipient is `petros.thanasos@gmail.com`, fixed in server code. The same
 address is used in all public email links and structured data. No automatic
 customer replies, contact-list imports or marketing campaigns are created.
 
@@ -99,10 +99,10 @@ Without complete private settings, `/api/contact-config.php` returns
 `{"ready":false,"captchaSiteKey":""}` and sending stays disabled. This is a setup
 state, not a functioning CAPTCHA or verified Brevo delivery.
 
-## Live configuration — 2026-11-10
+## Production configuration
 
-The owner approved normal customer use with `katsinas1986@gmail.com` as the sole
-recipient. There is no test-mode flag, test subject prefix, test body label or
+The owner requested `petros.thanasos@gmail.com` as the sole recipient on
+2026-11-11. There is no test-mode flag, test subject prefix, test body label or
 test-only notice. Email subjects use `TAX14 — Νέο αίτημα: <name>`.
 
 - Website: `https://tax14.gr/` (Hostinger account `u635942677`).
@@ -111,14 +111,17 @@ test-only notice. Email subjects use `TAX14 — Νέο αίτημα: <name>`.
 - Production server-accepted CAPTCHA hostnames: `tax14.gr`, `www.tax14.gr`.
   The widget also allows `localhost` and `127.0.0.1` for local development; the
   production PHP configuration accepts only the two production hosts.
-- Brevo sender: existing verified `katsinas1986@gmail.com` sender.
+- Brevo sender: the existing verified transport identity in the private
+  `sender_email` setting. It is configured separately from the public contact
+  address and recipient; this update does not replace or reverify that sender.
 - Brevo transport: IPv4; authorized hosting egress IP `82.198.229.189`.
   IP restrictions remain enabled. Recheck egress if hosting infrastructure changes.
 - Restricted API key: `TAX14 contact form`, Transactional email permission only.
   At creation on 2026-11-10 the UI reported expiry on 2027-11-10 and expiry after
   90 inactive days. Check its current status in Brevo during maintenance.
-- The local and live CAPTCHA-protected form deliveries were verified, with inbox
-  receipt confirmed by the owner before enabling customer use.
+- The original local and live CAPTCHA-protected form deliveries were verified
+  before enabling customer use. That historical check does not verify inbox
+  receipt at the replacement recipient address.
 - GitHub deploys pushes to `main` using `.github/workflows/deploy.yml`. Private
   configuration is managed separately; setup documents and tests are excluded.
 - No CC, marketing contact imports or automatic replies to visitors are enabled.
@@ -136,7 +139,8 @@ real email. Published always-pass CAPTCHA keys remain blocked by the handler.
 
 ## Current source and verification record
 
-Normal delivery and public email links were enabled in commit `f818456`.
+The original delivery flow was enabled in commit `f818456`. The contact address
+and recipient were subsequently changed to `petros.thanasos@gmail.com`.
 [Deployment 42806779923](https://github.com/kostaskatsinas/tax14_site/actions/runs/42806779923)
 succeeded. The owner confirmed inbox receipt from the live CAPTCHA-protected
 flow before normal customer use was enabled. The subsequent production-mode

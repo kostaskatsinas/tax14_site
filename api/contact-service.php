@@ -53,7 +53,7 @@ function tax14_contact_message(array $data, array $settings): array {
     $lines[] = 'Συγκατάθεση επικοινωνίας: Ναι';
     $message = [
         'sender' => ['name' => 'TAX14 Website', 'email' => $settings['sender_email']],
-        'to' => [['email' => 'katsinas1986@gmail.com']],
+        'to' => [['email' => 'petros.thanasos@gmail.com']],
         'subject' => 'TAX14 — Νέο αίτημα: ' . str_replace(["\r", "\n"], ' ', $name),
         'textContent' => implode("\n\n", $lines),
         'tags' => ['tax14', 'contact'],

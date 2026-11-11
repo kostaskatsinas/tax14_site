@@ -14,7 +14,7 @@ PHP 8.3 και cURL στις 2026-11-10. Δεν έχει τεκμηριωθεί 
 - Public root: `/home/u635942677/domains/tax14.gr/public_html`.
 - Τοπικά στοιχεία σύνδεσης στόχου: [.hostinger/site.json](.hostinger/site.json).
 - Ρυθμίσεις email: [BREVO_SETUP.md](BREVO_SETUP.md).
-- Παραλήπτης και δημόσιο email: `katsinas1986@gmail.com`, σε κανονική λειτουργία.
+- Παραλήπτης και δημόσιο email: `petros.thanasos@gmail.com`, σε κανονική λειτουργία.
 
 ## Κανονική δημοσίευση μέσω GitHub Actions
 
@@ -90,7 +90,7 @@ port 21, `security: loose`, με `server-dir: ./` στον ήδη ρυθμισμ
 ## Έλεγχος μετά τη δημοσίευση
 
 - Οι δύο HTML σελίδες φορτώνουν με HTTPS και τα αναμενόμενα στοιχεία TAX14.
-- Όλα τα δημόσια `mailto:` links είναι `mailto:katsinas1986@gmail.com`.
+- Όλα τα δημόσια `mailto:` links είναι `mailto:petros.thanasos@gmail.com`.
 - Δεν υπάρχει δοκιμαστική ένδειξη στη φόρμα.
 - `GET /api/contact-config.php` επιστρέφει `ready: true` και το δημόσιο site key.
 - `GET /api/contact.php` απορρίπτεται με HTTP 405· απαιτεί POST JSON.
