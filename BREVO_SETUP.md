@@ -4,8 +4,10 @@ Contact address updated: **2026-11-11**. Original delivery setup verified on **2
 
 The contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
 Actual credentials are never included in HTML, JavaScript, Git, logs or API responses.
-The permanent recipient is `petros.thanasos@gmail.com`, fixed in server code. The same
-address is used in all public email links and structured data. No automatic
+The sender and recipient are `petros.thanasos@gmail.com`, fixed in server code.
+The sender name is `TAX14 Website`; the address was verified in Brevo on
+2026-11-11 after the owner completed mailbox verification. The same address is
+used in all public email links and structured data. No automatic
 customer replies, contact-list imports or marketing campaigns are created.
 
 ## Account setup
@@ -45,16 +47,18 @@ domain-directory/
         └── contact.php
 ```
 
-Fill in `brevo_api_key`, `sender_email`, `turnstile_site_key`,
+Fill in `brevo_api_key`, `turnstile_site_key`,
 `turnstile_secret_key` and `allowed_hostnames` (comma-separated exact hostnames;
 no `https://`, port or path). Limit the private file to the hosting account user
 where permissions allow. The API loads this file but never returns its values.
 Only the public CAPTCHA site key is returned when the full configuration is ready.
+The sender address is a public business identity in `api/contact-settings.php`.
+Legacy `sender_email` and `TAX14_BREVO_SENDER_EMAIL` values are ignored. API keys
+and CAPTCHA secrets remain private.
 
 Alternatively supply environment variables:
 
 - `TAX14_BREVO_API_KEY`
-- `TAX14_BREVO_SENDER_EMAIL`
 - `TAX14_BREVO_IP_VERSION` (`ipv4` by default, or `ipv6`; match the authorized server IP)
 - `TAX14_TURNSTILE_SITE_KEY`
 - `TAX14_TURNSTILE_SECRET_KEY`
@@ -111,9 +115,9 @@ test-only notice. Email subjects use `TAX14 — Νέο αίτημα: <name>`.
 - Production server-accepted CAPTCHA hostnames: `tax14.gr`, `www.tax14.gr`.
   The widget also allows `localhost` and `127.0.0.1` for local development; the
   production PHP configuration accepts only the two production hosts.
-- Brevo sender: the existing verified transport identity in the private
-  `sender_email` setting. It is configured separately from the public contact
-  address and recipient; this update does not replace or reverify that sender.
+- Brevo sender: `TAX14 Website <petros.thanasos@gmail.com>`, confirmed Verified
+  in Brevo on 2026-11-11. The previous sender remains registered but is no longer
+  selected by the website. No sending credentials were rotated.
 - Brevo transport: IPv4; authorized hosting egress IP `82.198.229.189`.
   IP restrictions remain enabled. Recheck egress if hosting infrastructure changes.
 - Restricted API key: `TAX14 contact form`, Transactional email permission only.

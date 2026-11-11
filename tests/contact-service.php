@@ -34,6 +34,16 @@ $run = static function (array $data, array $config, array $responses) use (&$cal
     });
 };
 
+// An existing deployment can retain a retired sender in private settings.
+// The verified business identity must still be selected by the deployed code.
+$previousSender = getenv('TAX14_BREVO_SENDER_EMAIL');
+putenv('TAX14_BREVO_SENDER_EMAIL=retired@example.com');
+$deployedSettings = tax14_contact_settings();
+$check($deployedSettings['sender_email'] === 'petros.thanasos@gmail.com', 'legacy sender override cannot retain the retired address');
+$senderMessage = tax14_contact_message($business, $deployedSettings);
+$check($senderMessage['sender'] === ['name' => 'TAX14 Website', 'email' => 'petros.thanasos@gmail.com'], 'deployed settings select the verified TAX14 sender');
+putenv($previousSender === false ? 'TAX14_BREVO_SENDER_EMAIL' : 'TAX14_BREVO_SENDER_EMAIL=' . $previousSender);
+
 $result = $run(array_merge($business, ['recipient' => 'other@example.com', '_cc' => 'other@example.com']), $settings, [$verified, $accepted]);
 $check($result['status'] === 202 && $result['body']['success'] === true, 'valid business enquiry accepted');
 $check(count($calls) === 2 && str_contains($calls[0]['url'], 'siteverify') && str_contains($calls[1]['url'], 'api.brevo.com'), 'CAPTCHA verified before Brevo');

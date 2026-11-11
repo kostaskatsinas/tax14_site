@@ -22,9 +22,11 @@ The original CAPTCHA-protected flow was verified at launch. Normal mode was
 enabled in `f818456`, deployed successfully by
 [run 42806779923](https://github.com/kostaskatsinas/tax14_site/actions/runs/42806779923).
 The current live configuration reports ready and both HTML pages use only
-`mailto:petros.thanasos@gmail.com`. The existing verified Brevo sender is a
-separate private transport setting and remains configured independently. Inbox
-receipt at the new recipient has not been confirmed by a new delivery test.
+`mailto:petros.thanasos@gmail.com`. The sending identity is also
+`TAX14 Website <petros.thanasos@gmail.com>`, verified in Brevo on 2026-11-11.
+The sender is selected in `api/contact-settings.php`; legacy private sender
+settings are ignored. API and CAPTCHA credentials remain private. Inbox receipt
+at the new recipient has not been confirmed by a new delivery test.
 
 See [BREVO_SETUP.md](BREVO_SETUP.md) for private configuration, hosting details,
 maintenance and automated checks. FormSubmit is no longer used by the site.

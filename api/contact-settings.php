@@ -13,7 +13,9 @@ function tax14_contact_settings(): array {
     return [
         'recipient' => 'petros.thanasos@gmail.com',
         'brevo_api_key' => $setting('TAX14_BREVO_API_KEY', 'brevo_api_key'),
-        'sender_email' => $setting('TAX14_BREVO_SENDER_EMAIL', 'sender_email'),
+        // Public identity verified in Brevo; do not let a legacy private value
+        // keep the retired sender active after this deployment.
+        'sender_email' => 'petros.thanasos@gmail.com',
         'brevo_ip_version' => $setting('TAX14_BREVO_IP_VERSION', 'brevo_ip_version') ?: 'ipv4',
         'turnstile_site_key' => $setting('TAX14_TURNSTILE_SITE_KEY', 'turnstile_site_key'),
         'turnstile_secret_key' => $setting('TAX14_TURNSTILE_SECRET_KEY', 'turnstile_secret_key'),
