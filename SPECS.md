@@ -1,7 +1,8 @@
 # TAX14 — Προδιαγραφές της τρέχουσας υλοποίησης
 
-Τελευταίος έλεγχος: **2026-11-10**. Το έγγραφο περιγράφει τον υπάρχοντα κώδικα·
-αντικαθιστά το αρχικό wireframe και τις παλαιότερες προτάσεις copywriting.
+Τελευταίος έλεγχος τεκμηρίωσης: **2026-11-11**, με βάση τον κώδικα έως το
+`7c0d19e`. Το έγγραφο περιγράφει την υπάρχουσα υλοποίηση και αντικαθιστά
+παλαιότερα wireframes και προτάσεις copywriting.
 
 ## Κατάσταση και στοιχεία γραφείου
 
@@ -10,81 +11,99 @@
 | Ιστότοπος | [tax14.gr](https://tax14.gr/) |
 | Repository | [kostaskatsinas/tax14_site](https://github.com/kostaskatsinas/tax14_site) |
 | Κλάδος δημοσίευσης | `main` |
+| Γλώσσες | Ελληνικά στο `/`, αγγλικά στο `/en/` |
 | Σύμβουλος | Πέτρος, με 20 χρόνια εμπειρίας |
 | Διεύθυνση | Αχαιών 20, 11852 Άνω Πετράλωνα, Αθήνα |
 | Τηλέφωνο | [210 202 4225](tel:+302102024225) |
-| Email και μοναδικός παραλήπτης φόρμας | [petros.thanasos@gmail.com](mailto:petros.thanasos@gmail.com) |
+| Δημόσιο email, παραλήπτης και Brevo sender | [petros.thanasos@gmail.com](mailto:petros.thanasos@gmail.com) |
 | Ωράριο | Δευτέρα–Παρασκευή, 09:00–18:00 |
 | Αρ. Γ.Ε.ΜΗ. | 143286501000 |
 | Πτυχίο | Στατιστική και Ασφαλιστική Επιστήμη, Πανεπιστήμιο Πειραιώς |
 | Μεταπτυχιακό | Εφαρμοσμένη Λογιστική, Ελεγκτική και Φορολογία, ΠΑΔΑ |
 
-Η κανονική αποστολή αιτημάτων είναι ενεργή μέσω Brevo, με Cloudflare Turnstile.
-Δεν υπάρχει δοκιμαστική λειτουργία, προειδοποίηση χρήσης μόνο δοκιμαστικών στοιχείων
-ή πρόθεμα `[ΔΟΚΙΜΗ]` στα email. Η ίδια διεύθυνση email χρησιμοποιείται στα δημόσια
-`mailto:` links, στην πολιτική απορρήτου και στα δομημένα δεδομένα.
+Η κανονική αποστολή αιτημάτων χρησιμοποιεί Brevo και Cloudflare Turnstile.
+Δεν υπάρχει δοκιμαστική ένδειξη ή πρόθεμα `[ΔΟΚΙΜΗ]`. Το δημόσιο email είναι
+ίδιο στα links, στα νομικά κείμενα και στα δομημένα δεδομένα και των δύο γλωσσών.
+
+## Πρόσφατες αλλαγές
+
+| Commit | Αλλαγή |
+| --- | --- |
+| `85354f6` | Φωτογραφία Ακρόπολης HD από Wikimedia Commons, WebP 960–3840px και ενημέρωση credits |
+| `0c45d54` | Βελτίωση split hero, υπηρεσιών, προσομοιωτή, φόρμας και responsive πλοήγησης |
+| `bee1561` | Έξι αγγλικές σελίδες, σημαίες EL/EN, τοπικοποίηση φόρμας/CAPTCHA/προσομοιωτή και έλεγχοι γλωσσών |
+| `c0edc55` | Αλλαγή δημόσιου email και μοναδικού παραλήπτη σε `petros.thanasos@gmail.com` |
+| `5d410e2` | Χρήση του νέου επαληθευμένου Brevo sender και έλεγχοι αγνόησης παλιών sender settings |
+| `7c0d19e` | Στόχευση αρχικής στα Πετράλωνα: title, H1, εισαγωγή, description και sharing metadata και στις δύο γλώσσες |
+
+Ο σύνδεσμος της διεύθυνσης οδηγεί πλέον στο Google Maps. Η αλλαγή υπάρχει στο
+ελληνικό source και στην παραγόμενη αγγλική αρχική. Η τελευταία δημοσίευση κώδικα
+`7c0d19e` ολοκληρώθηκε με το
+[workflow 43009243467](https://github.com/kostaskatsinas/tax14_site/actions/runs/43009243467),
+και οι δύο live αρχικές επαληθεύτηκαν μετά το upload.
 
 ## Τεχνική δομή
 
-Στατικό HTML/CSS/JavaScript με PHP 8.1+ και cURL για τη φόρμα. Δεν υπάρχει build,
-βάση δεδομένων ή Node.js server. Το Node.js χρησιμοποιείται μόνο για ελέγχους.
+Στατικό HTML/CSS/JavaScript με PHP 8.1+ και cURL για τη φόρμα. Δεν υπάρχει
+framework, βάση δεδομένων ή Node.js server. Η Python παράγει τις αγγλικές
+σελίδες και το ετήσιο αρχείο τοπικά· το Node.js χρησιμοποιείται για ελέγχους.
 Στο Hostinger επιβεβαιώθηκαν PHP 8.3 και cURL στις 2026-11-10.
 
 | Αρχείο / φάκελος | Ρόλος |
 | --- | --- |
-| [index.html](index.html) | Αρχική, υπηρεσίες, σύμβουλος, FAQ, φόρμα, νομικά modals |
+| [index.html](index.html) | Ελληνική αρχική: υπηρεσίες, σύμβουλος, σύγκριση, FAQ και φόρμα |
+| [en/](en/) | Έξι παραγόμενες αγγλικές σελίδες |
 | [financial-statements.html](financial-statements.html) | Στατικό ετήσιο αρχείο PDF |
-| [css/styles.css](css/styles.css) | Κοινά styles και responsive συμπεριφορά |
+| [privacy.html](privacy.html), [terms.html](terms.html), [cookies.html](cookies.html), [credits.html](credits.html) | Αυτοτελείς νομικές σελίδες και πηγές εικόνας |
+| [assets/kit/](assets/kit/) | Κοινό runtime layout/UI/motion, χωρίς τοπικές αλλαγές στα αρχεία του kit |
+| [css/site.css](css/site.css), [css/fonts.css](css/fonts.css) | Styles του site και self-hosted Manrope |
 | [css/financial-statements.css](css/financial-statements.css) | Layout αρχείου οικονομικών καταστάσεων |
-| [js/main.js](js/main.js) | Πλοήγηση, tabs, φόρμα, προσομοιωτής, FAQ, modals, cookies |
-| [js/contact-delivery.mjs](js/contact-delivery.mjs) | Allowlist πεδίων και αποστολή JSON στο ίδιο origin |
-| [js/contact-captcha.mjs](js/contact-captcha.mjs) | Φόρτωση Turnstile, token, λήξη και επανάληψη |
+| [js/head.js](js/head.js) | Έγκαιρη ενεργοποίηση δυνατοτήτων JavaScript |
+| [js/main.js](js/main.js) | Προσομοιωτής, φόρμα και προεπιλογή υπηρεσίας |
+| [js/navigation.js](js/navigation.js) | Active sections, focus mobile menu και διατήρηση hash κατά την αλλαγή γλώσσας |
+| [js/i18n.mjs](js/i18n.mjs) | Μηνύματα runtime και μορφοποίηση αριθμών EL/EN |
+| [js/contact-delivery.mjs](js/contact-delivery.mjs), [js/contact-captcha.mjs](js/contact-captcha.mjs) | JSON αποστολή και lifecycle Turnstile |
 | [api/contact.php](api/contact.php) | POST endpoint JSON, όριο 20 KB |
-| [api/contact-service.php](api/contact-service.php) | Επαλήθευση CAPTCHA και αποστολή μέσω Brevo |
-| [api/contact-settings.php](api/contact-settings.php) | Ανάγνωση ιδιωτικών ρυθμίσεων εκτός public root |
+| [api/contact-service.php](api/contact-service.php) | CAPTCHA verification και αποστολή μέσω Brevo |
+| [api/contact-settings.php](api/contact-settings.php) | Σταθερές δημόσιες ταυτότητες email και ανάγνωση ιδιωτικών credentials |
 | [api/contact-config.php](api/contact-config.php) | Δημόσια ετοιμότητα και δημόσιο CAPTCHA site key |
-| [api/contact-validation.php](api/contact-validation.php) | Κοινό συμβόλαιο επικύρωσης αιτήματος |
-| [assets/](assets/) | SVG, δύο υπάρχουσες WebP φωτογραφίες και PDF |
-| [scripts/update-financial-statements.py](scripts/update-financial-statements.py) | Τοπική αναδημιουργία λίστας PDF |
-| [tests/](tests/) | Αυτοματοποιημένοι έλεγχοι χωρίς πραγματική αποστολή email |
+| [api/contact-validation.php](api/contact-validation.php), [api/contact-rate-limit.php](api/contact-rate-limit.php) | Επικύρωση και περιορισμός αιτημάτων |
+| [assets/](assets/) | Φωτογραφίες, flags, icons, fonts, OG εικόνα και PDF |
+| [scripts/build-english.py](scripts/build-english.py) | Παραγωγή αγγλικών HTML από ελληνικά και dictionary |
+| [scripts/update-financial-statements.py](scripts/update-financial-statements.py) | Αναδημιουργία ετήσιου αρχείου και αγγλικών σελίδων |
+| [tests/](tests/) | Έλεγχοι PHP, Python και JavaScript χωρίς πραγματική αποστολή email |
 
 ## Περιεχόμενο και πλοήγηση
 
-Το sticky header παρουσιάζει σε μία οριζόντια σειρά το λογότυπο και το TAX14,
-χωρίς πρόσθετο περιγραφικό κείμενο. Οι κύριες επιλογές είναι «Υπηρεσίες»
-(`#services`), «Ο Πέτρος» (`#petros`), «Σύγκριση» (`#compare`), «Συχνές Ερωτήσεις»
-(`#faq`) και αμέσως μετά «Οικονομικές καταστάσεις» (`financial-statements.html`),
-μαζί με CTA «Επικοινωνία» (`#contact`). Κάτω από 1200px χρησιμοποιείται το menu
-που ανοίγει με κουμπί. Στα κινητά η επικοινωνία είναι διαθέσιμη μέσα στο menu.
+Το sticky header έχει logo και TAX14, «Υπηρεσίες» (`#services`), «Ο Πέτρος»
+(`#petros`), «Σύγκριση» (`#compare`), «Συχνές Ερωτήσεις» (`#faq`),
+«Οικονομικές καταστάσεις» και CTA «Επικοινωνία» (`#contact`). Κάτω από 1360px
+χρησιμοποιείται menu sheet. Οι σημαίες Ελλάδας/Ηνωμένου Βασιλείου με EL/EN
+παραμένουν επάνω δεξιά, έξω από το menu. Αλλάζουν στην αντίστοιχη σελίδα και,
+με JavaScript, διατηρούν το section hash. Δεν γίνεται αυτόματο redirect γλώσσας.
 
-1. **Hero:** «Τα οικονομικά σας, σε ξεκάθαρη σειρά.», τοποθεσία σε πλαίσιο,
-   εισαγωγή 20ετούς εμπειρίας, «Ζητήστε επικοινωνία» και «Δείτε τις υπηρεσίες μας».
-   Η δεξιά κάρτα «Τι σας απασχολεί;» προσφέρει διαδρομές επιχείρησης/ιδιώτη·
-   δεν παρουσιάζει πραγματικά δεδομένα ή ζωντανή κατάσταση πελάτη.
-2. **Υπηρεσίες (`#services`):** φίλτρο όλων/B2B/B2C, ευδιάκριτες ετικέτες
-   κατηγορίας, σύντομοι τίτλοι και αναλυτικό περιεχόμενο σε disclosures.
-   B2B: λογιστήριο, εταιρείες, φορολογικός σχεδιασμός, μισθοδοσία.
-   B2C: δηλώσεις, ακίνητα, μισθωτήρια, επιδόματα/ρυθμίσεις.
-3. **Εταιρικές μορφές (`#entity-guide`):** Ατομική, ΟΕ/ΕΕ, ΙΚΕ, ΑΕ.
-   Slider και αριθμητικό πεδίο 15.000–150.000 € συγχρονίζονται για την
-   ενδεικτική σύγκριση κύριου φόρου Ατομικής/ΙΚΕ. Η υλοποίηση βρίσκεται στο
-   `js/main.js`· η αναφορά μερίσματος δεν προστίθεται στον αριθμητικό εταιρικό φόρο.
-4. **Σύμβουλος (`#why-us`):** «Ο Πέτρος, ο σύμβουλός σας», 20 χρόνια εμπειρίας,
-   σύντομη εισαγωγή, οι δύο σπουδές και τέσσερα πλεονεκτήματα συνεργασίας.
-   Διατηρείται η υπάρχουσα φωτογραφία γραφείου επάνω δεξιά.
-5. **Διαδικασία (`#process`):** συζήτηση αναγκών, γραπτή προσφορά,
-   μεταφορά/σύσταση και καθημερινή υποστήριξη. Η υπάρχουσα φωτογραφία χειραψίας
-   παραμένει επάνω δεξιά.
-6. **FAQ (`#faq`):** πέντε ερωτήσεις για αλλαγή λογιστή, εταιρική μορφή,
-   myDATA/Ψηφιακή Κάρτα, online συνεργασία και προέλεγχο δήλωσης.
-7. **Επικοινωνία (`#contact`):** φόρμα πρώτα στη σειρά DOM και στην οπτική σειρά,
-   με τα στοιχεία γραφείου δίπλα σε desktop και από κάτω σε μικρότερες οθόνες.
-8. **Footer:** στοιχεία γραφείου, διαπιστευτήρια, υπηρεσίες, νομικά modals και
-   σύνδεσμος «Οικονομικές καταστάσεις» με έντονα χρυσά γράμματα και περίγραμμα.
-
-Οι υπηρεσίες και οι επιλογές της hero κάρτας μπορούν να προεπιλέγουν τη φόρμα.
-Τα απλά footer anchors οδηγούν στις ενότητες υπηρεσιών· δεν θεωρούνται όλα
-αυτόματη προεπιλογή συγκεκριμένης υπηρεσίας.
+1. **Hero:** «Λογιστικό γραφείο στα Πετράλωνα», εισαγωγή με Αχαιών 20 και βασικές
+   υπηρεσίες, «Επικοινωνία», τηλεφωνικό link και δωρεάν πρώτη συζήτηση. Η Ακρόπολη
+   εμφανίζεται δεξιά σε desktop και κάτω από το κείμενο σε tablet/κινητό.
+   Ακολουθούν εμπειρία, άδεια και online εξυπηρέτηση.
+2. **Υπηρεσίες (`#services`):** δύο ομάδες επιχειρήσεων/ιδιωτών με clickable
+   σειρές που οδηγούν στη φόρμα και προεπιλέγουν θέμα. Δεν υπάρχουν φίλτρα ή tabs.
+3. **Σύμβουλος (`#petros`):** κείμενο για τον Πέτρο και κάρτα άδειας, σπουδών και
+   πλατφορμών, χωρίς portrait ή επώνυμο στην παρουσίαση.
+4. **Πρώτη συζήτηση (`#first-call`):** δωρεάν συζήτηση, γραπτή προσφορά και
+   word-highlight scroll effect.
+5. **Διαδικασία (`#process`):** τέσσερα βήματα συνεργασίας, χωρίς φωτογραφία.
+6. **Σύγκριση (`#compare`):** πίνακας Ατομικής, ΟΕ/ΕΕ, ΙΚΕ και ΑΕ που
+   μετατρέπεται σε κάρτες ανά γραμμή στα κινητά.
+7. **Προσομοιωτής (`#calculator`):** συγχρονισμένα slider/αριθμητικό πεδίο
+   15.000–150.000 €, ενδεικτική σύγκριση κύριου φόρου Ατομικής/ΙΚΕ.
+   Δεν υπολογίζει συνολικό κόστος επιχείρησης ή φόρο μερισμάτων.
+8. **FAQ (`#faq`):** πέντε απαντήσεις πάντα ορατές, όχι accordion.
+9. **Επικοινωνία (`#contact`):** στοιχεία γραφείου πρώτα και φόρμα δίπλα σε
+   desktop, κάτω από αυτά σε μικρές οθόνες. Η διεύθυνση ανοίγει Google Maps,
+   χωρίς ενσωματωμένο χάρτη.
+10. **Footer:** CTA, υπηρεσίες/γραφείο/επικοινωνία, οικονομικές καταστάσεις,
+    links προς αυτοτελή νομικά κείμενα και πηγές φωτογραφίας.
 
 ## Συμβόλαιο φόρμας
 
@@ -98,66 +117,101 @@
 
 Μόνο το επιλεγμένο κανάλι επικοινωνίας είναι απαραίτητο. Νομική μορφή,
 δραστηριότητα, προσωπικό, προφίλ ιδιώτη και μήνυμα είναι προαιρετικά μέσα στο
-«Προσθέστε λεπτομέρειες». Δεν υπάρχουν ξεχωριστές επιλογές video call ή ραντεβού
-στο select της φόρμας.
+«Προσθέστε λεπτομέρειες». Και οι δύο γλώσσες κρατούν ίδια field names, IDs και
+ελληνικά API enum values. Τα ορατά labels και μηνύματα μεταφράζονται.
 
-Ροή: browser → `api/contact.php` (όριο 5 αιτημάτων ανά IP ανά 10 λεπτά, HTTP 429) → Cloudflare Siteverify → Brevo.
-Ο server ορίζει μοναδικό παραλήπτη `petros.thanasos@gmail.com`, θέμα
-`TAX14 — Νέο αίτημα: <name>` και tags `tax14`, `contact`. Ο επισκέπτης δεν μπορεί
-να ορίσει παραλήπτη, αποστολέα ή CC. Reply-To προστίθεται μόνο για επιλεγμένη
-επικοινωνία με email. Δεν αποστέλλονται αυτόματες απαντήσεις ή marketing email.
+Ροή: browser → `/api/contact.php` → Cloudflare Siteverify → Brevo.
+Όριο 5 αιτημάτων ανά IP ανά 10 λεπτά, με HTTP 429 και `Retry-After`.
+Ο server ορίζει sender `TAX14 Website <petros.thanasos@gmail.com>`, μοναδικό
+παραλήπτη `petros.thanasos@gmail.com`, θέμα `TAX14 — Νέο αίτημα: <name>` και
+tags `tax14`, `contact`. Reply-To προστίθεται μόνο για επικοινωνία με email.
+Δεν υπάρχουν CC, αυτόματες απαντήσεις ή marketing email.
 
-Το CAPTCHA ελέγχεται στον server για επιτυχία, hostname και action `tax14_contact`.
-Η αποτυχία διατηρεί τα στοιχεία και επιτρέπει νέο έλεγχο. Η επιτυχία επιστρέφει
-HTTP 202 μετά την αποδοχή της Brevo· αυτό δεν αποδεικνύει μόνο του παραλαβή στο inbox.
-Αναλυτικές ρυθμίσεις: [BREVO_SETUP.md](BREVO_SETUP.md).
+Ο sender επαληθεύτηκε στο Brevo στις 2026-11-11. Παλιές private/env τιμές sender
+αγνοούνται· API key και CAPTCHA secrets παραμένουν εκτός public root και Git.
+Το CAPTCHA ελέγχεται για επιτυχία, hostname και action `tax14_contact`.
+Σε αποτυχία διατηρούνται τα στοιχεία. HTTP 202 σημαίνει αποδοχή από την Brevo,
+όχι επιβεβαιωμένη παραλαβή στο inbox. Δεν έγινε νέα αποστολή ελέγχου στη νέα
+διεύθυνση. Ρυθμίσεις: [BREVO_SETUP.md](BREVO_SETUP.md).
 
-## Οικονομικές καταστάσεις
+## Οικονομικές καταστάσεις και γλώσσες
 
-Ξεχωριστή σελίδα με έξι PDF για 2020–2025, από το νεότερο προς το παλαιότερο,
-με «Προβολή PDF» σε νέα καρτέλα, λήψη και μέγεθος αρχείου. Δεν χρειάζεται
-JavaScript. Οδηγίες ετήσιας προσθήκης: [FINANCIAL_STATEMENTS.md](FINANCIAL_STATEMENTS.md).
+Έξι πρωτότυπα PDF 2020–2025, από το νεότερο προς το παλαιότερο, με προβολή
+σε νέα καρτέλα, λήψη και μέγεθος. Ελληνικό και αγγλικό archive παραπέμπουν στα
+ίδια ελληνικά PDF. Η πρόσβαση στα PDF λειτουργεί χωρίς JavaScript· τα scripts
+της σελίδας εξυπηρετούν πλοήγηση και motion.
+Οδηγίες: [FINANCIAL_STATEMENTS.md](FINANCIAL_STATEMENTS.md).
+
+Τα έξι ζεύγη HTML είναι αρχική, οικονομικές καταστάσεις, απόρρητο, όροι,
+cookies και credits. Μετά από αλλαγή του ελληνικού source ενημερώνεται το
+[dictionary](design-system/translations/en.json) και εκτελείται
+`python3 scripts/build-english.py`. Οδηγίες:
+[translations/README.md](design-system/translations/README.md).
 
 ## Οπτική κατεύθυνση και προσβασιμότητα
 
-Inter (self-hosted variable WOFF2 στο `assets/fonts/`, υποσύνολα Greek/Latin/Latin Extended,
-άδεια OFL) σε επικεφαλίδες και κείμενο, navy/teal/λευκές επιφάνειες και περιορισμένο
-χρυσό στα διαπιστευτήρια. Οι πραγματικές τιμές CSS και η τρέχουσα σύνθεση
-τεκμηριώνονται στο [design-system/TAX14.md](design-system/TAX14.md).
-Οι δύο φωτογραφίες διατηρούνται· τα παλιά briefs βρίσκονται στο
+Self-hosted Manrope (Greek/Latin/Latin Extended, OFL), navy/teal/λευκές επιφάνειες,
+εναλλαγές λευκού/slate, σκούρος προσομοιωτής και footer. Οι ενότητες έχουν ύψος
+ανάλογο του περιεχομένου. Η hero φωτογραφία είναι πραγματική λήψη της Ακρόπολης
+από τον Φιλοπάππου, A.Savin, Wikipedia, CC BY-SA 3.0· δεν δημιουργήθηκε με AI.
+Η παλιά φωτογραφία Φιλοπάππου παραμένει στα assets αλλά δεν χρησιμοποιείται
+στην τρέχουσα αρχική. Αναφορές:
+[design-system/TAX14.md](design-system/TAX14.md) και
 [design-system/IMAGE-PROMPTS.md](design-system/IMAGE-PROMPTS.md).
 
-Η υλοποίηση περιλαμβάνει skip link, focus styles, keyboard tabs/radios,
-`aria-current`, inline errors και error summary, focus management στα modals,
-mobile menu Escape dismissal και `prefers-reduced-motion`. Πρόκειται για
-περιγραφή χαρακτηριστικών κώδικα, όχι πιστοποίηση πλήρους συμμόρφωσης.
+Υπάρχουν skip link, focus styles, keyboard radios, inline errors/error summary,
+menu focus containment και inert background, Escape dismissal,
+`prefers-reduced-motion` και language links τουλάχιστον 44 × 44px.
+Αυτά περιγράφουν τον κώδικα, δεν πιστοποιούν πλήρη συμμόρφωση.
 
-## SEO, cookies και δημοσίευση
+## SEO και cookies
 
-Κάθε σελίδα έχει ελληνικό τίτλο, description, canonical URL και Open Graph/Twitter tags με εικόνα κοινοποίησης `assets/og-image.png` (1200 × 630, πηγή: `design-system/og-image-source.html`). Δεν υπάρχει meta keywords. Η αρχική
-περιλαμβάνει JSON-LD AccountingService/LocalBusiness και FAQPage. Το
-[sitemap.xml](sitemap.xml) περιέχει τις δύο σελίδες και το [robots.txt](robots.txt)
-παραπέμπει σε αυτό. Τα υπάρχοντα `lastmod` είναι 2026-11-06 και 2026-11-09·
-δεν ενημερώνονται αυτόματα από το deployment ή τον generator PDF.
+Η αρχική στοχεύει στο «Λογιστικό γραφείο στα Πετράλωνα», με ακριβή τοποθεσία
+Άνω Πετράλωνα στην εισαγωγή, διεύθυνση και business schema.
 
-Το cookie banner αποθηκεύει την επιλογή στο localStorage. Η τρέχουσα υλοποίηση
-δεν εγκαθιστά analytics tracker όταν ο χρήστης πατά «Αποδοχή Όλων».
-Η νομική ενημέρωση περιλαμβάνει Brevo και Cloudflare.
+| Πεδίο | Ελληνικά | Αγγλικά |
+| --- | --- | --- |
+| Title, OG/Twitter title | Λογιστικό Γραφείο στα Πετράλωνα \| TAX14 | Accounting office in Petralona, Athens \| TAX14 |
+| H1 | Λογιστικό γραφείο στα Πετράλωνα | Accounting office in Petralona |
 
-Το GitHub Actions δημοσιεύει το `main` στο Hostinger. Δεν δημοσιεύονται έγγραφα
-setup, tests, scripts, design-system ή το ιδιωτικό configuration. Δεν υπάρχει
-τεκμηριωμένη εγγύηση PageSpeed 100/100. Βήματα και έλεγχοι:
-[HOSTINGER_DEPLOY.md](HOSTINGER_DEPLOY.md).
+Η ελληνική description είναι «Λογιστικό γραφείο στα Πετράλωνα με 20 χρόνια
+εμπειρίας. Βιβλία, myDATA, μισθοδοσία και φορολογικές δηλώσεις. Αχαιών 20 — δωρεάν
+πρώτη συζήτηση.». Οι descriptions αναζήτησης/OG/Twitter συμφωνούν ανά γλώσσα.
 
-## Καταγραφή ελέγχου τεκμηρίωσης — 2026-11-10
+Και οι 12 σελίδες έχουν localized metadata, canonical και αμοιβαία
+`hreflang="el"`, `en`, `x-default`. Η αρχική περιλαμβάνει AccountingService /
+LocalBusiness και FAQPage JSON-LD. Το [sitemap.xml](sitemap.xml) καταγράφει
+12 URLs με language alternates και `lastmod` 2026-11-11. Το
+[robots.txt](robots.txt) παραπέμπει στο sitemap. Τα `lastmod` συντηρούνται
+χειροκίνητα. Η κοινή OG εικόνα είναι `assets/og-image.png` (1200 × 630), με
+source [design-system/og-image-source.html](design-system/og-image-source.html).
 
-Ελέγχθηκαν και ενημερώθηκαν και τα επτά Markdown αρχεία του έργου. Οι 52 τοπικοί
-σύνδεσμοι τεκμηρίωσης επιλύονται σε υπάρχοντα αρχεία ή φακέλους. Οι εξωτερικές
-αναφορές Brevo και Cloudflare ελέγχθηκαν στα επίσημα documentation sites.
+Δεν υπάρχει cookie banner, language cookie, analytics ή marketing tracker.
+Η ξεχωριστή σελίδα cookies περιγράφει τα αναγκαία στοιχεία της υπηρεσίας
+Turnstile. Τα νομικά κείμενα περιλαμβάνουν Brevo και Cloudflare.
 
-Επιβεβαιώθηκαν ζωντανά οι δύο HTML σελίδες, το μοναδικό δημόσιο email,
-η απουσία δοκιμαστικής ένδειξης, η ετοιμότητα CAPTCHA, HTTP 405 για GET στη φόρμα,
-HTTP 404 για τη δημόσια διεύθυνση ιδιωτικών ρυθμίσεων και HTTP 200 για τα έξι PDF.
-Ο generator αναπαρήγαγε ακριβώς το υπάρχον archive σε απομονωμένο αντίγραφο και
-πρόσθεσε σωστά υποθετικό έτος 2026 πρώτο στη λίστα. Δεν μεταβλήθηκαν τα PDF,
-οι φωτογραφίες ή ο λειτουργικός κώδικας κατά την ενημέρωση τεκμηρίωσης.
+### Εκκρεμότητες από τον έλεγχο SEO της 2026-11-11
+
+- Το `www.tax14.gr` παρουσίασε πρόβλημα κάλυψης TLS· απαιτεί νέο έλεγχο και
+  επίλυση SSL/CDN πριν θεωρηθεί ολοκληρωμένο. Δεν έγινε αλλαγή DNS σε αυτό το update.
+- Τα `/index.html` και `/en/index.html` εξυπηρετούνται ως επιπλέον URLs με σωστά
+  canonical· δεν έχει προστεθεί redirect προς `/` και `/en/`.
+- Η φορολογική κλίμακα/έτος του προσομοιωτή χρειάζεται επαγγελματικό έλεγχο.
+  Οι πρόσφατες αλλαγές αφορούσαν εμφάνιση/μετάφραση, όχι φορολογική επικαιροποίηση.
+- Πρόσθετες σελίδες υπηρεσιών, Google Business Profile και Search Console
+  παραμένουν προτάσεις, όχι υλοποιημένες αλλαγές αυτού του κύκλου.
+
+## Έλεγχοι και δημοσίευση
+
+Το GitHub Actions τρέχει PHP tests, `python3 tests/languages.py` και
+`node --test tests/*.mjs` πριν το FTPS upload του `main` στο Hostinger.
+Setup docs, tests, scripts, design-system και private configuration εξαιρούνται.
+Οδηγίες: [HOSTINGER_DEPLOY.md](HOSTINGER_DEPLOY.md).
+
+Για το `7c0d19e` πέρασαν οι έλεγχοι CI και deployment. Ελέγχθηκαν οπτικά οι
+δύο αρχικές σε 1440px/390px και επαληθεύτηκε ότι τα live HTML συμφωνούν με τον
+κώδικα. Αυτό δεν αποτελεί νέο inbox test ή νέα μέτρηση PageSpeed/ranking.
+Η παρούσα ενημέρωση συγχρονίζει τα οκτώ Markdown αρχεία με αυτές τις αλλαγές.
+Ελέγχθηκαν οι 92 τοπικοί σύνδεσμοι τεκμηρίωσης και τα επτά αναφερόμενα commits,
+πέρασαν οι πέντε έλεγχοι του `tests/languages.py` και το `git diff --check`.
+Όλα τα Markdown παραμένουν καλυμμένα από τα υπάρχοντα exclusions του deployment.

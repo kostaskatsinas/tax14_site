@@ -1,11 +1,14 @@
 # Ετήσιες οικονομικές καταστάσεις
 
-Τελευταίος έλεγχος: **2026-11-10**.
+Τελευταίος έλεγχος τεκμηρίωσης: **2026-11-11**, έως το `7c0d19e`.
 
 Η [financial-statements.html](financial-statements.html) είναι στατική σελίδα,
-χωρίς JavaScript, με προβολή PDF σε νέα καρτέλα και ξεχωριστή λήψη. Συνδέεται από
-το footer της αρχικής, κάτω από τα διαπιστευτήρια, με έντονα χρυσά γράμματα και
-περίγραμμα. Το δημόσιο email της είναι `petros.thanasos@gmail.com`.
+με προβολή PDF σε νέα καρτέλα και ξεχωριστή λήψη που λειτουργούν χωρίς
+JavaScript. Τα scripts της σελίδας εξυπηρετούν την κοινή πλοήγηση και τα motion
+effects. Συνδέεται από το κύριο menu αμέσως μετά τις FAQ, το mobile menu και το
+footer της αρχικής. Χρησιμοποιεί Manrope, το κοινό kit και `css/site.css`.
+Οι σημαίες EL/EN οδηγούν στα αντίστοιχα archives. Το δημόσιο email και στις δύο
+σελίδες είναι `petros.thanasos@gmail.com` από το `c0edc55`.
 
 Εταιρεία: **Π. ΘΑΝΑΣΟΣ ΚΑΙ Α. ΣΤΑΘΟΠΟΥΛΟΥ – ΒΛΑΜΗ Ι.Κ.Ε.**, Γ.Ε.ΜΗ.
 **143286501000**. Το ετήσιο αρχείο περιλαμβάνει έξι πρωτότυπα PDF Β5/Β6 για τα
@@ -34,10 +37,11 @@ generator και πρέπει να διατηρούνται όπως παραδ�
    python3 scripts/update-financial-statements.py
    ```
 
-3. Ελέγξτε ότι η προβολή/λήψη δουλεύει και ότι το νέο έτος εμφανίζεται πρώτο.
-4. Ενημερώστε το `lastmod` της σελίδας στο [sitemap.xml](sitemap.xml) και τον
+3. Ελέγξτε και τις δύο γλώσσες: προβολή/λήψη, νεότερο έτος πρώτο και σωστό
+   language link. Εκτελέστε `python3 tests/languages.py` για generation/link/SEO checks.
+4. Ενημερώστε το `lastmod` και των δύο archive URLs στο [sitemap.xml](sitemap.xml) και τον
    παραπάνω κατάλογο τεκμηρίωσης. Ο generator δεν τα ενημερώνει αυτόματα.
-5. Κάντε commit το νέο PDF και την ενημερωμένη HTML μαζί με τις αντίστοιχες
+5. Κάντε commit το νέο PDF και τις δύο ενημερωμένες HTML μαζί με τις αντίστοιχες
    αλλαγές metadata/τεκμηρίωσης και ακολουθήστε το
    [HOSTINGER_DEPLOY.md](HOSTINGER_DEPLOY.md).
 
@@ -51,13 +55,19 @@ pattern και την κεφαλίδα `%PDF-`, ταξινομεί τα έτη �
 
 Απορρίπτει απρόσμενο όνομα PDF, αρχείο χωρίς κεφαλίδα PDF, κατάλογο χωρίς PDF
 ή λανθασμένους markers. Δεν ελέγχει τη λογιστική ορθότητα ή όλες τις σελίδες ενός
-PDF. Δεν χρειάζεται Python στον server και το GitHub Actions δεν εκτελεί τον
-generator. Οι σελίδες χρησιμοποιούν τα κοινά styles και το
+PDF. Δεν χρειάζεται Python στον server. Το GitHub Actions δεν εκτελεί τον
+generator PDF, αλλά ελέγχει ότι τα αγγλικά HTML είναι ενημερωμένα. Οι σελίδες χρησιμοποιούν τα κοινά styles και το
 [css/financial-statements.css](css/financial-statements.css).
 
 ## English archive
 
-The archive is also available at `/en/financial-statements.html`. The update
+The archive is also available at [en/financial-statements.html](en/financial-statements.html),
+introduced in `bee1561`. The update
 script regenerates it automatically using `scripts/build-english.py`. PDF files
 remain the original Greek documents. Commit both HTML pages and update both
-archive URLs in `sitemap.xml`. See `design-system/translations/README.md`.
+archive URLs in `sitemap.xml`. See [translations/README.md](design-system/translations/README.md).
+
+The latest email, Brevo sender and homepage SEO commits did not add, remove or
+modify any financial PDFs. Both archives still publish the same six original
+Greek documents for 2020–2025. Canonical and reciprocal el/en/x-default links
+are present on both archive pages. The full change record is in [SPECS.md](SPECS.md).

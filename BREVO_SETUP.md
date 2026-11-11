@@ -1,8 +1,12 @@
 # Brevo and CAPTCHA setup
 
-Contact address updated: **2026-11-11**. Original delivery setup verified on **2026-11-10**.
+Documentation checked against source through `7c0d19e`: **2026-11-11**.
+Contact address and verified sender updated on **2026-11-11**; original delivery
+setup verified on **2026-11-10**.
 
-The contact flow is browser → PHP → Cloudflare Turnstile verification → Brevo.
+Both Greek and English contact forms use browser → `/api/contact.php` →
+Cloudflare Turnstile verification → Brevo. The root-relative endpoint is shared
+by `/` and `/en/`.
 Actual credentials are never included in HTML, JavaScript, Git, logs or API responses.
 The sender and recipient are `petros.thanasos@gmail.com`, fixed in server code.
 The sender name is `TAX14 Website`; the address was verified in Brevo on
@@ -87,6 +91,12 @@ node --test tests/contact-delivery.mjs tests/contact-captcha.mjs
 ```
 
 GitHub Actions runs the same checks before every deploy and on pull requests.
+It also runs `python3 tests/languages.py` and all `tests/*.mjs`, including
+localization checks. Form field names, IDs, service-prefill values and Greek
+API enum values must remain identical between languages. English labels,
+validation/provider error messages and CAPTCHA UI are localized on the client;
+transactional email subjects and body labels remain Greek. See
+[translations/README.md](design-system/translations/README.md).
 
 `api/contact.php` also limits each client IP to 5 POSTs per 10 minutes
 (`api/contact-rate-limit.php`), answering HTTP 429 with `Retry-After`. Only a
@@ -143,13 +153,23 @@ real email. Published always-pass CAPTCHA keys remain blocked by the handler.
 
 ## Current source and verification record
 
-The original delivery flow was enabled in commit `f818456`. The contact address
-and recipient were subsequently changed to `petros.thanasos@gmail.com`.
-[Deployment 42806779923](https://github.com/kostaskatsinas/tax14_site/actions/runs/42806779923)
-succeeded. The owner confirmed inbox receipt from the live CAPTCHA-protected
-flow before normal customer use was enabled. The subsequent production-mode
-change passed 30 service checks, 19 request-validation cases and both JavaScript
-test files; it did not change the provider credentials or destination.
+The original delivery flow was enabled in commit `f818456`, with successful
+[deployment 42806779923](https://github.com/kostaskatsinas/tax14_site/actions/runs/42806779923).
+The owner confirmed inbox receipt from that original CAPTCHA-protected flow
+before normal customer use was enabled. That check predates the new address.
+
+| Commit | Change | Successful deployment |
+| --- | --- | --- |
+| `bee1561` | English form labels, messages and CAPTCHA using the same API contract | Included before the deployments below |
+| `c0edc55` | Public address and sole recipient changed to `petros.thanasos@gmail.com` | [43003366462](https://github.com/kostaskatsinas/tax14_site/actions/runs/43003366462) |
+| `5d410e2` | Newly verified sender selected in PHP; legacy private/env sender overrides ignored | [43004967884](https://github.com/kostaskatsinas/tax14_site/actions/runs/43004967884) |
+
+Regression checks cover the fixed recipient and sender, including an obsolete
+environment/private sender value. The sender change left API/Turnstile secrets
+and the previous registered Brevo sender intact. The configuration endpoint
+reported ready after deployment; no new real enquiry was sent to establish inbox
+receipt at the replacement address. Homepage SEO commit `7c0d19e` changed copy
+and sharing metadata in both languages, with no contact transport/settings change.
 
 The current response is “Το αίτημά σας υποβλήθηκε. Θα επικοινωνήσουμε μαζί σας με
 τον τρόπο που επιλέξατε.” Email bodies start with “Νέο αίτημα επικοινωνίας TAX14”
