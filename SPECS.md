@@ -180,7 +180,7 @@ menu focus containment και inert background, Escape dismissal,
 
 Και οι 12 σελίδες έχουν localized metadata, canonical και αμοιβαία
 `hreflang="el"`, `en`, `x-default`. Η αρχική περιλαμβάνει AccountingService /
-LocalBusiness (με αριθμό Γ.Ε.ΜΗ., ContactPoint και γλώσσες), WebSite και FAQPage JSON-LD. Το [sitemap.xml](sitemap.xml) καταγράφει
+LocalBusiness (με αριθμό Γ.Ε.ΜΗ., ContactPoint, γλώσσες, συντεταγμένες και σύνδεσμο Google Maps), WebSite και FAQPage JSON-LD. Το [sitemap.xml](sitemap.xml) καταγράφει
 12 URLs με language alternates και `lastmod` 2026-11-11. Το
 [robots.txt](robots.txt) παραπέμπει στο sitemap και εξαιρεί το `/api/`. Τα `lastmod` συντηρούνται
 χειροκίνητα. Η κοινή OG εικόνα είναι `assets/og-image.png` (1200 × 630), με
