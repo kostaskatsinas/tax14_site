@@ -1,36 +1,32 @@
 # Website photography and archived creative briefs
 
-Last checked against source: **2026-11-11**, through `7c0d19e`. The active hero
-photograph was replaced in `85354f6`; the split layout was refined in
-`0c45d54`. The older office/handshake briefs below are historical references.
+Last checked against source: **2026-11-13**. The hero photograph is now a real
+photograph of the TAX14 office interior; it replaced the Acropolis/Philopappos
+photograph, whose files were removed. The older office/handshake briefs below
+are historical references.
 
 ## Current hero photograph
 
-The Greek and English homepages use a real HD photograph of the Acropolis and
-Parthenon viewed from Philopappos Hill, by **A.Savin, Wikipedia**, via
-[Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Attica_06-13_Athens_50_View_from_Philopappos_-_Acropolis_Hill.jpg),
-licensed under [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/).
-The source is 5000 × 3125 pixels. Resized WebP derivatives retain the same licence;
-attribution and the responsive crop are disclosed on [credits.html](../credits.html)
-and [en/credits.html](../en/credits.html). This is not an AI-generated image.
+The Greek and English homepages show the inside of the TAX14 office at Αχαιών 20,
+Άνω Πετράλωνα: desks, screens and shelves of binders. The owner supplied the
+photograph (1086 × 1448 pixels, portrait). It is cropped to 4:3 around the desks
+and shelves and saved as WebP. It belongs to TAX14 and needs no licence credit;
+[credits.html](../credits.html) and [en/credits.html](../en/credits.html) describe it.
+This is not an AI-generated image.
 
 | File | Dimensions |
 | --- | --- |
-| [acropolis-960.webp](../assets/img/acropolis-960.webp) | 960 × 600 |
-| [acropolis-1280.webp](../assets/img/acropolis-1280.webp) | 1280 × 800 |
-| [acropolis-1920.webp](../assets/img/acropolis-1920.webp) | 1920 × 1200 |
-| [acropolis-2560.webp](../assets/img/acropolis-2560.webp) | 2560 × 1600 |
-| [acropolis-3840.webp](../assets/img/acropolis-3840.webp) | 3840 × 2400 |
+| [office-640.webp](../assets/img/office-640.webp) | 640 × 480 |
+| [office-960.webp](../assets/img/office-960.webp) | 960 × 720 |
+| [office-1086.webp](../assets/img/office-1086.webp) | 1086 × 815 |
 
 The hero uses an HTML image with `srcset`, `sizes`, explicit dimensions,
 `fetchpriority="high"`, matching preload and translated descriptive alt text.
 The photo sits beside the text on desktop and below it under 1024px. CSS uses
-`object-fit: cover`, position 58% 45% on desktop and 58% 38% below 1024px.
-It is a neighbourhood landmark, not a photograph of TAX14's premises.
-
-The previous `assets/img/philopappos-{960,1280,1920}.webp` files remain in the
-repository but are not referenced by current homepage HTML. No active office,
-handshake or adviser portrait is present in the current layout.
+`object-fit: cover`, position 50% 50% on desktop and 50% 62% below 1024px, so
+the desks stay in view in the wide tablet crop. A higher-resolution original
+would allow a sharper 1600–2000px size for high-density desktop screens.
+No adviser portrait is present in the current layout.
 
 The shared social image remains [og-image.png](../assets/og-image.png), 1200 ×
 630 pixels, with source [og-image-source.html](og-image-source.html). It is
