@@ -180,9 +180,9 @@ menu focus containment και inert background, Escape dismissal,
 
 Και οι 12 σελίδες έχουν localized metadata, canonical και αμοιβαία
 `hreflang="el"`, `en`, `x-default`. Η αρχική περιλαμβάνει AccountingService /
-LocalBusiness και FAQPage JSON-LD. Το [sitemap.xml](sitemap.xml) καταγράφει
+LocalBusiness (με αριθμό Γ.Ε.ΜΗ., ContactPoint και γλώσσες), WebSite και FAQPage JSON-LD. Το [sitemap.xml](sitemap.xml) καταγράφει
 12 URLs με language alternates και `lastmod` 2026-11-11. Το
-[robots.txt](robots.txt) παραπέμπει στο sitemap. Τα `lastmod` συντηρούνται
+[robots.txt](robots.txt) παραπέμπει στο sitemap και εξαιρεί το `/api/`. Τα `lastmod` συντηρούνται
 χειροκίνητα. Η κοινή OG εικόνα είναι `assets/og-image.png` (1200 × 630), με
 source [design-system/og-image-source.html](design-system/og-image-source.html).
 
@@ -193,9 +193,11 @@ Turnstile. Τα νομικά κείμενα περιλαμβάνουν Brevo κ�
 ### Εκκρεμότητες από τον έλεγχο SEO της 2026-11-11
 
 - Το `www.tax14.gr` παρουσίασε πρόβλημα κάλυψης TLS· απαιτεί νέο έλεγχο και
-  επίλυση SSL/CDN πριν θεωρηθεί ολοκληρωμένο. Δεν έγινε αλλαγή DNS σε αυτό το update.
-- Τα `/index.html` και `/en/index.html` εξυπηρετούνται ως επιπλέον URLs με σωστά
-  canonical· δεν έχει προστεθεί redirect προς `/` και `/en/`.
+  επίλυση SSL/CDN πριν θεωρηθεί ολοκληρωμένο. Η [.htaccess](.htaccess) πλέον
+  ανακατευθύνει μόνιμα το `www` στο `https://tax14.gr`, αλλά αυτό λειτουργεί μόνο
+  αφού το πιστοποιητικό καλύψει και το `www`.
+- Τα `/index.html` και `/en/index.html` ανακατευθύνονται με 301 στο `/` και `/en/`,
+  και οι εσωτερικοί σύνδεσμοι δείχνουν απευθείας στο canonical URL (`./`).
 - Η φορολογική κλίμακα/έτος του προσομοιωτή χρειάζεται επαγγελματικό έλεγχο.
   Οι πρόσφατες αλλαγές αφορούσαν εμφάνιση/μετάφραση, όχι φορολογική επικαιροποίηση.
 - Πρόσθετες σελίδες υπηρεσιών, Google Business Profile και Search Console
