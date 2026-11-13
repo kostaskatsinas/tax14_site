@@ -39,12 +39,12 @@
 <link rel="stylesheet" href="/assets/kit/ui/cards.css?v=1">
 <link rel="stylesheet" href="/assets/kit/motion/motion.css?v=1">
 <link rel="stylesheet" href="/assets/kit/layout/layout.css?v=1">
-<link rel="stylesheet" href="/css/site.css?v=language1">
+<link rel="stylesheet" href="/css/site.css?v=office1">
 <script src="/js/head.js?v=1"></script>
 <link rel="modulepreload" href="/assets/kit/moments/moments.js">
 <link rel="modulepreload" href="/assets/kit/moments/lib.js">
 <link rel="modulepreload" href="/assets/kit/moments/word-highlight/moment.js">
-<link rel="preload" as="image" href="/assets/img/acropolis-1920.webp" imagesrcset="/assets/img/acropolis-960.webp 960w, /assets/img/acropolis-1280.webp 1280w, /assets/img/acropolis-1920.webp 1920w, /assets/img/acropolis-2560.webp 2560w, /assets/img/acropolis-3840.webp 3840w" imagesizes="(min-width: 1024px) 52vw, 100vw">
+<link rel="preload" as="image" href="/assets/img/office-1086.webp" imagesrcset="/assets/img/office-640.webp 640w, /assets/img/office-960.webp 960w, /assets/img/office-1086.webp 1086w" imagesizes="(min-width: 1024px) 52vw, 100vw" fetchpriority="high">
 
 <script type="application/ld+json">
 {
@@ -61,7 +61,10 @@
       "description": "Accounting and tax office in Ano Petralona, Athens, with 20 years of experience. Bookkeeping, company formation, myDATA, ERGANI II payroll and personal tax returns (E1, E2, E9, ENFIA).",
       "url": "https://tax14.gr/",
       "logo": "https://tax14.gr/assets/favicon.svg",
-      "image": "https://tax14.gr/assets/og-image.png",
+      "image": [
+        "https://tax14.gr/assets/og-image.png",
+        "https://tax14.gr/assets/img/office-1086.webp"
+      ],
       "telephone": "+30-210-202-4225",
       "email": "petros.thanasos@gmail.com",
       "identifier": {
@@ -79,6 +82,12 @@
         "el",
         "en"
       ],
+      "founder": {
+        "@id": "https://tax14.gr/#petros"
+      },
+      "employee": {
+        "@id": "https://tax14.gr/#petros"
+      },
       "contactPoint": {
         "@type": "ContactPoint",
         "contactType": "customer service",
@@ -201,6 +210,37 @@
       }
     },
     {
+      "@type": "Person",
+      "@id": "https://tax14.gr/#petros",
+      "name": "Petros Thanasos",
+      "givenName": "Petros",
+      "familyName": "Thanasos",
+      "jobTitle": "Class A accountant and tax adviser",
+      "email": "petros.thanasos@gmail.com",
+      "telephone": "+30-210-202-4225",
+      "worksFor": {
+        "@id": "https://tax14.gr/#organization"
+      },
+      "memberOf": {
+        "@type": "Organization",
+        "name": "Economic Chamber of Greece"
+      },
+      "alumniOf": [
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of West Attica"
+        },
+        {
+          "@type": "CollegeOrUniversity",
+          "name": "University of Piraeus"
+        }
+      ],
+      "knowsLanguage": [
+        "el",
+        "en"
+      ]
+    },
+    {
       "@type": "WebSite",
       "@id": "https://tax14.gr/#website",
       "url": "https://tax14.gr/",
@@ -267,8 +307,7 @@
 <!-- Accounting office: split photographic opening, content-height sections,
      navy calculator and footer, teal actions, Greek Manrope typography.
      The free-call statement uses the kit's word-highlight moment.
-     photograph: Acropolis of Athens from Philopappos Hill, A.Savin, Wikipedia,
-     via Wikimedia Commons, CC BY-SA 3.0; selected as the neighbourhood landmark -->
+     photograph: the TAX14 office interior, supplied by the owner -->
 
 <header class="nav">
   <div class="wrap nav__bar">
@@ -320,7 +359,7 @@
           <p class="hero__note">Your first consultation is free.</p>
         </div>
       </div>
-      <div class="hero__visual"><img class="hero__bg" src="/assets/img/acropolis-1920.webp" srcset="/assets/img/acropolis-960.webp 960w, /assets/img/acropolis-1280.webp 1280w, /assets/img/acropolis-1920.webp 1920w, /assets/img/acropolis-2560.webp 2560w, /assets/img/acropolis-3840.webp 3840w" sizes="(min-width: 1024px) 52vw, 100vw" width="1920" height="1200" alt="The Acropolis of Athens and the Parthenon, seen from Philopappos Hill" fetchpriority="high" decoding="async" data-source="library" data-subject="the neighbourhood landmark: Acropolis of Athens viewed from Philopappos Hill"></div>
+      <div class="hero__visual"><img class="hero__bg" src="/assets/img/office-1086.webp" srcset="/assets/img/office-640.webp 640w, /assets/img/office-960.webp 960w, /assets/img/office-1086.webp 1086w" sizes="(min-width: 1024px) 52vw, 100vw" width="1086" height="815" alt="Inside the TAX14 accounting office in Ano Petralona, with desks, computer screens and shelves of binders" fetchpriority="high" decoding="async" data-source="owner" data-subject="the TAX14 office interior at Achaion 20, Ano Petralona"></div>
       <dl class="hero__proof">
         <div><dt>20 years</dt><dd>of accounting experience</dd></div>
         <div><dt>Class A licence</dt><dd>Economic Chamber of Greece member</dd></div>
@@ -362,8 +401,8 @@
     <div class="wrap">
       <div class="grid grid--top">
         <div class="span-6 stack-5">
-          <h2 id="petros-h">Petros, your accountant</h2>
-          <p class="t-lead measure">Petros has supported businesses and individuals with their accounting and tax obligations for 20 years. He listens to what you need, explains your options in plain language and keeps you informed before each deadline.</p>
+          <h2 id="petros-h">Petros Thanasos, your accountant</h2>
+          <p class="t-lead measure">Petros Thanasos has supported businesses and individuals with their accounting and tax obligations for 20 years. He listens to what you need, explains your options in plain language and keeps you informed before each deadline.</p>
           <p class="measure">He handles your file personally, from the first call to monthly submissions. Bring your documents to the office or send them electronically.</p>
           <p class="measure">He works with clients across Attica and, online, throughout Greece and abroad.</p>
         </div>
@@ -630,7 +669,7 @@
       <div class="footer__legal">
         <span>© <span id="current-year">2026</span> TAX14 · GEMI No. 143286501000 · <a href="privacy.html">Privacy</a> · <a href="terms.html">Terms of use</a> · <a href="cookies.html">Cookies</a></span>
         <div class="socials"></div>
-        <a class="credits" href="credits.html">Photograph via Wikimedia Commons</a>
+        <a class="credits" href="credits.html">Photo credits</a>
       </div>
     </div>
   </div>

@@ -21,16 +21,16 @@ design-taste-frontend skill. The CSS files are authoritative for exact values.
 ## Page (index.html), content-height sections
 
 1. Hero: H1 «Λογιστικό γραφείο στα Πετράλωνα», an introduction naming Αχαιών 20, Άνω Πετράλωνα
-   and core services, contact/phone actions and the free first consultation. Text and Acropolis photograph
+   and core services, contact/phone actions and the free first consultation. Text and office photograph
    sit in separate columns, followed by three compact facts. The image
-   stacks below the text on tablets and phones. Photograph from Philopappos Hill by A.Savin, Wikipedia,
-   via Wikimedia Commons, CC BY-SA 3.0, credited on `credits.html` and `en/credits.html`.
-   Responsive WebP widths are 960, 1280, 1920, 2560 and 3840px; full asset details are in
+   stacks below the text on tablets and phones. Original photograph of the office interior, supplied
+   by the owner and described on `credits.html` and `en/credits.html`.
+   Responsive WebP widths are 640, 960 and 1086px; full asset details are in
    [IMAGE-PROMPTS.md](IMAGE-PROMPTS.md).
 2. Services: two bordered groups (επιχειρήσεις / ιδιώτες), with a pale header and icon rows. The whole
    service row links to the form and preselects the enquiry subject. Secondary tags disappear on phones.
-3. Ο Πέτρος: short story beside a card with 20 years, O.E.E. licence, degrees and platforms. First name
-   only, no portrait (owner's decision).
+3. Ο Πέτρος: short story beside a card with 20 years, O.E.E. licence, degrees and platforms. Full name
+   (Πέτρος Θανασός / Petros Thanasos) in the heading and first sentence, first name elsewhere; no portrait.
 4. Statement: a short heading about the free first call, with supporting details in a second column.
    The heading retains the word-highlight scroll effect.
 5. Steps: four numbered steps across desktop, two columns on tablets, a vertical sequence on phones.
