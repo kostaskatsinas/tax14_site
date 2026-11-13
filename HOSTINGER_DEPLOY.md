@@ -123,6 +123,7 @@ port 21, `security: loose`, με `server-dir: ./` στον ήδη ρυθμισμ
 - Μετά από 5 αιτήματα φόρμας σε 10 λεπτά από την ίδια IP, το έκτο παίρνει HTTP 429.
 
 Η [.htaccess](.htaccess) περιέχει HTTPS redirect (με εξαίρεση local development),
+301 από `www.tax14.gr` στο `tax14.gr` και από `/index.html`, `/en/index.html` στο `/`, `/en/`,
 UTF-8, MIME types για `.mjs` και `.woff2`, security headers (HSTS, Content-Security-Policy
 που επιτρέπει μόνο το ίδιο origin και το Cloudflare Turnstile, Permissions-Policy),
 compression και static caching,
@@ -146,7 +147,7 @@ compression και static caching,
 Ο έλεγχος SEO της 2026-11-11 κατέγραψε πρόβλημα TLS στο `www.tax14.gr`, ενώ το
 canonical `https://tax14.gr/` λειτουργούσε. Η αποδοχή του `www` στις ρυθμίσεις
 CAPTCHA δεν επιβεβαιώνει SSL κάλυψη. Επαναλάβετε τον έλεγχο πριν θεωρήσετε το
-θέμα λυμένο. Δεν εφαρμόστηκε αλλαγή DNS ή redirect για τα `/index.html` aliases.
+θέμα λυμένο. Το redirect `www` → `tax14.gr` στην .htaccess ενεργεί μόνο αφού λυθεί το TLS.
 Για live έλεγχο αρχείων CSS/JS χρησιμοποιείτε τα versioned URLs της HTML, ώστε
 παλιό cache να μην εκληφθεί ως αποτυχία deployment. Αν η τοπική σύνδεση έχει
 πρόβλημα IPv6, δοκιμάστε `curl -4` χωρίς απενεργοποίηση ελέγχου TLS.

@@ -9,6 +9,12 @@ DirectoryIndex index.html index.php
 
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  # SEO: ένα μόνο host. Το www.tax14.gr ανακατευθύνεται μόνιμα στο https://tax14.gr (όπως τα canonical).
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^(.*)$ https://%1%{REQUEST_URI} [L,R=301]
+  # SEO: /index.html και /en/index.html ανακατευθύνονται στο / και /en/ ώστε να μην υπάρχουν διπλές σελίδες.
+  RewriteCond %{THE_REQUEST} ^[A-Z]+\s/((?:[^?\s]*/)?)index\.html[\s?]
+  RewriteRule ^ /%1 [L,R=301]
   # Αυτόματη ανακατεύθυνση σε HTTPS στο Hostinger (εφόσον είναι ενεργό το SSL)
   RewriteCond %{HTTPS} off
   RewriteCond %{HTTP_HOST} !^localhost [NC]
@@ -30,7 +36,7 @@ DirectoryIndex index.html index.php
 
 # Gzip / Deflate Compression για ταχύτατη φόρτωση
 <IfModule mod_deflate.c>
-  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json image/svg+xml
+  AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/ld+json application/xml image/svg+xml
 </IfModule>
 
 # Browser Caching για στατικά αρχεία
@@ -42,4 +48,7 @@ DirectoryIndex index.html index.php
   ExpiresByType image/webp "access plus 6 months"
   ExpiresByType image/png "access plus 6 months"
   ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 6 months"
+  ExpiresByType image/x-icon "access plus 6 months"
+  ExpiresByType application/pdf "access plus 1 month"
 </IfModule>
