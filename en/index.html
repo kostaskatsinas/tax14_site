@@ -34,12 +34,13 @@
 <meta name="page-type" content="service">
 
 <link rel="preload" href="/assets/fonts/manrope-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/css/fonts.css?v=2">
+<link rel="preload" href="/assets/fonts/noto-serif-display-greek-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/css/fonts.css?v=3">
 <link rel="stylesheet" href="/assets/kit/system.css?v=1">
 <link rel="stylesheet" href="/assets/kit/ui/cards.css?v=1">
 <link rel="stylesheet" href="/assets/kit/motion/motion.css?v=1">
 <link rel="stylesheet" href="/assets/kit/layout/layout.css?v=1">
-<link rel="stylesheet" href="/css/site.css?v=office1">
+<link rel="stylesheet" href="/css/site.css?v=refresh1">
 <script src="/js/head.js?v=1"></script>
 <link rel="modulepreload" href="/assets/kit/moments/moments.js">
 <link rel="modulepreload" href="/assets/kit/moments/lib.js">
@@ -361,10 +362,20 @@
       </div>
       <div class="hero__visual"><img class="hero__bg" src="/assets/img/office-1086.webp" srcset="/assets/img/office-640.webp 640w, /assets/img/office-960.webp 960w, /assets/img/office-1086.webp 1086w" sizes="(min-width: 1024px) 52vw, 100vw" width="1086" height="815" alt="Inside the TAX14 accounting office in Ano Petralona, with desks, computer screens and shelves of binders" fetchpriority="high" decoding="async" data-source="owner" data-subject="the TAX14 office interior at Achaion 20, Ano Petralona"></div>
       <dl class="hero__proof">
-        <div><dt>20 years</dt><dd>of accounting experience</dd></div>
+        <div><dt data-m-count>20 years</dt><dd>of accounting experience</dd></div>
         <div><dt>Class A licence</dt><dd>Economic Chamber of Greece member</dd></div>
         <div><dt>In person &amp; online</dt><dd>in Athens and across Greece</dd></div>
       </dl>
+      <div class="trust-strip">
+        <p class="trust-strip__label">Working daily in</p>
+        <ul class="trust-strip__list">
+          <li>myDATA</li>
+          <li>Taxisnet</li>
+          <li>ERGANI II</li>
+          <li>e-EFKA</li>
+          <li>gov.gr</li>
+        </ul>
+      </div>
     </div>
   </section>
 
@@ -407,7 +418,7 @@
           <p class="measure">He works with clients across Attica and, online, throughout Greece and abroad.</p>
         </div>
         <div class="span-6 start-7 credentials">
-          <p class="credentials__stat"><span class="credentials__number">20<span>years</span></span><span class="t-small muted">in accounting and tax support</span></p>
+          <p class="credentials__stat"><span class="credentials__number" data-m-count>20<span>years</span></span><span class="t-small muted">in accounting and tax support</span></p>
           <div class="group-head"><h3>Qualifications and licence</h3></div>
           <ul class="rows rows--spec">
             <li><span class="rows__name">Economic Chamber of Greece</span><p>Member with a Class A accountant and tax adviser licence</p></li>
@@ -685,5 +696,6 @@
 <script type="module" src="/assets/kit/layout/layout.js?v=1"></script>
 <script type="module" src="/js/main.js?v=language1"></script>
 <script type="module" src="/js/navigation.js?v=language1"></script>
+<script type="module" src="/js/reveal.js?v=1"></script>
 </body>
 </html>

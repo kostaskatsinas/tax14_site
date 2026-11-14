@@ -11,12 +11,22 @@ design-taste-frontend skill. The CSS files are authoritative for exact values.
   statement). Do not edit them; page rules go in `css/site.css`.
 - **Page CSS:** `css/site.css` holds the palette and only the page's own parts: logo, service rows,
   credentials card, steps, comparison table, calculator, enquiry form, inner pages.
-- **Type:** Manrope, self-hosted (Greek, Latin, Latin Extended) in `assets/fonts/`, headings at weight
-  500 with tight tracking; 60px maximum hero heading, 44px maximum section heading.
-- **Colour:** the client's own colours: white ground, navy ink `#0A1628`, teal action `#087F75`, light
-  surface `#F0F5F6`; on navy, links use `#14B8A6`. One dark band (the calculator) and the dark footer.
+- **Type:** Noto Serif Display (weight 400) for h1/h2 and large numbers, Manrope for text, h3 and UI;
+  both self-hosted (Greek, Latin, Latin Extended, OFL) in `assets/fonts/`. Hero heading up to 88px,
+  section headings up to 56px, body 17px. Headings do not hyphenate.
+- **Colour:** the client's own colours: white ground, navy ink `#0A1628`, teal action `#087F75`, warm
+  paper surface `#F6F3EE`; on navy, links use `#14B8A6`. One dark band (the calculator) and the dark footer.
 - **Buttons:** one look (`data-buttons="arrow"`): the filled teal primary and a text secondary.
 - **Icons:** Lucide interface glyphs in `assets/icons/` (ISC, see `icons-credits.json`), inline.
+
+## Visual refresh (2026-11-14)
+
+Approved Awwwards-informed pass, all in the last block of `css/site.css` plus `js/reveal.js`:
+numbered services index (CSS counters replace the icons), credentials and comparison drawn with rules
+instead of boxes, an oversized «20 χρόνια», a full-width free-first-call line, sticky process heading
+with stacked steps (desktop), a platforms strip under the hero, a photo unmask on load, number ticks
+(`data-m-count`) and a once-only scroll reveal. Under reduced motion, without JavaScript, in print and
+in headless screenshots everything shows as written. No portrait and no reviews by the owner's choice.
 
 ## Page (index.html), content-height sections
 
