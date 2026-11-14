@@ -395,3 +395,179 @@ body.nav-locked { overflow: hidden; }
   .language-switcher { gap: 2px; }
   .language-switcher__link { flex-direction: column; gap: 2px; padding: 2px 4px; font-size: 12px; line-height: 1.1; }
 }
+
+/* ==================================================================== visual refresh (2026-11-14)
+   Awwwards-informed pass approved by the owner: an editorial serif for headings (Manrope stays for
+   text), oversized numbers, a warm paper surface instead of cool slate, fewer bordered boxes, a
+   numbered services index, sticky steps, a platforms strip and calm motion. Copy, headings, URLs
+   and structured data are unchanged. Later rules here override the earlier ones above. */
+:root {
+  --p-surface: #f6f3ee;
+  --p-muted: #4a5568;
+  --font-display: "Noto Serif Display", Georgia, "Times New Roman", serif;
+  --display-weight: 400;
+  --display-tracking: -0.015em;
+  --display-tracking-xl: -0.02em;
+  --t-h2: clamp(34px, 2.6vw + 16px, 56px);
+  --rule: color-mix(in oklab, var(--p-ink) 85%, transparent);
+}
+/* Small headings, the logo and UI text stay in Manrope; the serif is for display sizes only. */
+h3, h4, .nav__logo, .footer__name, .footer__mark, .calc__tax { font-family: var(--font-text); }
+.calc__tax { font-weight: 500; letter-spacing: -.03em; }
+.section h2, .page-text h1 { letter-spacing: var(--display-tracking); line-height: 1.08; font-weight: 400; }
+body { font-size: 17px; }
+.section-head > p, .section .t-lead { font-size: 19px; line-height: 1.7; }
+main > :is(section, .section):not(.hero) { padding-top: 120px; padding-bottom: 120px; }
+main > .section .section-head { margin-bottom: 56px; }
+@media (max-width: 639px) {
+  main > :is(section, .section):not(.hero) { padding-top: 72px; padding-bottom: 72px; }
+  .section-head > p, .section .t-lead { font-size: 17px; }
+  main > .section .section-head { margin-bottom: 36px; }
+}
+
+/* ---------------------------------------------------------------- hero */
+.hero--tax14 h1 { font-family: var(--font-display); font-weight: 400; font-size: clamp(48px, 5.4vw, 88px);
+  line-height: 1.02; letter-spacing: -.025em; max-width: 12ch; }
+.hero--tax14 .hero-notice { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 600; margin-bottom: 20px; }
+main > .hero--tax14 > .wrap.hero__layout { grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 48px 56px; }
+.hero__visual { height: clamp(460px, 44vw, 640px); border-radius: 4px; }
+.hero__proof { border-top: 1px solid var(--rule); gap: 40px; padding-top: 28px; }
+.hero__proof > div + div { padding-left: 40px; }
+.hero__proof dt { font-family: var(--font-display); font-weight: 400; font-size: clamp(30px, 2.4vw, 40px); line-height: 1.05; letter-spacing: -.02em; }
+.hero__proof dd { font-size: 15px; }
+@media (max-width: 1199px) { .hero--tax14 h1 { font-size: 60px; } }
+@media (max-width: 1023px) {
+  main > .hero--tax14 > .wrap.hero__layout { grid-template-columns: 1fr; gap: 36px; }
+  .hero--tax14 h1 { font-size: 60px; max-width: 14ch; }
+  .hero__visual { height: clamp(300px, 52vw, 480px); }
+  .hero__proof > div + div { padding-left: 20px; }
+  .hero__proof dt { font-size: 30px; }
+}
+@media (max-width: 639px) {
+  .hero--tax14 h1 { font-size: clamp(40px, 11.5vw, 50px); line-height: 1.04; }
+  .hero__visual { height: 280px; border-radius: 4px; }
+  .hero__proof { gap: 24px 16px; }
+  .hero__proof > div + div { padding-left: 16px; }
+  .hero__proof dt { font-size: 26px; }
+  .hero__proof dd { font-size: 13px; }
+}
+/* The photograph unmasks upwards once on load (motion.js's settle runs alongside). */
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.m-enter:not([data-motion="off"]) .hero--tax14 .hero__visual { animation: tx-unmask 1100ms cubic-bezier(.22, 1, .36, 1) both; }
+}
+@keyframes tx-unmask { from { clip-path: inset(18% 0 0 0); } to { clip-path: inset(0); } }
+
+/* ---------------------------------------------------------------- platforms strip */
+.trust-strip { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 12px 40px; padding-top: 4px; }
+.trust-strip__label { font-size: 12px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--p-muted); }
+.trust-strip__list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 36px; }
+.trust-strip__list li { font-family: var(--font-display); font-size: 22px; letter-spacing: -.01em; color: color-mix(in oklab, var(--p-ink) 72%, transparent); }
+@media (max-width: 639px) {
+  .trust-strip { gap: 10px; flex-direction: column; }
+  .trust-strip__list { gap: 6px 22px; }
+  .trust-strip__list li { font-size: 19px; }
+}
+
+/* ---------------------------------------------------------------- services: a numbered index */
+.services { counter-reset: svc; gap: 32px 56px; }
+.service-group, .ground-surface .service-group { border: 0; border-radius: 0; background: none; overflow: visible; }
+.service-group > .group-head { padding: 0 0 18px; background: none; border-bottom: 1px solid var(--rule); }
+.group-head h3 { font-size: 22px; }
+.service-list > li { counter-increment: svc; }
+.service-list > li + li { border-top-color: var(--line); }
+.service-list > li:last-child { border-bottom: 1px solid var(--line); }
+.service-link { grid-template-columns: 56px minmax(0, 1fr) 24px; gap: 12px; padding: 26px 0; }
+.service-link:hover { background: none; }
+.service-link .row-ic { background: none; height: auto; place-items: start; color: var(--p-accent); }
+.service-link .row-ic > svg { display: none; }
+.service-link .row-ic::before { content: counter(svc, decimal-leading-zero); font: 400 26px/1.1 var(--font-display); font-variant-numeric: lining-nums tabular-nums; }
+.service-copy .rows__name { font-size: 20px; transition: color var(--dur); }
+.service-link:hover .rows__name { color: var(--p-accent); }
+.service-arrow { font-size: 22px; opacity: .45; transition: transform 220ms cubic-bezier(.2, .8, .2, 1), opacity 220ms; }
+.service-link:hover .service-arrow, .service-link:focus-visible .service-arrow { opacity: 1; transform: translate(4px, -4px); }
+.service-link:focus-visible { outline-offset: 2px; border-radius: 2px; }
+@media (max-width: 639px) {
+  .service-link { padding: 22px 0; grid-template-columns: 40px minmax(0, 1fr) 16px; gap: 10px; }
+  .service-link .row-ic { width: auto; height: auto; }
+  .service-link .row-ic::before { font-size: 21px; }
+  .service-copy .rows__name { font-size: 18px; }
+}
+
+/* ---------------------------------------------------------------- Petros: one big number, no card */
+.credentials, .ground-surface .credentials { background: none; border: 0; border-radius: 0; padding: 0; border-top: 1px solid var(--rule); padding-top: 28px; }
+.credentials__stat { border-bottom-color: var(--line); }
+.credentials__number { font-family: var(--font-display); font-weight: 400; font-size: clamp(96px, 10vw, 160px); line-height: .9; letter-spacing: -.04em; color: var(--p-ink); }
+.credentials__number > span { font-family: var(--font-display); font-size: clamp(28px, 2.4vw, 40px); color: var(--p-accent); letter-spacing: -.01em; }
+.credentials .rows--spec > li { border-color: var(--line); }
+@media (max-width: 639px) { .credentials, .ground-surface .credentials { padding: 24px 0 0; } }
+
+/* ---------------------------------------------------------------- the free first call: one large line */
+main > #first-call { padding-block: 140px; border-bottom: 0; }
+main > #first-call > .statement__layout { grid-template-columns: minmax(0, 1fr); gap: 40px; }
+#first-call .t-label { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 600; }
+#first-call .mo-wh__text { max-width: 16ch; font-size: clamp(48px, 7vw, 112px); line-height: 1; letter-spacing: -.03em; }
+.statement__detail { justify-self: end; max-width: 46ch; font-size: 19px; padding-top: 28px; border-top: 1px solid var(--rule); }
+@media (max-width: 767px) {
+  main > #first-call { padding-block: 88px; }
+  .statement__detail { justify-self: stretch; font-size: 17px; }
+}
+
+/* ---------------------------------------------------------------- steps: sticky heading, scrolling steps */
+@media (min-width: 1024px) {
+  #process .process-layout { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 80px; align-items: start; }
+  #process .section-head { position: sticky; top: calc(var(--nav) + 48px); grid-template-columns: minmax(0, 1fr); margin-bottom: 0; }
+  #process ol.steps { grid-template-columns: minmax(0, 1fr); gap: 0; }
+}
+.steps > li, ol.steps > li { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 24px; padding-block: 36px; border-top: 1px solid var(--rule); }
+.steps > li:last-child { border-bottom: 1px solid var(--line); }
+.step-number { width: auto; height: auto; border: 0; border-radius: 0; background: none; place-items: start;
+  font: 400 56px/.9 var(--font-display); letter-spacing: -.03em; color: var(--p-accent); }
+.steps h3 { font-size: 22px; }
+.steps p { font-size: 17px; max-width: 48ch; }
+@media (min-width: 640px) and (max-width: 1023px) { ol.steps { grid-template-columns: minmax(0, 1fr); gap: 0; } }
+@media (max-width: 639px) {
+  .steps > li, ol.steps > li { grid-template-columns: 56px minmax(0, 1fr); gap: 16px; padding-block: 28px; }
+  .step-number { font-size: 40px; }
+  .steps h3 { font-size: 19px; }
+}
+
+/* ---------------------------------------------------------------- comparison table: rules, not boxes */
+.compare { border: 0; border-radius: 0; border-top: 1px solid var(--rule); }
+.compare__table thead th { background: none; font-family: var(--font-display); font-weight: 400; font-size: 26px; letter-spacing: -.01em; border-bottom-color: var(--rule); }
+.compare__table tbody tr:nth-child(even) { background: none; }
+.compare__table th, .compare__table td { padding: 22px 20px 22px 0; }
+@media (max-width: 1023px) {
+  .compare { border-top: 0; }
+  .compare__table tr { border: 0; border-top: 1px solid var(--rule); border-radius: 0; padding: 20px 0; }
+  .compare__table tbody th { width: auto; font-family: var(--font-display); font-size: 24px; font-weight: 400; }
+}
+
+/* ---------------------------------------------------------------- calculator, FAQ, contact, footer */
+.calc { border-color: color-mix(in oklab, white 14%, transparent); border-radius: 6px; }
+.calc__box { border-radius: 4px; }
+.faq .faq__item h3 { font-size: 21px; }
+.faq .faq__item:first-child { border-top: 1px solid var(--rule); padding-top: 24px; }
+.enquiry { border-radius: 6px; box-shadow: 0 24px 60px -36px rgb(10 22 40 / .28); }
+.closing .closing__cta h2 { font-family: var(--font-display); font-weight: 400; font-size: clamp(40px, 4vw, 64px); letter-spacing: -.02em; }
+@media (max-width: 639px) { .closing .closing__cta h2 { font-size: 36px; } }
+
+/* Desktop nav: the owner's bordered links, quieter and on the warmer tone. */
+@media (min-width: 1024px) {
+  .nav .nav__link { border-color: #e2ddd3; }
+  .nav .nav__link:hover, .nav .nav__link[aria-current="page"], header.nav .nav__link[aria-current="location"] { background: #f1f7f5; }
+}
+
+/* ---------------------------------------------------------------- inner pages */
+.page-text h1 { font-size: clamp(40px, 4vw, 64px); }
+.page-text h2 { font-family: var(--font-text); }
+
+/* ---------------------------------------------------------------- calm scroll reveal (js/reveal.js) */
+@media screen and (prefers-reduced-motion: no-preference) {
+  html.rv-on main .rv:not(.rv-in) {
+    opacity: 0; transform: translateY(16px);
+  }
+  html.rv-on main .rv.rv-in { transition: opacity 700ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay, 0ms), transform 700ms cubic-bezier(.22, 1, .36, 1) var(--rv-delay, 0ms); }
+}
+@media print { html.rv-on main * { opacity: 1 !important; transform: none !important; } }
+/* Serif headings wrap on whole words: no automatic hyphenation at display sizes. */
+h1, h2, .hero--tax14 h1 { hyphens: manual; -webkit-hyphens: manual; }
